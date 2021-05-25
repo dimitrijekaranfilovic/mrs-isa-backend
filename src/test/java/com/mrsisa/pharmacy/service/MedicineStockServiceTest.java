@@ -32,7 +32,7 @@ public class MedicineStockServiceTest {
 
     @Test
     @Transactional
-    public void testUpdateStock() {
+    void testUpdateStock() {
         // Test case constants
         final Long PHARMACY_ID = 123L;
         final Long STOCK_ID = 123L;

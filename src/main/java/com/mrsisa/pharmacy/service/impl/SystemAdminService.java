@@ -31,7 +31,7 @@ public class SystemAdminService extends JPAService<SystemAdmin> implements ISyst
 
     @Override
     public SystemAdmin registerSystemAdmin(String firstName, String lastName, String username, String password, String email) {
-        SystemAdmin s = new SystemAdmin(firstName, lastName, username, password, email, true, false);
+        var s = new SystemAdmin(firstName, lastName, username, password, email, true, false);
         if(this.userRepository.findByUsername(username) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is taken.");
         if(this.userRepository.findByEmail(email).isPresent())

@@ -41,7 +41,7 @@ public class AppointmentServiceTest {
 
     @Test
     @Transactional
-    public void testScheduleAvailableDermatologistAppointment() {
+    void testScheduleAvailableDermatologistAppointment() {
         // Test case constants
         final Long APPOINTMENT_ID = 123L;
         final Long PATIENT_ID = 123L;
@@ -68,7 +68,7 @@ public class AppointmentServiceTest {
 
     @Test
     @Transactional
-    public void testScheduleAppointmentForEmployee() {
+    void testScheduleAppointmentForEmployee() {
         // Test case constants
         final Long PHARMACY_ID = 123L;
         final Long PATIENT_ID = 123L;

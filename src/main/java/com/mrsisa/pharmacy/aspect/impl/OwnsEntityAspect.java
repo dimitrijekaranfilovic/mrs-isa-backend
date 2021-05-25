@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.aspect.OwnsEntity;
 import com.mrsisa.pharmacy.domain.entities.BaseEntity;
 import com.mrsisa.pharmacy.domain.entities.User;
 import com.mrsisa.pharmacy.service.ICRUDService;
-import com.mrsisa.pharmacy.service.IJPAService;
 import com.mrsisa.pharmacy.service.impl.UserService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -47,14 +46,14 @@ public class OwnsEntityAspect extends OwningAspectBase {
         Class<T> entityClass = (Class<T>) annotation.entity();
         String[] crudServices = applicationContext.getBeanNamesForType(ResolvableType.forClassWithGenerics(ICRUDService.class, entityClass));
         ICRUDService<T> entityService = (ICRUDService<T>) applicationContext.getBean(crudServices[0]);
-        Field field = entityClass.getDeclaredField(ownerField);
-        Method ownerGetter = entityClass.getMethod(getFieldGetter(field));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsernameWithAuthorities(authentication.getName());
+        var field = entityClass.getDeclaredField(ownerField);
+        var ownerGetter = entityClass.getMethod(getFieldGetter(field));
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = userService.findByUsernameWithAuthorities(authentication.getName());
         if (Set.class.isAssignableFrom(field.getType())) {
             ownerSetHelper.throwIfNotOwner(entityService, entityId, ownerGetter, user);
         } else {
-            T entity = entityService.get(entityId);
+            var entity = entityService.get(entityId);
             User owner = (User) ownerGetter.invoke(entity);
             if (!user.getId().equals(owner.getId())) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permissions to access this data.");

@@ -30,19 +30,16 @@ import java.util.List;
 public class MedicineController {
 
     private final IMedicineService medicineService;
-    private final IEmploymentContractService employmentContractService;
     private final IConverter<Medicine, MedicineDTO> toMedicineDTO;
     private final IConverter<Medicine, MedicineDetailsDTO> toMedicineDetailsDTO;
 
 
     @Autowired
     public MedicineController(IMedicineService medicineService, IConverter<Medicine, MedicineDTO> toMedicineDTO,
-                              IConverter<Medicine, MedicineDetailsDTO> toMedicineDetailsDTO,
-                              IEmploymentContractService employmentContractService){
+                              IConverter<Medicine, MedicineDetailsDTO> toMedicineDetailsDTO){
         this.medicineService = medicineService;
         this.toMedicineDTO = toMedicineDTO;
         this.toMedicineDetailsDTO = toMedicineDetailsDTO;
-        this.employmentContractService = employmentContractService;
     }
 
 
@@ -80,7 +77,7 @@ public class MedicineController {
 
     @GetMapping(value = "/{id}")
     public MedicineDetailsDTO getMedicineDetails(@PathVariable("id") Long id){
-        Medicine medicine = this.medicineService.getMedicine(id);
+        var medicine = this.medicineService.getMedicine(id);
         return toMedicineDetailsDTO.convert(medicine);
     }
 

@@ -43,7 +43,7 @@ public class LeaveDaysRequestControllerTest {
     }
 
     @Test
-    public void testCreateLeaveDaysRequest() throws Exception {
+    void testCreateLeaveDaysRequest() throws Exception {
         LeaveDaysRequestCreateDTO dto = new LeaveDaysRequestCreateDTO();
         dto.setFrom(LEAVE_FROM_DATE);
         dto.setTo(LEAVE_TO_DATE);

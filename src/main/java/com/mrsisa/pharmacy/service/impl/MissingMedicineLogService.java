@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.domain.entities.Appointment;
 import com.mrsisa.pharmacy.domain.entities.MedicineStock;
 import com.mrsisa.pharmacy.domain.entities.MissingMedicineLog;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
-import com.mrsisa.pharmacy.repository.IAppointmentRepository;
 import com.mrsisa.pharmacy.repository.IMissingMedicineLogRepository;
 import com.mrsisa.pharmacy.service.IAppointmentService;
 import com.mrsisa.pharmacy.service.IMedicineStockService;
@@ -44,8 +43,8 @@ public class MissingMedicineLogService extends JPAService<MissingMedicineLog> im
 
     @Override
     public void insertMissingMedicineLog(Long appointmentId, Long medicineStockId) {
-        Appointment appointment = appointmentService.get(appointmentId);
-        MedicineStock medicineStock = medicineStockService.get(medicineStockId);
+        var appointment = appointmentService.get(appointmentId);
+        var medicineStock = medicineStockService.get(medicineStockId);
 
         this.save(new MissingMedicineLog(LocalDateTime.now(), medicineStock.getMedicine(), appointment));
     }

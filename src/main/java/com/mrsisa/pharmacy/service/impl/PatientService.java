@@ -91,7 +91,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
         Optional<PatientCategory> optionalPatientCategory = this.categoryRepository.findByName("Default category");
         if (optionalPatientCategory.isEmpty())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No default category found. Contact the system administrator.");
-        Patient patient = new Patient(firstName, lastName, username, password, email, false, false, phoneNumber, optionalPatientCategory.get(), address);
+        var patient = new Patient(firstName, lastName, username, password, email, false, false, phoneNumber, optionalPatientCategory.get(), address);
         if (this.userRepository.findByUsername(username) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is taken.");
         if (this.userRepository.findByEmail(email).isPresent())
@@ -121,7 +121,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
         if (found.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with the id" + id.toString() + " does not exist and can't be updated!");
         }
-        Patient oldPatient = found.get();
+        var oldPatient = found.get();
 
         if (firstName != null && !firstName.isBlank()) {
             oldPatient.setFirstName(firstName);
@@ -184,7 +184,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
         if (med == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Medicine does not exist and can't be added to allergies.");
         }
-        Patient patient = this.patientRepository.findActivePatient(id, true);
+        var patient = this.patientRepository.findActivePatient(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient does not exist and allergy cant be added.");
         }
@@ -204,14 +204,14 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
         Optional<Pharmacy> optionalPharmacy = this.pharmacyRepository.findByIdAndActiveTrue(pharmacyId);
         if (optionalPharmacy.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pharmacy with id " + pharmacyId + " does not exist.");
-        Patient patient = this.patientRepository.findActivePatient(patientId, true);
+        var patient = this.patientRepository.findActivePatient(patientId, true);
         if (patient == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + patientId + " does not exist.");
-        Pharmacy pharmacy = optionalPharmacy.get();
-        Recipe recipe = new Recipe(LocalDateTime.now(), false, patient, pharmacy);
+        var pharmacy = optionalPharmacy.get();
+        var recipe = new Recipe(LocalDateTime.now(), false, patient, pharmacy);
         double price = 0.0;
-        for (MedicineQRCodeReservationItemDTO item : medicines) {
-            MedicineStock stock = this.stockRepository.getMedicineInPharmacy(pharmacyId, item.getMedicineId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Medicine with id " + item.getMedicineId() + " does not exist."));
+        for (var item : medicines) {
+            var stock = this.stockRepository.getMedicineInPharmacy(pharmacyId, item.getMedicineId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Medicine with id " + item.getMedicineId() + " does not exist."));
             Optional<Medicine> optionalMedicine = this.medicineRepository.getMedicineAllergyByMedicineIdAndPatientId(item.getMedicineId(), patientId);
             if (optionalMedicine.isPresent())
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are allergic to medicine with id " + item.getMedicineId() + " and it cannot be issued via eRecipe.");
@@ -226,7 +226,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
             double recipeItemPrice = Math.round(stock.getCurrentPrice() * discount * 100.0) / 100.0;
             price += item.getQuantity() * recipeItemPrice;
             recipe.getReservedMedicines().add(new RecipeMedicineInfo(recipe, item.getQuantity(), item.getTherapyDays(), stock.getMedicine(), recipeItemPrice));
-            MedicinePurchase purchase = new MedicinePurchase(item.getQuantity(), recipeItemPrice, pharmacy, LocalDate.now(), stock.getMedicine());
+            var purchase = new MedicinePurchase(item.getQuantity(), recipeItemPrice, pharmacy, LocalDate.now(), stock.getMedicine());
             this.purchaseRepository.save(purchase);
         }
         this.update(patient);
@@ -237,11 +237,11 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
 
     @Override
     public void removePatientAllergy(Long id, Long medicineId) {
-        Patient patient = this.patientRepository.findActivePatient(id, true);
+        var patient = this.patientRepository.findActivePatient(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient does not exist and allergy cant be removed.");
         }
-        Medicine found = this.medicineRepository.findByPatientIdAndMedicineId(id, medicineId);
+        var found = this.medicineRepository.findByPatientIdAndMedicineId(id, medicineId);
 
         if (found == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Allergy doesn't exist and can't be removed.");
@@ -253,9 +253,9 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
 
     @Override
     public void patientNotShowedUp(Long id, Long appointmentId) {
-        Patient patient = patientRepository.findByIdLocked(id)
+        var patient = patientRepository.findByIdLocked(id)
                 .orElseThrow(() -> new BusinessException("Patient with id  " + id + " does not exist"));
-        Appointment a = this.appointmentRepository.getAppointmentByIdAndActiveTrue(appointmentId)
+        var a = this.appointmentRepository.getAppointmentByIdAndActiveTrue(appointmentId)
                 .orElseThrow(() -> new BusinessException("Appointment with id  " + appointmentId + " does not exist"));
         a.setAppointmentStatus(AppointmentStatus.MISSED);
         patient.setNumPenalties(patient.getNumPenalties() + 1);
@@ -315,7 +315,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
     @Override
     public void deleteUnverifiedUsers() {
         List<VerificationToken> verificationTokens = this.verificationTokenRepository.getExpiredTokens();
-        for (VerificationToken token : verificationTokens) {
+        for (var token : verificationTokens) {
             Long patientId = token.getPatient().getId();
             Long tokenId = token.getId();
             this.verificationTokenRepository.deleteVerificationTokenById(tokenId);
@@ -326,7 +326,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
     @Override
     public Patient update(Patient patient) {
         List<PatientCategory> categories = this.patientCategoryRepository.getPossibleNewCategory(patient.getNumPoints());
-        if (categories.size() != 0) {
+        if (!categories.isEmpty()) {
             PatientCategory category = categories.get(0);
             if (!patient.getPatientCategory().getName().equals(category.getName())) {
                 patient.setPatientCategory(category);

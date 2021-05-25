@@ -71,7 +71,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
     @Override
     public PharmacyEmployee registerPharmacist(Pharmacy pharmacy, PharmacyEmployee pharmacyEmployee, Collection<WorkingDay> workingDays) {
         validatePharmacistData(pharmacyEmployee);
-        EmploymentContract contract = new EmploymentContract(LocalDate.now(), null, pharmacyEmployee, pharmacy);
+        var contract = new EmploymentContract(LocalDate.now(), null, pharmacyEmployee, pharmacy);
         workingDays.forEach(workingDay -> {
             workingDay.setEmployee(contract);
             contract.getWorkingHours().add(workingDay);
@@ -85,7 +85,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public PharmacyEmployee hireDermatologist(Pharmacy pharmacy, PharmacyEmployee dermatologist, Collection<WorkingDay> workingDays) {
-        EmploymentContract contract = new EmploymentContract(LocalDate.now(), null, dermatologist, pharmacy);
+        var contract = new EmploymentContract(LocalDate.now(), null, dermatologist, pharmacy);
         workingDays.forEach(workingDay -> {
             workingDay.setEmployee(contract);
             contract.getWorkingHours().add(workingDay);
@@ -99,7 +99,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public void firePharmacist(Pharmacy pharmacy, PharmacyEmployee pharmacist) {
-        EmploymentContract contract = employmentContractRepository.getEmployeeContractWithPharmacy(pharmacist.getId(), pharmacy.getId(), EmployeeType.PHARMACIST).orElseThrow(() -> new BusinessException("Pharmacist does not have employment contract in a given pharmacy."));
+        var contract = employmentContractRepository.getEmployeeContractWithPharmacy(pharmacist.getId(), pharmacy.getId(), EmployeeType.PHARMACIST).orElseThrow(() -> new BusinessException("Pharmacist does not have employment contract in a given pharmacy."));
         throwIfCantFireEmployee(contract);
         endEmploymentContract(contract);
         pharmacyEmployeeRepository.save(contract.getPharmacyEmployee());
@@ -107,14 +107,14 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public void fireDermatologist(Pharmacy pharmacy, PharmacyEmployee dermatologist) {
-        EmploymentContract contract = employmentContractRepository.getEmployeeContractWithPharmacy(dermatologist.getId(), pharmacy.getId(), EmployeeType.DERMATOLOGIST).orElseThrow(() -> new BusinessException("Dermatologist does not have employment contract in a given pharmacy."));
+        var contract = employmentContractRepository.getEmployeeContractWithPharmacy(dermatologist.getId(), pharmacy.getId(), EmployeeType.DERMATOLOGIST).orElseThrow(() -> new BusinessException("Dermatologist does not have employment contract in a given pharmacy."));
         throwIfCantFireEmployee(contract);
         endEmploymentContract(contract);
         employmentContractRepository.save(contract);
     }
 
     private void validatePharmacistData(PharmacyEmployee pharmacists) {
-        User sameUsername = userRepository.findByUsername(pharmacists.getUsername());
+        var sameUsername = userRepository.findByUsername(pharmacists.getUsername());
         if (sameUsername != null) {
             throw new BusinessException("Username is already taken.");
         }
@@ -148,7 +148,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public Pharmacy findActivePharmacyOfPharmacist(String username) {
-        PharmacyEmployee pharmacyEmployee = findByUsername(username);
+        var pharmacyEmployee = findByUsername(username);
         if (pharmacyEmployee == null || pharmacyEmployee.getEmployeeType() != EmployeeType.PHARMACIST) {
             return null;
         }
@@ -182,7 +182,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public PharmacyEmployee createDermatologist(String firstName, String lastName, String username, String password, String email) {
-        PharmacyEmployee employee = new PharmacyEmployee(firstName, lastName, username, password, email, true, false, EmployeeType.DERMATOLOGIST);
+        var employee = new PharmacyEmployee(firstName, lastName, username, password, email, true, false, EmployeeType.DERMATOLOGIST);
         if (this.userRepository.findByUsername(username) != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is taken.");
         if (this.userRepository.findByEmail(email).isPresent())
@@ -194,7 +194,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public List<Pharmacy> getPharmacyEmployeePharmacies(Long employeeId) {
-        PharmacyEmployee pharmacyEmployee = get(employeeId);
+        var pharmacyEmployee = get(employeeId);
         List<Pharmacy> pharmacies = new ArrayList<>();
         pharmacyEmployee.getContracts().forEach(employmentContract -> {
             if (employmentContract.getActive()) {
@@ -228,13 +228,13 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
     @Transactional(rollbackFor = ResponseStatusException.class)
     public void rateEmployee(Long patientId, Long employeeId, EmployeeType employeeType, Integer rating) {
 
-        Patient patient = this.patientRepository.findActivePatientUnlocked(patientId, Boolean.TRUE);
+        var patient = this.patientRepository.findActivePatientUnlocked(patientId, Boolean.TRUE);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with id " + patientId + " does not exist.");
         }
 
         // pessimistic lock
-        PharmacyEmployee employee = this.pharmacyEmployeeRepository.findEmployeeByIdOfTypeUnlocked(employeeId, employeeType)
+        var employee = this.pharmacyEmployeeRepository.findEmployeeByIdOfTypeUnlocked(employeeId, employeeType)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         employeeType.toString() + " does not exist."));
 
@@ -245,7 +245,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
                     ". Therefore he cannot rate the " + employeeType + ".");
         }
         // in case user has already reviewed the employee
-        Review review = employee.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        var review = employee.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 // in case there is no existing review for the employee
                 .orElse(new Review());
 
@@ -267,15 +267,13 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
         Optional<PharmacyEmployee> optionalPharmacyEmployee = this.pharmacyEmployeeRepository.getByIdWithComplaints(employeeId);
         if (optionalPharmacyEmployee.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee with id " + employeeId + " does not exist.");
-        PharmacyEmployee employee = optionalPharmacyEmployee.get();
+        var employee = optionalPharmacyEmployee.get();
         Long appointments = this.appointmentRepository.checkIfPatientHasAppointmentWithEmployee(patient.getId(),employeeId,  AppointmentStatus.TOOK_PLACE);
         if (appointments == 0)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot file a complaint against an employee " + employee.getFirstName() + " " + employee.getLastName() + ".");
-        Complaint complaint = new Complaint(content, LocalDateTime.now(), ComplaintType.EMPLOYEE, patient, employee.getFirstName() + " " + employee.getLastName());
+        var complaint = new Complaint(content, LocalDateTime.now(), ComplaintType.EMPLOYEE, patient, employee.getFirstName() + " " + employee.getLastName());
         employee.getComplaints().add(complaint);
         this.pharmacyEmployeeRepository.saveAndFlush(employee);
-        //this.complaintRepository.save(complaint);
-
         return complaint;
     }
 
@@ -286,10 +284,9 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
         if (employee == null) {
             return null;
         }
-        Review review = employee.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patientId)).findFirst()
+        return employee.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patientId)).findFirst()
                 // in case there is no existing review for the employee
                 .orElse(null);
-        return review;
     }
 
     @Override

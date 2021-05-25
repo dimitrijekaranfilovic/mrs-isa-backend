@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.LockModeType;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Stream;
 
 @Repository

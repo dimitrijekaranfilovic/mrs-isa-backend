@@ -51,7 +51,7 @@ public class LeaveDaysRequestCreateValidator implements ILeaveDaysRequestCreateV
     }
 
     private void checkEmployee(LeaveDaysRequestCreateDTO dto) {
-        PharmacyEmployee pharmacyEmployee = pharmacyEmployeeService.get(dto.getEmployeeId());
+        var pharmacyEmployee = pharmacyEmployeeService.get(dto.getEmployeeId());
         List<EmploymentContract> employmentContracts = employmentContractService.getEmployeeContractsList(pharmacyEmployee);
 
         if (employmentContracts.isEmpty()) {
@@ -60,10 +60,10 @@ public class LeaveDaysRequestCreateValidator implements ILeaveDaysRequestCreateV
     }
 
     private void checkPendingAndApprovedRequestsOverlapping(LeaveDaysRequestCreateDTO dto) {
-        LocalDateTime from = dto.getFrom().atStartOfDay();
-        LocalDateTime to = dto.getTo().atTime(23, 59);
+        var from = dto.getFrom().atStartOfDay();
+        var to = dto.getTo().atTime(23, 59);
 
-        Appointment firstAppointment = new Appointment(from, to,
+        var firstAppointment = new Appointment(from, to,
                 0.0, AppointmentStatus.BOOKED,
                 null);
 
@@ -83,7 +83,7 @@ public class LeaveDaysRequestCreateValidator implements ILeaveDaysRequestCreateV
     }
 
     private void checkForDates(LeaveDaysRequestCreateDTO dto) {
-        LocalDate now = LocalDate.now();
+        var now = LocalDate.now();
 
         if (dto.getFrom().isAfter(dto.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "End date is before start date!");
@@ -99,11 +99,11 @@ public class LeaveDaysRequestCreateValidator implements ILeaveDaysRequestCreateV
     }
 
     private void checkAppointmentOverlapping(LeaveDaysRequestCreateDTO dto) {
-        LocalDateTime from = dto.getFrom().atStartOfDay();
-        LocalDateTime to = dto.getTo().atTime(23, 59);
+        var from = dto.getFrom().atStartOfDay();
+        var to = dto.getTo().atTime(23, 59);
 
 
-        Appointment firstAppointment = new Appointment(from, to,
+        var firstAppointment = new Appointment(from, to,
                 0.0, AppointmentStatus.BOOKED,
                 null);
 

@@ -3,10 +3,8 @@ package com.mrsisa.pharmacy.domain.entities;
 import com.mrsisa.pharmacy.domain.valueobjects.WorkingDay;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

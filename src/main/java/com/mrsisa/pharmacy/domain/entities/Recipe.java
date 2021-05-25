@@ -1,6 +1,5 @@
 package com.mrsisa.pharmacy.domain.entities;
 
-import com.mrsisa.pharmacy.domain.valueobjects.MedicineReservationItem;
 import com.mrsisa.pharmacy.domain.valueobjects.RecipeMedicineInfo;
 import lombok.Getter;
 import lombok.Setter;

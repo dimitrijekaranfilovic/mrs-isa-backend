@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class MedicineStockToMedicineStockDetailedDTO extends AbstractConverter<MedicineStock, MedicineStockDetailedDTO> implements IConverter<MedicineStock, MedicineStockDetailedDTO> {
     @Override
     public MedicineStockDetailedDTO convert(@NonNull MedicineStock medicineStock) {
-        Medicine medicine = medicineStock.getMedicine();
+        var medicine = medicineStock.getMedicine();
 
         return new MedicineStockDetailedDTO(medicineStock.getId(), medicine.getName(), medicine.getMedicineType(),
                 medicine.getManufacturer(), medicine.getComposition(), medicine.getMedicineShape(), medicine.getAverageGrade(),

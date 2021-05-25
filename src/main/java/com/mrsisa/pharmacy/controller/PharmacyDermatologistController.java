@@ -40,7 +40,7 @@ public class PharmacyDermatologistController extends PharmacyControllerBase {
 
     @GetMapping(value = "/{id}/dermatologists")
     public Page<EmployeeDTO> getDermatologists(@PathVariable("id") Long id, @Valid EmployeeSearchDTO searchDTO, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<PharmacyEmployee> employeePage = pharmacyEmployeeService.getPharmacyDermatologists(pharmacy, searchDTO.getFirstName().toLowerCase().trim(),
                 searchDTO.getLastName().toLowerCase().trim(), searchDTO.getGradeLow(), searchDTO.getGradeHigh(), pageable);
         return employeePage.map(toEmployeeDTO::convert);
@@ -51,8 +51,8 @@ public class PharmacyDermatologistController extends PharmacyControllerBase {
     @PostMapping(value = "/{id}/dermatologists")
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDTO registerDermatologist(@PathVariable("id") Long id, @Valid @RequestBody HireDermatologistDTO hireDermatologistDTO) {
-        Pharmacy pharmacy = pharmacyService.getByIdWithEmployees(id);
-        PharmacyEmployee hiredDermatologist = pharmacyEmployeeService.getDermatologistByUsername(hireDermatologistDTO.getDermatologistUsername());
+        var pharmacy = pharmacyService.getByIdWithEmployees(id);
+        var hiredDermatologist = pharmacyEmployeeService.getDermatologistByUsername(hireDermatologistDTO.getDermatologistUsername());
         hiredDermatologist = pharmacyEmployeeService.hireDermatologist(pharmacy, hiredDermatologist, toWorkingDay.convert(hireDermatologistDTO.getWorkingDays()));
         return toEmployeeDTO.convert(hiredDermatologist);
     }
@@ -62,8 +62,8 @@ public class PharmacyDermatologistController extends PharmacyControllerBase {
     @DeleteMapping(value = "/{pharmacyId}/dermatologists/{dermatologistId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void fireDermatologist(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("dermatologistId") Long dermatologistId) {
-        Pharmacy pharmacy = getOr404(pharmacyId);
-        PharmacyEmployee dermatologist = pharmacyEmployeeService.getDermatologistById(dermatologistId);
+        var pharmacy = getOr404(pharmacyId);
+        var dermatologist = pharmacyEmployeeService.getDermatologistById(dermatologistId);
         pharmacyEmployeeService.fireDermatologist(pharmacy, dermatologist);
     }
 }

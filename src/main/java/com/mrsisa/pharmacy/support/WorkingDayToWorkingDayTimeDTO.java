@@ -12,7 +12,7 @@ public class WorkingDayToWorkingDayTimeDTO extends AbstractConverter<WorkingDay,
     @Override
     public WorkingDayTimeDTO convert(@NonNull WorkingDay workingDay) {
 
-        WorkingDayTimeDTO workingDayTimeDTO = new WorkingDayTimeDTO();
+        var workingDayTimeDTO = new WorkingDayTimeDTO();
         workingDayTimeDTO.setFromHours(workingDay.getFromHours());
         workingDayTimeDTO.setToHours(workingDay.getToHours());
         workingDayTimeDTO.setDayInWeek(workingDay.getDay().getValue());

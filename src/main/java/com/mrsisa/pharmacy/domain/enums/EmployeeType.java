@@ -12,14 +12,16 @@ public enum EmployeeType {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:
                 return "Pharmacist";
             case 1:
                 return "Dermatologist";
+            default:
+                return null;
         }
-        return null;
     }
 }
 

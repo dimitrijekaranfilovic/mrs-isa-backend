@@ -32,7 +32,7 @@ public class PharmacyAdminController {
     @OwningUser
     @GetMapping(value = "/{id}/pharmacy")
     public PharmacyDTO getPharmacyForPharmacyAdmin(@PathVariable("id") Long id) {
-        PharmacyAdmin pharmacyAdmin = pharmacyAdminService.get(id);
+        var pharmacyAdmin = pharmacyAdminService.get(id);
         return toPharmacyDTO.convert(pharmacyAdmin.getPharmacy());
     }
 
@@ -40,7 +40,7 @@ public class PharmacyAdminController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO registerPharmacyAdmin(@Valid @RequestBody PharmacyAdminRegistrationDTO dto){
-        PharmacyAdmin admin = this.pharmacyAdminService.registerPharmacyAdmin(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail(), dto.getPharmacyId());
+        var admin = this.pharmacyAdminService.registerPharmacyAdmin(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail(), dto.getPharmacyId());
         return new UserDTO(admin.getUsername(), admin.getEmail(), admin.getFirstName(), admin.getLastName(), admin.getId(), admin.getVerified());
     }
 
@@ -48,7 +48,7 @@ public class PharmacyAdminController {
     @OwningUser
     @PutMapping(value = "/{id}")
     public UserDTO updatePharmacyAdmin(@PathVariable("id") Long id, @Valid @RequestBody PharmacyAdminUpdateDTO dto) {
-        PharmacyAdmin admin = pharmacyAdminService.updateAdmin(id, dto.getFirstName(), dto.getLastName());
+        var admin = pharmacyAdminService.updateAdmin(id, dto.getFirstName(), dto.getLastName());
         return new UserDTO(admin.getUsername(), admin.getEmail(), admin.getFirstName(), admin.getLastName(), admin.getId(), admin.getVerified());
     }
 

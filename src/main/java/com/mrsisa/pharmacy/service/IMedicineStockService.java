@@ -2,9 +2,7 @@ package com.mrsisa.pharmacy.service;
 
 import com.mrsisa.pharmacy.domain.entities.Medicine;
 import com.mrsisa.pharmacy.domain.entities.MedicineStock;
-import com.mrsisa.pharmacy.domain.entities.Patient;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
-import com.mrsisa.pharmacy.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

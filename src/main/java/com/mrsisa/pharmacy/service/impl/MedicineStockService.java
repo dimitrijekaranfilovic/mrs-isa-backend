@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.service.impl;
 
 import com.mrsisa.pharmacy.domain.entities.*;
-import com.mrsisa.pharmacy.domain.enums.OrderStatus;
 import com.mrsisa.pharmacy.domain.enums.PromotionStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.MedicineOrderInfo;
 import com.mrsisa.pharmacy.exception.BusinessException;
@@ -65,7 +64,7 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
                                                                                    String medicineName, List<Long> chosenMedicineIds,
                                                                                    Pageable pageable) {
         String medicineNameParam = "%" + medicineName + "%";
-        Patient patient = getIfPatientExists(patientId);
+        var patient = getIfPatientExists(patientId);
 
         List<Medicine> allergicMedicines = new ArrayList<>(patient.getAllergicTo());
 
@@ -86,9 +85,9 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
                                                                              String medicineName, List<Long> chosenMedicineIds,
                                                                              Pageable pageable) {
         String medicineNameParam = "%" + medicineName + "%";
-        Patient patient = getIfPatientExists(patientId);
+        var patient = getIfPatientExists(patientId);
 
-        MedicineStock medicineStock = this.get(medicineStockId);
+        var medicineStock = this.get(medicineStockId);
 
         if (chosenMedicineIds.isEmpty()) {
             chosenMedicineIds.add(-1L);
@@ -137,11 +136,11 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
     @Override
     public MedicineStock registerMedicineInPharmacy(Long pharmacyId, Medicine medicine, double price, int quantity) {
         log.info("Starting register medicine in pharmacy...");
-        Pharmacy pharmacy = pharmacyRepository.findByIdAndActiveTrue(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
+        var pharmacy = pharmacyRepository.findByIdAndActiveTrue(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
         medicineStockRepository.getByMedicineCodeForPharmacy(medicine.getCode().toLowerCase(), pharmacy.getId()).ifPresent(stock -> {
             throw new BusinessException("Medicine is already registered in this pharmacy.");
         });
-        MedicineStock stock = new MedicineStock(quantity, pharmacy, medicine);
+        var stock = new MedicineStock(quantity, pharmacy, medicine);
         stock.addPriceTag(new StockPrice(price, false, stock));
         pharmacy.getMedicineStocks().add(stock);
         save(stock);
@@ -176,7 +175,7 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
 
     @Override
     public MedicineStock updateStock(Long pharmacyId, Long stockId, Double newPrice) {
-        MedicineStock medicineStock = getStockInPharmacy(pharmacyId, stockId);
+        var medicineStock = getStockInPharmacy(pharmacyId, stockId);
         // Check if stock is currently on promotion
         promotionItemRepository.getItemsWithMedicineInPharmacyStream(pharmacyId, medicineStock.getMedicine().getId(), PromotionStatus.ACTIVE, LocalDate.now()).findAny().ifPresent(item -> {
             throw new BusinessException("Medicine is already on the promotion and it's price can't be updated.");
@@ -197,7 +196,7 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
     @Transactional(rollbackFor = BusinessException.class)
     public void updatePharmacyStock(Long pharmacyId, Long orderId) {
         log.info("Starting update pharmacy stock...");
-        Order order = orderRepository.getOrderDetails(orderId).orElseThrow(() -> new NotFoundException("Cannot find order with id: " + orderId));
+        var order = orderRepository.getOrderDetails(orderId).orElseThrow(() -> new NotFoundException("Cannot find order with id: " + orderId));
         if (!order.getPharmacy().getId().equals(pharmacyId)) {
             throw new NotFoundException("Order does not belong to pharmacy with id: " + pharmacyId);
         }

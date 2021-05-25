@@ -18,7 +18,7 @@ public class PharmacyQRSearchDTOComparator implements Comparator<PharmacyQRSearc
 
     @Override
     public int compare(PharmacyQRSearchDTO o1, PharmacyQRSearchDTO o2) {
-        int res = 0;
+        var res = 0;
         if(this.criteria.equals("totalStockPrice"))
             res = o1.getTotalStockPrice().compareTo(o2.getTotalStockPrice());
         if(this.criteria.equals("pharmacyAverageGrade"))

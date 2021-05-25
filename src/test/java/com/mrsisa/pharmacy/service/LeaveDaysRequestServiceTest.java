@@ -39,7 +39,7 @@ public class LeaveDaysRequestServiceTest {
 
     @Test
     @Transactional
-    public void testCreateLeaveDaysRequest() {
+    void testCreateLeaveDaysRequest() {
         // Test case constants
         final Long EMPLOYEE_ID = 123L;
         final LocalDate FROM_DATE = LocalDate.of(2021, 5, 15);

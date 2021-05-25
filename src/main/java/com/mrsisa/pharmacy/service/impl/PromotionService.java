@@ -44,11 +44,11 @@ public class PromotionService extends JPAService<Promotion> implements IPromotio
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {BusinessException.class})
     public Promotion createPromotion(Long pharmacyId, Promotion promotion) {
-        Pharmacy pharmacy = pharmacyRepository.findByIdAndActiveTrue(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
+        var pharmacy = pharmacyRepository.findByIdAndActiveTrue(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
         promotion.setPharmacy(pharmacy);
         // Check if medicines are present in the current pharmacy and calculate discounts if the promotion starts today
         promotion.getPromotionItems().forEach(promotionItem -> {
-            MedicineStock medicineStock = medicineStockRepository.getMedicineInPharmacy(pharmacyId, promotionItem.getMedicine().getId()).orElseThrow(() -> new BusinessException("Medicine is not registered in the current pharmacy."));
+            var medicineStock = medicineStockRepository.getMedicineInPharmacy(pharmacyId, promotionItem.getMedicine().getId()).orElseThrow(() -> new BusinessException("Medicine is not registered in the current pharmacy."));
             double newPrice = getNewPrice(medicineStock, promotionItem.getDiscountFactor());
             promotionItem.setPriceReduction(medicineStock.getCurrentPrice() - newPrice);
             if (LocalDate.now().equals(promotion.getFromDate())) {
@@ -63,9 +63,7 @@ public class PromotionService extends JPAService<Promotion> implements IPromotio
         promotionRepository.getActiveExpiredPromotionsStream(PromotionStatus.ACTIVE, LocalDate.now()).forEach(promotion -> {
             promotion.getPromotionItems().forEach(item -> {
                 // Need to fetch the stock again here so that I can lock it
-                medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock -> {
-                    medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getInverseDiscountFactor()));
-                });
+                medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock -> medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getInverseDiscountFactor())));
                 promotion.setPromotionStatus(PromotionStatus.EXPIRED);
             });
         });
@@ -81,9 +79,8 @@ public class PromotionService extends JPAService<Promotion> implements IPromotio
         promotionRepository.getPromotionsWhichStartTodayStream(PromotionStatus.ACTIVE, LocalDate.now().plusDays(1)).forEach(promotion -> {
             promotion.getPromotionItems().forEach(item -> {
                 // Need to fetch the stock again here so that I can lock it
-                medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock -> {
-                    medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getDiscountFactor()));
-                });
+                medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock ->
+                        medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getDiscountFactor())));
                 promotion.setPromotionStatus(PromotionStatus.EXPIRED);
             });
         });

@@ -49,7 +49,7 @@ public class PharmacyEmployeeCommonController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/employees/all")
     public List<EmployeeListItemDTO> getAllEmployees(@PathVariable("id") Long id) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         List<EmploymentContract> employees = pharmacyEmployeeService.getAllPharmacyEmployees(pharmacy);
         return (List<EmployeeListItemDTO>) toEmployeeListItemDTO.convert(employees);
     }
@@ -58,7 +58,7 @@ public class PharmacyEmployeeCommonController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "pharmacyId")
     @GetMapping(value = "/{pharmacyId}/employees/{employeeId}")
     public PharmacyEmployeeDetailsDTO getEmployeeDetails(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("employeeId") Long employeeId) {
-        Pharmacy pharmacy = getOr404(pharmacyId);
+        var pharmacy = getOr404(pharmacyId);
         EmploymentContract contract = employmentContractService.getPharmacyEmployee(pharmacy.getId(), employeeId);
         return toEmployeeDetailsDTO.convert(contract);
     }
@@ -70,8 +70,8 @@ public class PharmacyEmployeeCommonController extends PharmacyControllerBase {
                                                         @PathVariable("employeeId") Long employeeId,
                                                         @RequestParam("dateFrom") String fromTime,
                                                         @RequestParam("dateTo") String toTime) {
-        Pharmacy pharmacy = getOr404(pharmacyId);
-        EmploymentContract contract = employmentContractService.getPharmacyEmployee(pharmacy.getId(), employeeId);
+        var pharmacy = getOr404(pharmacyId);
+        var contract = employmentContractService.getPharmacyEmployee(pharmacy.getId(), employeeId);
         List<Appointment> appointments = appointmentService.getAppointmentsForEmployee(pharmacyId, contract.getPharmacyEmployee().getId(), LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME), LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME), contract.getPharmacyEmployee().getEmployeeType());
         List<LeaveDaysRequest> leaveRequests = leaveDaysRequestService.getAllPendingAndAcceptedLeaveDaysRequestForEmployee(employeeId);
         return new CalendarDatesDTO(

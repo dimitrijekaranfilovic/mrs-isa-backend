@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.domain.entities.MedicinePurchase;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.valueobjects.MedicineReservationItem;
 import com.mrsisa.pharmacy.repository.IMedicinePurchaseRepository;
-import com.mrsisa.pharmacy.repository.IPharmacyRepository;
 import com.mrsisa.pharmacy.service.IMedicinePurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,13 +14,10 @@ import java.time.LocalDate;
 @Service
 public class MedicinePurchaseService extends JPAService<MedicinePurchase> implements IMedicinePurchaseService {
     private final IMedicinePurchaseRepository medicinePurchaseRepository;
-    private final IPharmacyRepository pharmacyRepository;
 
     @Autowired
-    public MedicinePurchaseService(IMedicinePurchaseRepository medicinePurchaseRepository,
-                                   IPharmacyRepository pharmacyRepository) {
+    public MedicinePurchaseService(IMedicinePurchaseRepository medicinePurchaseRepository) {
         this.medicinePurchaseRepository = medicinePurchaseRepository;
-        this.pharmacyRepository = pharmacyRepository;
     }
 
     @Override

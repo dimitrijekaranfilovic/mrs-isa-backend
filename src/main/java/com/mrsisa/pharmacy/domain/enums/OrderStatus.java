@@ -20,7 +20,8 @@ public enum OrderStatus {
                 return "Processed";
             case 2:
                 return "In creation";
+            default:
+                return null;
         }
-        return null;
     }
 }

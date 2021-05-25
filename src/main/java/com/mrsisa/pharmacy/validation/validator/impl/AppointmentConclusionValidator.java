@@ -40,8 +40,8 @@ public class AppointmentConclusionValidator implements IAppointmentConclusionVal
     }
 
     private void checkValidityOfAppointment(AppointmentConclusionDTO appointmentConclusionDTO) {
-        Appointment appointment = appointmentService.get(appointmentConclusionDTO.getAppointmentId());
-        EmploymentContract employmentContract = employmentContractService.getContractWithPharmacy(appointmentConclusionDTO.getEmployeeId(),
+        var appointment = appointmentService.get(appointmentConclusionDTO.getAppointmentId());
+        var employmentContract = employmentContractService.getContractWithPharmacy(appointmentConclusionDTO.getEmployeeId(),
                 appointmentConclusionDTO.getPharmacyId());
 
         if (appointment.getAppointmentStatus() != AppointmentStatus.BOOKED || appointment.getFrom().isAfter(LocalDateTime.now()) ||
@@ -59,7 +59,7 @@ public class AppointmentConclusionValidator implements IAppointmentConclusionVal
     }
 
     private void checkValidityOfMedicineStocks(AppointmentConclusionDTO appointmentConclusionDTO) {
-        for (MedicineStockConcludeDTO medicineStockDTO: appointmentConclusionDTO.getMedicineStocks()) {
+        for (var medicineStockDTO: appointmentConclusionDTO.getMedicineStocks()) {
             MedicineStock medicineStock = medicineStockService.get(medicineStockDTO.getMedicineStockId());
 
             if (!medicineStock.getPharmacy().getId().equals(appointmentConclusionDTO.getPharmacyId())) {

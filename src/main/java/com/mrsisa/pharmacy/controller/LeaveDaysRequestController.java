@@ -50,7 +50,7 @@ public class LeaveDaysRequestController {
     @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN')")
     @PutMapping("/{id}")
     public LeaveDaysRequestDTO respondToLeaveRequest(@PathVariable("id") Long id, @Valid @RequestBody LeaveDaysRequestResponseDTO dto) {
-        LeaveDaysRequest request = leaveDaysRequestService.respondDermatologistRequest(id, dto.getAccepted(), dto.getRejectionReason());
+        var request = leaveDaysRequestService.respondDermatologistRequest(id, dto.getAccepted(), dto.getRejectionReason());
         emailService.notifyEmployeeAboutLeaveRequestResponse(request);
         return toLeaveDaysRequestDTO.convert(request);
     }
@@ -65,7 +65,7 @@ public class LeaveDaysRequestController {
 
         leaveDaysRequestCreateValidator.isValid(dto);
 
-        LeaveDaysRequest leaveDaysRequest = leaveDaysRequestService.createLeaveDaysRequest(id, dto.getFrom(), dto.getTo());
+        var leaveDaysRequest = leaveDaysRequestService.createLeaveDaysRequest(id, dto.getFrom(), dto.getTo());
 
         return toLeaveDaysRequestDTO.convert(leaveDaysRequest);
     }

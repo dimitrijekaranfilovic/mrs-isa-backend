@@ -18,7 +18,8 @@ public enum PromotionStatus {
                 return "Active";
             case 1:
                 return "Expired";
+            default:
+                return null;
         }
-        return null;
     }
 }

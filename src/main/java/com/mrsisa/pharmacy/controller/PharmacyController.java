@@ -83,9 +83,9 @@ public class PharmacyController extends PharmacyControllerBase {
     @PostMapping(value = "/{id}/promotions")
     @ResponseStatus(HttpStatus.CREATED)
     public PromotionCreationResponseDTO createPromotion(@PathVariable("id") Long id, @Valid @RequestBody PromotionCreationDTO dto) {
-        Promotion promotion = toPromotion.convert(dto);
+        var promotion = toPromotion.convert(dto);
         final Promotion created = promotionService.createPromotion(id, promotion);
-        Pharmacy pharmacy = pharmacyService.getPharmacyWithSubscribers(id);
+        var pharmacy = pharmacyService.getPharmacyWithSubscribers(id);
         pharmacy.getPromotionSubscribers().stream().filter(BaseEntity::getActive).forEach(sub -> emailService.notifySubscriberAboutPromotion(sub, created));
         return toPromotionResponseDTO.convert(created);
     }
@@ -103,7 +103,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @PutMapping(value = "/{id}")
     public PharmacyDTO update(@PathVariable("id") Long id, @Valid @RequestBody PharmacyRegistrationDTO dto) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         pharmacy.setName(dto.getName());
         pharmacy.setDescription(dto.getDescription());
         pharmacy.setLocation(dto.getLocation());
@@ -114,7 +114,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/missing-medicines")
     public Page<MissingMedicineDTO> getMissingMedicines(@PathVariable("id") Long id, @RequestParam(value = "name", defaultValue = "") String name, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<MissingMedicineLog> missingMedicineLogs = missingMedicineLogService.getAllForPharmacy(pharmacy, name, pageable);
         return missingMedicineLogs.map(toMissingMedicineDTO::convert);
     }
@@ -123,7 +123,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/leave-days-requests")
     public Page<LeaveDaysRequestDTO> getPharmacistLeaveDaysRequest(@PathVariable("id") Long id, Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<LeaveDaysRequest> requestPage = leaveDaysRequestService.getPendingPharmacistsRequest(pharmacy, pageable);
         return requestPage.map(toLeaveDaysRequestDTO::convert);
     }
@@ -132,7 +132,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @PutMapping(value = "/{id}/leave-days-requests/{requestId}")
     public LeaveDaysRequestDTO responseToLeaveRequest(@PathVariable("id") Long id, @PathVariable("requestId") Long requestId, @Valid @RequestBody LeaveDaysRequestResponseDTO dto) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         LeaveDaysRequest request = leaveDaysRequestService.respondPharmacistRequest(pharmacy, requestId, dto.getAccepted(), dto.getRejectionReason());
         emailService.notifyEmployeeAboutLeaveRequestResponse(request);
         return toLeaveDaysRequestDTO.convert(request);
@@ -143,7 +143,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @ResponseStatus(HttpStatus.CREATED)
     public PharmacyDTO registerPharmacy(@Valid @RequestBody PharmacyRegistrationDTO dto) {
         try {
-            Pharmacy pharmacy = this.pharmacyService.registerPharmacy(dto.getName(), dto.getDescription(), dto.getLocation().getLatitude(),
+            var pharmacy = this.pharmacyService.registerPharmacy(dto.getName(), dto.getDescription(), dto.getLocation().getLatitude(),
                     dto.getLocation().getLongitude(), dto.getLocation().getAddress().getCountry(),
                     dto.getLocation().getAddress().getCity(), dto.getLocation().getAddress().getStreet(),
                     dto.getLocation().getAddress().getStreetNumber(), dto.getLocation().getAddress().getZipCode());
@@ -160,9 +160,9 @@ public class PharmacyController extends PharmacyControllerBase {
             @RequestParam("ids") List<Long> ids, @RequestParam("quantities") List<Integer> quantities, @RequestParam("days") List<Integer> days,
             @RequestParam("patientId") Long patientId,
             @RequestParam("page") Integer pageNumber, @RequestParam("size") Integer size, @RequestParam("sortBy") String sorting) {
-        Patient patient = this.patientService.getPatientByIdAndActive(patientId);
+        var patient = this.patientService.getPatientByIdAndActive(patientId);
         List<PharmacyQRSearchDTO> l = this.pharmacyService.getPharmaciesWhereMedicinesAreAvailable(ids, quantities, days, patient.getPatientCategory());
-        String[] tokens = sorting.split(",");
+        var tokens = sorting.split(",");
         String criteria = tokens[0];
         String direction = tokens[1];
         Pageable pageable = PageRequest.of(pageNumber, size);
@@ -174,27 +174,27 @@ public class PharmacyController extends PharmacyControllerBase {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @PostMapping("/{id}/complaints")
     public ComplaintDTO fileComplaint(@PathVariable("id") Long pharmacyId, @Valid @RequestBody ComplaintCreationDTO dto) {
-        Patient patient = this.patientService.getPatientByIdAndActive(dto.getPatientId());
+        var patient = this.patientService.getPatientByIdAndActive(dto.getPatientId());
         if (patient == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + dto.getPatientId() + " does not exist.");
 
-        Complaint complaint = this.pharmacyService.fileComplaint(pharmacyId, patient, dto.getContent());
+        var complaint = this.pharmacyService.fileComplaint(pharmacyId, patient, dto.getContent());
         return toComplaintDTO.convert(complaint);
     }
 
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @PostMapping("/{id}/subscriptions")
     public void subscribe(@PathVariable("id") Long pharmacyId, @RequestBody Map<String, Long> requestMap) {
-        Patient patient = checkPatient(requestMap.get("patientId"));
-        Pharmacy pharmacy = pharmacyService.getPharmacyWithSubscribers(pharmacyId);
+        var patient = checkPatient(requestMap.get("patientId"));
+        var pharmacy = pharmacyService.getPharmacyWithSubscribers(pharmacyId);
         this.pharmacyService.subscribe(pharmacy, patient);
     }
 
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @DeleteMapping(value = "/{pharmacyId}/subscriptions/{patientId}")
     public void unsubscribe(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("patientId") Long patientId) {
-        Patient patient = checkPatient(patientId);
-        Pharmacy pharmacy = pharmacyService.getPharmacyWithSubscribers(pharmacyId);
+        var patient = checkPatient(patientId);
+        var pharmacy = pharmacyService.getPharmacyWithSubscribers(pharmacyId);
         this.pharmacyService.unsubscribe(pharmacy, patient);
     }
 
@@ -202,12 +202,12 @@ public class PharmacyController extends PharmacyControllerBase {
     @OwningUser(identifier = "patientId")
     @GetMapping(value = "/{pharmacyId}/subscriptions/{patientId}")
     public boolean checkSubscription(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("patientId") Long patientId) {
-        Pharmacy pharmacy = pharmacyService.getPharmacyWithSubscribers(pharmacyId);
+        var pharmacy = pharmacyService.getPharmacyWithSubscribers(pharmacyId);
         return pharmacy.getPromotionSubscribers().stream().anyMatch(patient -> patient.getId().equals(patientId));
     }
 
     private Patient checkPatient(Long patientId) {
-        Patient patient = this.patientService.getPatientByIdAndActive(patientId);
+        var patient = this.patientService.getPatientByIdAndActive(patientId);
         if (patient == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with id " + patientId + " does not exist.");
         return patient;

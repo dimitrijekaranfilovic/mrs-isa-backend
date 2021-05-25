@@ -3,7 +3,6 @@ package com.mrsisa.pharmacy.service.impl;
 import com.mrsisa.pharmacy.domain.valueobjects.SystemSettings;
 import com.mrsisa.pharmacy.repository.ISystemSettingsRepository;
 import com.mrsisa.pharmacy.service.ISystemSettingsService;
-import org.hibernate.boot.model.source.spi.IdentifierSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -52,7 +51,7 @@ public class SystemSettingsService extends JPAService<SystemSettings> implements
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = ResponseStatusException.class)
     public SystemSettings updateSystemSettings(Integer dermatologistPoints, Integer pharmacistPoints) {
-        SystemSettings systemSettings = this.systemSettingsRepository.findByIdForUpdate(1L);
+        var systemSettings = this.systemSettingsRepository.findByIdForUpdate(1L);
         if(systemSettings == null)
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No setting configuration found.");
 

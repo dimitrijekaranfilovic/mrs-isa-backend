@@ -12,6 +12,7 @@ public enum IncomeReportType {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:
@@ -20,7 +21,8 @@ public enum IncomeReportType {
                 return "Dermatologist appointments";
             case 2:
                 return "Medicine sales";
+            default:
+                return null;
         }
-        return null;
     }
 }

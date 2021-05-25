@@ -12,6 +12,8 @@ public enum ReservationStatus {
         return type;
     }
 
+
+    @Override
     public String toString() {
         switch (type) {
             case 0:
@@ -22,7 +24,8 @@ public enum ReservationStatus {
                 return "Canceled";
             case 3:
                 return "Expired";
+            default:
+                return null;
         }
-        return null;
     }
 }

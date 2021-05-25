@@ -1,6 +1,5 @@
 package com.mrsisa.pharmacy.dto.patient;
 
-import com.mrsisa.pharmacy.domain.entities.Authority;
 import com.mrsisa.pharmacy.domain.valueobjects.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

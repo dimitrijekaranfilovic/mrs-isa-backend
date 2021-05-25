@@ -53,7 +53,7 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void testRegisterSupplier() throws Exception {
+    void testRegisterSupplier() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post(URL_PREFIX)
                 .contentType(contentType)
                 .content(json(new SupplierRegistrationDTO("Dimitrije", "Karanfilovic", "123", "username", "mail@mail.com", "kompanija")))

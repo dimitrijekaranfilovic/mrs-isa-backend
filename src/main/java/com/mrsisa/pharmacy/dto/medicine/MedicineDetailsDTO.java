@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,5 +24,4 @@ public class MedicineDetailsDTO {
     private Boolean issueOnRecipe;
     private String additionalNotes;
     private Integer points;
-    //private List<MedicineDTO> replacementMedicine;
 }

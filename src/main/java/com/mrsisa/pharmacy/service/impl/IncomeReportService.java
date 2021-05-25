@@ -42,7 +42,7 @@ public class IncomeReportService extends ReportServiceBase implements IIncomeRep
     }
 
     public IncomeStatistics getSingleIncome(Pharmacy pharmacy, LocalDate from, LocalDate to, IncomeReportType incomeReportType, ILocalDateAdjuster adjuster, ILabelExtractor extractor) {
-        IncomeStatistics statistics = new IncomeStatistics(incomeReportType.toString());
+        var statistics = new IncomeStatistics(incomeReportType.toString());
         LocalDate lowerBound = from;
         LocalDate upperBound = adjuster.getAdjusted(from);
         while (!upperBound.isAfter(to)) {
@@ -65,7 +65,7 @@ public class IncomeReportService extends ReportServiceBase implements IIncomeRep
         if (to.isBefore(from) || to.isEqual(from)) {
             throw new BusinessException("Invalid time range parameters.");
         }
-        IncomeStatistics statistics = new IncomeStatistics();
+        var statistics = new IncomeStatistics();
         Double pharmacistPrice = appointmentRepository.getAppointmentsIncome(pharmacy.getId(), AppointmentStatus.TOOK_PLACE, EmployeeType.PHARMACIST, from.atStartOfDay(), to.atStartOfDay()).orElse(0.0);
         Double dermatologistPrice = appointmentRepository.getAppointmentsIncome(pharmacy.getId(), AppointmentStatus.TOOK_PLACE, EmployeeType.DERMATOLOGIST, from.atStartOfDay(), to.atStartOfDay()).orElse(0.0);
         Double medicinePrice = medicinePurchaseRepository.getIncomeFromMedicines(pharmacy.getId(), from, to).orElse(0.0);

@@ -46,7 +46,7 @@ public class UserService extends JPAService<User> implements IUserService, UserD
         if (found.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with the id" + id + " does not exist and can't be updated!");
         }
-        User oldUser = found.get();
+        var oldUser = found.get();
 
         if (!oldUser.getPassword().equals(oldPassword.trim())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Old password is incorrect!");
@@ -60,7 +60,7 @@ public class UserService extends JPAService<User> implements IUserService, UserD
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsernameWithAuthorities(username);
+        var user = findByUsernameWithAuthorities(username);
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 user.getAuthorities());
     }

@@ -54,7 +54,7 @@ public class MedicineStockControllerTest {
 
 
     @Test
-    public void testGetPharmaciesWhereMedicineIsAvailable() throws Exception {
+    void testGetPharmaciesWhereMedicineIsAvailable() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL_PREFIX + "/medicine/-1")
                 .contentType(contentType)
                 .header("Authorization", "Bearer " + token))

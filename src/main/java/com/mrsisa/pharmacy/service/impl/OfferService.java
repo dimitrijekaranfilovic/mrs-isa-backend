@@ -49,8 +49,6 @@ public class OfferService extends JPAService<Offer> implements IOfferService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deadline for offers for this order has passed.");
         if(offer.getOfferStatus() != OfferStatus.PENDING)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot update an offer that isn't pending.");
-//        if(offer.getOriginalOrder().getDueDate().isBefore(deliveryDate))
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Delivery date cannot be after the order due date.");
         if(totalCost < 0)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Total cost cannot be lower than 0.");
         if(deliveryDate.isBefore(LocalDateTime.now()))
@@ -64,7 +62,6 @@ public class OfferService extends JPAService<Offer> implements IOfferService {
         offer.setTotalPrice(totalCost);
         this.update(offer);
         return offer;
-        //return null;
     }
 
     @Override

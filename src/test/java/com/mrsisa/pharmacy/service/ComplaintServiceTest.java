@@ -32,7 +32,7 @@ public class ComplaintServiceTest {
 
 
     @Test
-    public void testWriteReply(){
+    void testWriteReply(){
         SystemAdmin admin = new SystemAdmin();
         admin.setId(-1L);
         Complaint complaint = new Complaint();

@@ -47,7 +47,7 @@ public class SupplierController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO registerSupplier(@Valid @RequestBody SupplierRegistrationDTO dto){
-        Supplier s = this.supplierService.registerSupplier(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail(),  dto.getCompany());
+        var s = this.supplierService.registerSupplier(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail(),  dto.getCompany());
         return new UserDTO(s.getUsername(), s.getEmail(), s.getFirstName(), s.getLastName(), s.getId(), s.getVerified());
     }
 
@@ -63,7 +63,7 @@ public class SupplierController {
     @PutMapping("/{supplierId}/offers/{offerId}")
     @OwningUser(identifier = "supplierId")
     public OfferDTO updateOffer(@PathVariable("supplierId") Long supplierId, @PathVariable("offerId") Long offerId, @RequestBody OfferUpdateDTO dto){
-        Offer offer = this.offerService.updateOffer(supplierId, offerId, dto.getDeliveryDate(), dto.getTotalCost());
+        var offer = this.offerService.updateOffer(supplierId, offerId, dto.getDeliveryDate(), dto.getTotalCost());
         return toOfferDTO.convert(offer);
     }
 
@@ -71,7 +71,7 @@ public class SupplierController {
     @PreAuthorize("hasRole('ROLE_SUPPLIER')")
     @OwningUser
     public SupplierDTO updateProfileInfo(@PathVariable("id") Long id, @RequestBody @Valid SupplierUpdateDTO dto) {
-        Supplier supplier = this.supplierService.updateProfileInfo(id, dto.getFirstName(), dto.getLastName(), dto.getCompany());
+        var supplier = this.supplierService.updateProfileInfo(id, dto.getFirstName(), dto.getLastName(), dto.getCompany());
         return new SupplierDTO(supplier.getFirstName(), supplier.getLastName(), supplier.getUsername(), supplier.getEmail(), supplier.getCompany());
 
     }
@@ -80,7 +80,7 @@ public class SupplierController {
     @PreAuthorize("hasRole('ROLE_SUPPLIER')")
     @OwningUser
     public SupplierDTO getSupplier(@PathVariable("id") Long id){
-        Supplier supplier = this.supplierService.getSupplier(id);
+        var supplier = this.supplierService.getSupplier(id);
         return new SupplierDTO(supplier.getFirstName(), supplier.getLastName(), supplier.getUsername(), supplier.getEmail(), supplier.getCompany());
 
     }

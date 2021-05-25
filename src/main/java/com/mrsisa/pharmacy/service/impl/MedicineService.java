@@ -60,7 +60,7 @@ public class MedicineService extends JPAService<Medicine> implements IMedicineSe
 
         String notes = additionalNotes == null || additionalNotes.equals("") || additionalNotes.isEmpty() ? "No additional notes." : additionalNotes;
 
-        Medicine medicine = new Medicine(code, name, shape, type, composition, manufacturer, issueOnRecipe, notes, points);
+        var medicine = new Medicine(code, name, shape, type, composition, manufacturer, issueOnRecipe, notes, points);
         replacementIds.forEach(id -> {
             Medicine replacement = this.getMedicine(id);
             if (replacement == null)
@@ -88,7 +88,7 @@ public class MedicineService extends JPAService<Medicine> implements IMedicineSe
 
     @Override
     public void rateDrug(Long patientId, Long drugId, Integer rating) {
-        Patient patient = this.patientRepository.findActivePatient(patientId, Boolean.TRUE);
+        var patient = this.patientRepository.findActivePatient(patientId, Boolean.TRUE);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with id " + patientId + " does not exist.");
         }
@@ -108,7 +108,7 @@ public class MedicineService extends JPAService<Medicine> implements IMedicineSe
         }
 
         // in case user has already reviewed the drug
-        Review review = drug.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        var review = drug.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 // in case there is no existing review for the drug
                 .orElse(new Review());
 

@@ -11,8 +11,8 @@ public class ComplaintToComplaintDTO extends AbstractConverter<Complaint, Compla
     @Override
     public ComplaintDTO convert(Complaint complaint) {
 
-        ComplaintReply reply = complaint.getReply();
-        ComplaintReplyDTO dto = new ComplaintReplyDTO();
+        var reply = complaint.getReply();
+        var dto = new ComplaintReplyDTO();
         if(reply == null)
             dto = null;
         else{

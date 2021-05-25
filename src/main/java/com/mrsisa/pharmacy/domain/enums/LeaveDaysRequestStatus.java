@@ -12,6 +12,7 @@ public enum LeaveDaysRequestStatus {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:
@@ -20,7 +21,8 @@ public enum LeaveDaysRequestStatus {
                 return "Approved";
             case 2:
                 return "Rejected";
+            default:
+                return null;
         }
-        return null;
     }
 }

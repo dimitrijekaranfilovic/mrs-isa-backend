@@ -78,7 +78,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
     @Override
     @Transactional(rollbackFor = ResponseStatusException.class)
     public Appointment bookDermatologistAppointment(Long id, Long appointmentId) {
-        Patient patient = this.patientRepository.findActivePatientUnlocked(id, true);
+        var patient = this.patientRepository.findActivePatientUnlocked(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient doesn't exist!");
         }
@@ -118,8 +118,8 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
 
     @Override
     public void scheduleAvailableDermatologistAppointment(Long appointmentId, Long patientId) {
-        Appointment appointment = this.get(appointmentId);
-        Patient patient = this.patientRepository.findById(patientId).orElseThrow(
+        var appointment = this.get(appointmentId);
+        var patient = this.patientRepository.findById(patientId).orElseThrow(
                 () -> new BusinessException("Patient with id  " + patientId + " does not exist"));
 
         appointment.setPatient(patient);
@@ -129,7 +129,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
     @Override
     @Transactional(rollbackFor = ResponseStatusException.class)
     public Appointment bookPharmacistAppointment(Long id, Long appointmentId) {
-        Patient patient = this.patientRepository.findActivePatientUnlocked(id, true);
+        var patient = this.patientRepository.findActivePatientUnlocked(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient doesn't exist!");
         }
@@ -172,9 +172,9 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
 
     @Override
     public Appointment createAvailableAppointment(Long pharmacyId, Long employeeId, LocalDateTime fromTime, LocalDateTime toTime) {
-        Pharmacy pharmacy = pharmacyRepository.findByIdAndActiveTrue(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
+        var pharmacy = pharmacyRepository.findByIdAndActiveTrue(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
         // Check if the employee works in the selected pharmacy
-        EmploymentContract contract = employmentContractRepository.getEmployeeContractWithPharmacyForUpdate(employeeId, pharmacyId).orElseThrow(() -> new BusinessException("Employee does not work in the selected pharmacy."));
+        var contract = employmentContractRepository.getEmployeeContractWithPharmacyForUpdate(employeeId, pharmacyId).orElseThrow(() -> new BusinessException("Employee does not work in the selected pharmacy."));
         // Check if the employee works at that time in the selected pharmacy
         throwIfEmployeeDoesNotWork(contract, fromTime, toTime);
         // Check if the employee already has appointments created at that time
@@ -189,7 +189,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
         leaveDaysRequestRepository.findForEmployeeContainingDate(contract.getPharmacyEmployee().getId(), fromTime.toLocalDate(), LeaveDaysRequestStatus.APPROVED).findAny().ifPresent(leaveDaysRequest -> {
             throw new BusinessException("Employee is on leave on the selected date.");
         });
-        Appointment appointment = new Appointment(fromTime, toTime, pharmacy.getAppointmentPrice(contract.getPharmacyEmployee().getEmployeeType()), AppointmentStatus.AVAILABLE, contract);
+        var appointment = new Appointment(fromTime, toTime, pharmacy.getAppointmentPrice(contract.getPharmacyEmployee().getEmployeeType()), AppointmentStatus.AVAILABLE, contract);
         contract.getBookedAppointments().add(appointment);
         return save(appointment);
     }
@@ -230,8 +230,8 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
     }
 
     private void throwIfEmployeeDoesNotWork(EmploymentContract contract, LocalDateTime from, LocalDateTime to) {
-        DayOfWeek dayOfWeek = from.getDayOfWeek();
-        WorkingDay workingDay = contract.getWorkingHours().stream().filter(wd -> wd.getDay().equals(dayOfWeek)).findAny().orElseThrow(() -> new BusinessException("Employee does not work on " + dayOfWeek.toString()));
+        var dayOfWeek = from.getDayOfWeek();
+        var workingDay = contract.getWorkingHours().stream().filter(wd -> wd.getDay().equals(dayOfWeek)).findAny().orElseThrow(() -> new BusinessException("Employee does not work on " + dayOfWeek.toString()));
         if (!(beforeOrEqual(workingDay.getFromHours(), from.toLocalTime()) && beforeOrEqual(to.toLocalTime(), workingDay.getToHours()))) {
             throw new BusinessException("Employee does not work in a given time period.");
         }
@@ -242,7 +242,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
     }
 
     public Page<Appointment> getPreviousAppointmentsForPatient(Long id, EmployeeType employeeType, String name, Pageable pageable) {
-        Patient patient = this.patientRepository.findActivePatient(id, true);
+        var patient = this.patientRepository.findActivePatient(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient doesn't exist!");
         }
@@ -278,7 +278,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
 
     @Override
     public void checkIfFillingThatPatientHasNotShowedUpIsValid(Long appointmentId, Long patientId, Long pharmacyEmployeeId) {
-        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new BusinessException("Appointment with id  " + appointmentId + " does not exist"));
+        var appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new BusinessException("Appointment with id  " + appointmentId + " does not exist"));
 
         if (!appointment.getPatient().getId().equals(patientId)) {
             throw new BusinessException("Patient with id " + patientId + " not in appointment with id " + appointmentId);
@@ -302,14 +302,14 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
     @Override
     @Transactional(rollbackFor = BusinessException.class)
     public void concludeAppointment(String reportText, Long pharmacyId, Long patientId, Long appointmentId, List<MedicineStockConcludeDTO> medicineStockConcludeDTOS) {
-        Appointment appointment = this.get(appointmentId);
-        Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new BusinessException("Patient with id  " + patientId + " does not exist"));
-        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId).orElseThrow(() -> new BusinessException("Pharmacy with id  " + pharmacyId + " does not exist"));
+        var appointment = this.get(appointmentId);
+        var patient = patientRepository.findById(patientId).orElseThrow(() -> new BusinessException("Patient with id  " + patientId + " does not exist"));
+        var pharmacy = pharmacyRepository.findById(pharmacyId).orElseThrow(() -> new BusinessException("Pharmacy with id  " + pharmacyId + " does not exist"));
 
-        Recipe recipe = new Recipe(LocalDateTime.now(), false, patient, pharmacy);
+        var recipe = new Recipe(LocalDateTime.now(), false, patient, pharmacy);
         double totalPrice = 0.0;
 
-        MedicineReservation medicineReservation = new MedicineReservation(0.0, LocalDateTime.now(),
+        var medicineReservation = new MedicineReservation(0.0, LocalDateTime.now(),
                 LocalDateTime.now().plusDays(7), ReservationStatus.RESERVED, pharmacy,
                 appointment.getPatient());
 
@@ -335,7 +335,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
             medicineReservation.getReservedMedicines().add(medicineReservationItem);
         }
 
-        Report report = new Report(reportText);
+        var report = new Report(reportText);
 
         if (!medicineStockConcludeDTOS.isEmpty()) {
             medicineReservation.setPrice(totalPrice);
@@ -357,8 +357,8 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
         Optional<SystemSettings> optionalSystemSettings = this.systemSettingsRepository.findById(1L);
         if(optionalSystemSettings.isEmpty())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No system settings found. Contact the system administrator.");
-        SystemSettings settings = optionalSystemSettings.get();
-        PharmacyEmployee employee = appointment.getEmployee().getPharmacyEmployee();
+        var settings = optionalSystemSettings.get();
+        var employee = appointment.getEmployee().getPharmacyEmployee();
         Integer points = employee.getEmployeeType() == EmployeeType.PHARMACIST ? settings.getPharmacistAppointmentPoints() : settings.getDermatologistAppointmentPoints();
         patient.addPoints(points);
         this.patientService.update(patient);
@@ -366,7 +366,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
 
     @Override
     public Appointment getPatientAppointmentById(Long appointmentId, Long patientId) {
-        Appointment a = this.appointmentRepository.getAppointmentByIdAndActiveTrue(appointmentId)
+        var a = this.appointmentRepository.getAppointmentByIdAndActiveTrue(appointmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment doesn't exist!"));
         if (!a.getPatient().getId().equals(patientId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment doesn't belong to the patient");
@@ -393,10 +393,10 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
     @Override
     public Appointment scheduleAppointmentForEmployee(LocalDateTime from, LocalDateTime to, Long patientId, EmploymentContract employmentContract,
                                                Long pharmacyId) {
-        EmployeeType employeeType = employmentContract.getPharmacyEmployee().getEmployeeType();
+        var employeeType = employmentContract.getPharmacyEmployee().getEmployeeType();
         Double appointmentPrice;
 
-        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId).orElseThrow(
+        var pharmacy = pharmacyRepository.findById(pharmacyId).orElseThrow(
                 () -> new BusinessException("Pharmacy with id  " + pharmacyId+ " does not exist"));
 
         if (employeeType == EmployeeType.DERMATOLOGIST) {
@@ -406,9 +406,9 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
             appointmentPrice = pharmacy.getCurrentPharmacistAppointmentPrice();
         }
 
-        Appointment appointment = new Appointment(from, to, appointmentPrice, AppointmentStatus.BOOKED, employmentContract);
+        var appointment = new Appointment(from, to, appointmentPrice, AppointmentStatus.BOOKED, employmentContract);
 
-        Patient patient = patientRepository.findById(patientId).orElseThrow(
+        var patient = patientRepository.findById(patientId).orElseThrow(
                 () -> new BusinessException("Patient with id  " + patientId+ " does not exist"));
         appointment.setPatient(patient);
 
@@ -479,11 +479,11 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
 
     @Override
     public void cancelAppointment(Long id, Long appointmentId) {
-        Patient patient = this.patientRepository.findActivePatient(id, true);
+        var patient = this.patientRepository.findActivePatient(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient doesn't exist!");
         }
-        Appointment appointment = this.appointmentRepository.getAppointmentByIdAndActiveTrue(appointmentId)
+        var appointment = this.appointmentRepository.getAppointmentByIdAndActiveTrue(appointmentId)
                 .orElseThrow(() -> {
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment doesn't exist!");
                 });
@@ -512,7 +512,7 @@ public class AppointmentService extends JPAService<Appointment> implements IAppo
 
     @Override
     public Page<Appointment> getScheduledAppointments(Long id, EmployeeType employeeType, String name, Pageable pageable) {
-        Patient patient = this.patientRepository.findActivePatient(id, true);
+        var patient = this.patientRepository.findActivePatient(id, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient doesn't exist!");
         }

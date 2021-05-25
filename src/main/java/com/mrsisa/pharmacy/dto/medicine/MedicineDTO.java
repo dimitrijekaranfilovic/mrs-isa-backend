@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.dto.medicine;
 
 
-import com.mrsisa.pharmacy.domain.enums.MedicineShape;
 import com.mrsisa.pharmacy.domain.enums.MedicineType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

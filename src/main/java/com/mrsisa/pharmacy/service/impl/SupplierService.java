@@ -37,7 +37,7 @@ public class SupplierService extends JPAService<Supplier> implements ISupplierSe
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is taken.");
         if(this.userRepository.findByEmail(email).isPresent())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is taken.");
-        Supplier s = new Supplier(firstName, lastName, username, password, email, true, false, company);
+        var s = new Supplier(firstName, lastName, username, password, email, true, false, company);
         s.getAuthorities().add(this.authorityRepository.findByName("ROLE_SUPPLIER"));
         this.save(s);
         return s;
@@ -51,7 +51,7 @@ public class SupplierService extends JPAService<Supplier> implements ISupplierSe
         Optional<Supplier> optionalSupplier = this.supplierRepository.getSupplierByActiveTrueAndId(id);
         if(optionalSupplier.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Supplier with id " + id + " does not exist.");
-        Supplier supplier = optionalSupplier.get();
+        var supplier = optionalSupplier.get();
 
         supplier.setFirstName(firstName);
         supplier.setLastName(lastName);

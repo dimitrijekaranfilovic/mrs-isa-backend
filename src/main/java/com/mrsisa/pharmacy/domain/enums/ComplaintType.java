@@ -12,13 +12,15 @@ public enum ComplaintType {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:
                 return "Employee";
             case 1:
                 return "Pharmacy";
+            default:
+                return null;
         }
-        return null;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class RecipeToRecipeDTO extends AbstractConverter<Recipe, RecipeDTO>{
     @Override
     public RecipeDTO convert(Recipe recipe) {
-        RecipeDTO dto = new RecipeDTO(recipe.getId(), recipe.getPharmacy().getId(), recipe.getPharmacy().getName(), recipe.getReservationDate());
+        var dto = new RecipeDTO(recipe.getId(), recipe.getPharmacy().getId(), recipe.getPharmacy().getName(), recipe.getReservationDate());
         dto.setTotalPrice(recipe.getPrice());
         return dto;
     }

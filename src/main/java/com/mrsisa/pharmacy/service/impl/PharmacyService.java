@@ -35,7 +35,6 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
     private final IAppointmentRepository appointmentRepository;
     private final IMedicineReservationRepository medicineReservationRepository;
     private final IRecipeRepository recipeRepository;
-    private final IComplaintRepository complaintRepository;
     private final IReviewRepository reviewRepository;
 
     @Autowired
@@ -43,7 +42,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
                            IMedicineStockRepository medicineStockRepository, IPatientRepository patientRepository,
                            IAppointmentRepository appointmentRepository,
                            IMedicineReservationRepository medicineReservationRepository, IRecipeRepository recipeRepository,
-                           IComplaintRepository complaintRepository, IReviewRepository reviewRepository) {
+                           IReviewRepository reviewRepository) {
         this.pharmacyRepository = pharmacyRepository;
         this.appointmentPriceRepository = appointmentPriceRepository;
         this.medicineStockRepository = medicineStockRepository;
@@ -51,7 +50,6 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
         this.appointmentRepository = appointmentRepository;
         this.medicineReservationRepository = medicineReservationRepository;
         this.recipeRepository = recipeRepository;
-        this.complaintRepository = complaintRepository;
         this.reviewRepository = reviewRepository;
     }
 
@@ -100,8 +98,8 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
     @Override
     public Pharmacy registerPharmacy(String name, String description, Double latitude, Double longitude,
                                      String country, String city, String street, String streetNumber, String zipCode) {
-        Location location = new Location(latitude, longitude, new Address(country, city, street, streetNumber, zipCode));
-        Pharmacy pharmacy = new Pharmacy(name, description, location);
+        var location = new Location(latitude, longitude, new Address(country, city, street, streetNumber, zipCode));
+        var pharmacy = new Pharmacy(name, description, location);
         this.save(pharmacy);
         return pharmacy;
     }
@@ -122,7 +120,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
 
     public Pharmacy updateAppointmentPrices(Long pharmacyId, Double pharmacistAppointmentPrice,
                                             Double dermatologistAppointmentPrice) {
-        Pharmacy pharmacy = get(pharmacyId);
+        var pharmacy = get(pharmacyId);
         if (pharmacistAppointmentPrice != null) {
             updatePharmacistAppointmentPrice(pharmacy, pharmacistAppointmentPrice);
         }
@@ -152,7 +150,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
             Set<Long> tempPharmacyIds = new HashSet<>();
             List<MedicineStock> stocks = this.medicineStockRepository.getAllStocksForMedicine(ids.get(i), quantities.get(i));
             allStocks.addAll(stocks);
-            for (MedicineStock stock : stocks) {
+            for (var stock : stocks) {
                 Long pharmacyId = stock.getPharmacy().getId();
                 tempPharmacyIds.add(pharmacyId);
                 if (!map.containsKey(pharmacyId))
@@ -174,7 +172,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
 
         double discount = (double) (100 - patientCategory.getDiscount()) / 100;
         allStocks.forEach(stock -> {
-            Pharmacy pharmacy = stock.getPharmacy();
+            var pharmacy = stock.getPharmacy();
             int index = ids.indexOf(stock.getMedicine().getId());
             map.get(pharmacy.getId()).getMedicineStock()
                     .add(new MedicineStockQRSearchDTO(stock.getMedicine()
@@ -186,9 +184,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
                 .filter(item -> pharmacyIds.contains(item.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        pharmacyIds.forEach(id -> {
-            map.get(id).calculateTotalPrice();
-        });
+        pharmacyIds.forEach(id -> map.get(id).calculateTotalPrice());
 
 
         return new ArrayList<>(filtered.values());
@@ -238,11 +234,11 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
     @Override
     @Transactional(rollbackFor = ResponseStatusException.class)
     public void ratePharmacy(Long patientId, Long pharmacyId, Integer rating) {
-        Patient patient = this.patientRepository.findActivePatientUnlocked(patientId, Boolean.TRUE);
+        var patient = this.patientRepository.findActivePatientUnlocked(patientId, Boolean.TRUE);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with id " + patientId + " does not exist.");
         }
-        Pharmacy pharmacy = this.pharmacyRepository.findByIdAndActiveTrueUnlocked(pharmacyId)
+        var pharmacy = this.pharmacyRepository.findByIdAndActiveTrueUnlocked(pharmacyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Pharmacy does not exist."));
 
@@ -262,7 +258,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
         }
 
         // in case user has already reviewed the pharmacy
-        Review review = pharmacy.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        var review = pharmacy.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 // in case there is no existing review for the pharmacy
                 .orElse(new Review());
 
@@ -282,7 +278,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
 
     @Override
     public Review getPatientReviewForPharmacy(Long patientId, Long pharmacyId) {
-        Patient patient = this.patientRepository.findActivePatient(patientId, Boolean.TRUE);
+        var patient = this.patientRepository.findActivePatient(patientId, Boolean.TRUE);
         if (patient == null) {
             return null;
         }
@@ -311,7 +307,6 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + patient.getId() + " is not subscribed to news about pharmacy with id " + pharmacy.getId() + ".");
         }
         pharmacy.setPromotionSubscribers(pharmacy.getPromotionSubscribers().stream().filter(patient1 -> !patient1.getId().equals(patient.getId())).collect(Collectors.toSet()));
-        //pharmacy.getPromotionSubscribers().remove(patient);
         this.pharmacyRepository.save(pharmacy);
 
     }
@@ -325,14 +320,14 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
         Optional<Pharmacy> optionalPharmacy = this.pharmacyRepository.getPharmacyWithComplaints(pharmacyId);
         if (optionalPharmacy.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pharmacy with id " + pharmacyId + " does not exist.");
-        Pharmacy pharmacy = optionalPharmacy.get();
+        var pharmacy = optionalPharmacy.get();
         Long appointments = this.appointmentRepository.checkIfPatientHadAppointmentWithEmployeeFromPharmacy(patient.getId(), pharmacyId, AppointmentStatus.TOOK_PLACE);
         Long reservations = this.medicineReservationRepository.checkIfPatientHasMedicineReservationsInPharmacy(patient.getId(), pharmacyId, ReservationStatus.PICKED);
         Long recipes = this.recipeRepository.checkIfPatientHasAnyERecipesInPharmacy(patient.getId(), pharmacyId);
 
         if (appointments == 0 && reservations == 0 && recipes == 0)
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You cannot file a complaint against this pharmacy.");
-        Complaint complaint = new Complaint(content, LocalDateTime.now(), ComplaintType.PHARMACY, patient, pharmacy.getName());
+        var complaint = new Complaint(content, LocalDateTime.now(), ComplaintType.PHARMACY, patient, pharmacy.getName());
         pharmacy.getComplaints().add(complaint);
         this.pharmacyRepository.save(pharmacy);
         return complaint;

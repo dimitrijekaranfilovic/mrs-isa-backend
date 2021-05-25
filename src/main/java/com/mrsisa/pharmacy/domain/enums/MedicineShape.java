@@ -13,6 +13,7 @@ public enum MedicineShape {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:
@@ -31,8 +32,8 @@ public enum MedicineShape {
                 return "Solution";
             case 7:
                 return "Powder";
-
+            default:
+                return null;
         }
-        return null;
     }
 }

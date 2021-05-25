@@ -44,7 +44,7 @@ public class PharmacyMedicineStocksControllerTest {
     }
 
     @Test
-    public void testRegisterMedicine() throws Exception {
+    void testRegisterMedicine() throws Exception {
         MedicineStockRegistrationDTO dto = new MedicineStockRegistrationDTO();
         dto.setMedicineCode(NEW_MEDICINE_CODE);
         dto.setPrice(NEW_MEDICINE_PRICE);

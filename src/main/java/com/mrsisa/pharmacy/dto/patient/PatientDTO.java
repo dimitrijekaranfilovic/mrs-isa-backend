@@ -2,10 +2,6 @@ package com.mrsisa.pharmacy.dto.patient;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 public class PatientDTO {
     private Long id;
@@ -27,6 +23,5 @@ public class PatientDTO {
     private String street;
     private String streetNumber;
     private String zipCode;
-//    private List<String> allergyNames = new ArrayList<>();
 
 }

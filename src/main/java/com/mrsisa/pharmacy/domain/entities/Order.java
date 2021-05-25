@@ -4,12 +4,7 @@ import com.mrsisa.pharmacy.domain.enums.OrderStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.MedicineOrderInfo;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;

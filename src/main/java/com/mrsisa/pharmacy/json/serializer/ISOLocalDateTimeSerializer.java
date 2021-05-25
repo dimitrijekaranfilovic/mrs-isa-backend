@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 public class ISOLocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
     @Override
     public void serialize(LocalDateTime localDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-//        System.out.println("ISOLocalDateTimeSerializer");
         jsonGenerator.writeString(DateTimeFormatter.ISO_DATE_TIME.format(localDateTime));
     }
 }

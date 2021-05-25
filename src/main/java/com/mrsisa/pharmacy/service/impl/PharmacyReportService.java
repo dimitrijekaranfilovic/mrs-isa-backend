@@ -8,7 +8,6 @@ import com.mrsisa.pharmacy.exception.BusinessException;
 import com.mrsisa.pharmacy.repository.IMedicinePurchaseRepository;
 import com.mrsisa.pharmacy.repository.IMedicineRepository;
 import com.mrsisa.pharmacy.repository.IMedicineStockRepository;
-import com.mrsisa.pharmacy.service.IMedicineService;
 import com.mrsisa.pharmacy.service.IPharmacyReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,11 +42,11 @@ public class PharmacyReportService extends ReportServiceBase implements IPharmac
     }
 
     public MedicinePurchaseStatistics getSingleMedicineStatistics(Long medicineId, Pharmacy pharmacy, LocalDate from, LocalDate to, ILocalDateAdjuster adjuster, ILabelExtractor extractor) {
-        Medicine medicine = medicineRepository.findByIdAndActiveTrue(medicineId);
+        var medicine = medicineRepository.findByIdAndActiveTrue(medicineId);
         if (medicine == null) {
             throw new BusinessException("Cannot find medicine with id: " + medicineId);
         }
-        MedicinePurchaseStatistics statistics = new MedicinePurchaseStatistics(medicine.getName());
+        var statistics = new MedicinePurchaseStatistics(medicine.getName());
         LocalDate upperBound = adjuster.getAdjusted(from);
         LocalDate lowerBound = from;
         while (!upperBound.isAfter(to)) {
@@ -65,7 +64,7 @@ public class PharmacyReportService extends ReportServiceBase implements IPharmac
         if (to.isBefore(from) || to.isEqual(from)) {
             throw new BusinessException("Invalid time range parameters.");
         }
-        MedicinePurchaseStatistics statistics = new MedicinePurchaseStatistics();
+        var statistics = new MedicinePurchaseStatistics();
         medicineStockRepository.getPharmacyStocksStream(pharmacy.getId()).forEach(stock -> {
             Integer count = medicinePurchaseRepository.getMedicinePurchaseCount(stock.getMedicine().getId(), pharmacy.getId(), from, to).orElse(0);
             String label = stock.getMedicine().getName();

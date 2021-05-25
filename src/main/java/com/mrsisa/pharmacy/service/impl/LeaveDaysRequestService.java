@@ -61,7 +61,7 @@ public class LeaveDaysRequestService extends JPAService<LeaveDaysRequest> implem
     @Override
     public LeaveDaysRequest respondPharmacistRequest(Pharmacy pharmacy, Long requestId, Boolean accepted, String rejectionReason) {
         log.info("Starting respond pharmacist leave days request...");
-        LeaveDaysRequest request = leaveDaysRequestRepository.getForUpdate(requestId).orElseThrow(() -> new NotFoundException("Cannot find request with id: " + requestId));
+        var request = leaveDaysRequestRepository.getForUpdate(requestId).orElseThrow(() -> new NotFoundException("Cannot find request with id: " + requestId));
         employmentContractRepository.getEmployeeContractWithPharmacy(request.getEmployee().getId(), pharmacy.getId(), EmployeeType.PHARMACIST).orElseThrow(() -> new BusinessException("This request for leave does not belong to this pharmacy."));
         if (request.getEmployee().getEmployeeType() != EmployeeType.PHARMACIST) {
             throw new BusinessException("This leave request is not made by pharmacist.");
@@ -76,7 +76,7 @@ public class LeaveDaysRequestService extends JPAService<LeaveDaysRequest> implem
 
     @Override
     public LeaveDaysRequest respondDermatologistRequest(Long id, Boolean accepted, String rejectionReason) {
-        LeaveDaysRequest request = leaveDaysRequestRepository.getForUpdate(id).orElseThrow(() -> new NotFoundException("Cannot find request with id: " + id));
+        var request = leaveDaysRequestRepository.getForUpdate(id).orElseThrow(() -> new NotFoundException("Cannot find request with id: " + id));
         if (request.getEmployee().getEmployeeType() != EmployeeType.DERMATOLOGIST) {
             throw new BusinessException("This leave request is not made by pharmacist.");
         }
@@ -90,7 +90,7 @@ public class LeaveDaysRequestService extends JPAService<LeaveDaysRequest> implem
 
     @Override
     public LeaveDaysRequest createLeaveDaysRequest(Long employeeId, LocalDate from, LocalDate to) {
-        PharmacyEmployee pharmacyEmployee = pharmacyEmployeeRepository.findById(employeeId).orElseThrow(
+        var pharmacyEmployee = pharmacyEmployeeRepository.findById(employeeId).orElseThrow(
                 () -> new BusinessException("Employee with id  " + employeeId + " does not exist"));
         LeaveDaysRequest leaveDaysRequest = new LeaveDaysRequest(from, to, pharmacyEmployee, LeaveDaysRequestStatus.PENDING);
         save(leaveDaysRequest);

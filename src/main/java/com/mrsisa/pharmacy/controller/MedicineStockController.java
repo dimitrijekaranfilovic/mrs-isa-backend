@@ -71,7 +71,7 @@ public class MedicineStockController {
     @OwningUser
     public boolean checkIfMedicineInStock(@PathVariable("id") Long id, ReplacementMedicineDTO replacementMedicineDTO) {
         checkIfEmployeeWorksInPharmacy(id, replacementMedicineDTO.getPharmacyId());
-        MedicineStock medicineStock = medicineStockService.get(replacementMedicineDTO.getMedicineStockId());
+        var medicineStock = medicineStockService.get(replacementMedicineDTO.getMedicineStockId());
         if (medicineStock.getQuantity() > 0) {
             return true;
         }

@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 public abstract class CRUDService<T extends BaseEntity> implements ICRUDService<T> {
@@ -37,12 +36,12 @@ public abstract class CRUDService<T extends BaseEntity> implements ICRUDService<
 
     @Override
     public void delete(Long id) {
-        T entity = findEntityChecked(id);
+        var entity = findEntityChecked(id);
         entity.setActive(false);
     }
 
     private T findEntityChecked(Long id) throws EntityNotFoundException {
-        T entity = getEntityRepository().findById(id).orElseThrow(() -> new NotFoundException("Cannot find entity with id: " + id));
+        var entity = getEntityRepository().findById(id).orElseThrow(() -> new NotFoundException("Cannot find entity with id: " + id));
         if (entity.getActive()) {
             return entity;
         }

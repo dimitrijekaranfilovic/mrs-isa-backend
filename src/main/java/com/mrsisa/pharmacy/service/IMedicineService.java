@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.service;
 
 import com.mrsisa.pharmacy.domain.entities.Medicine;
-import com.mrsisa.pharmacy.domain.entities.Order;
 import com.mrsisa.pharmacy.domain.enums.MedicineShape;
 import com.mrsisa.pharmacy.domain.enums.MedicineType;
 import org.springframework.data.domain.Page;

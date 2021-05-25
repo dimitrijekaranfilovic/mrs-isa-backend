@@ -25,17 +25,15 @@ public class AppointmentToExaminedPatientDTO  extends AbstractConverter<Appointm
 
     @Override
     public ExaminedPatientDTO convert(@NonNull Appointment appointment) {
-        ExaminedPatientDTO examinedPatientDTO = new ExaminedPatientDTO(appointment.getFrom(), appointment.getTo(),
+        var examinedPatientDTO = new ExaminedPatientDTO(appointment.getFrom(), appointment.getTo(),
                 appointment.getPrice(), appointment.getPatient().getFirstName(), appointment.getPatient().getLastName(),
                 appointment.getReport().getDiagnostics(), new ArrayList<>());
 
         if (appointment.getReport().getRecipe() != null) {
             List<RecipeMedicineInfo> recipeMedicineInfoList = recipeMedicineInfoService.getMedicinesForRecipe(appointment.getReport().getRecipe().getId());
-            recipeMedicineInfoList.forEach(recipeMedicineInfo -> {
-                examinedPatientDTO.getMedicines().add(new RecipeMedicineInfoDTO(recipeMedicineInfo.getMedicine().getId(),
-                        recipeMedicineInfo.getQuantity(), recipeMedicineInfo.getTherapyDays(), recipeMedicineInfo.getPrice(),
-                        recipeMedicineInfo.getMedicine().getName()));
-            });
+            recipeMedicineInfoList.forEach(recipeMedicineInfo -> examinedPatientDTO.getMedicines().add(new RecipeMedicineInfoDTO(recipeMedicineInfo.getMedicine().getId(),
+                    recipeMedicineInfo.getQuantity(), recipeMedicineInfo.getTherapyDays(), recipeMedicineInfo.getPrice(),
+                    recipeMedicineInfo.getMedicine().getName())));
         }
 
         return examinedPatientDTO;

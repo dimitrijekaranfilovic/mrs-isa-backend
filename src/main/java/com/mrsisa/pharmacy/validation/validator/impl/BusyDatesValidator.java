@@ -26,7 +26,7 @@ public class BusyDatesValidator implements IBusyDatesValidator {
         Long pharmacyId = employeeAppointmentSchedulingDTO.getPharmacyId();
         Long patientId = employeeAppointmentSchedulingDTO.getPatientId();
 
-        EmploymentContract employmentContract = employmentContractService.getContractWithPharmacy(employeeId, pharmacyId);
+        var employmentContract = employmentContractService.getContractWithPharmacy(employeeId, pharmacyId);
         appointmentService.getScheduledAppointmentForPatientAndEmployee(employmentContract.getId(), patientId);
     }
 }

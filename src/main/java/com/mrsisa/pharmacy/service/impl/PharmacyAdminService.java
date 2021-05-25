@@ -50,7 +50,7 @@ public class PharmacyAdminService extends JPAService<PharmacyAdmin> implements I
         Optional<Pharmacy> pharmacy = this.pharmacyRepository.findByIdAndActiveTrue(pharmacyId);
         if(pharmacy.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pharmacy with id " + pharmacyId + " does not exist.");
-        PharmacyAdmin admin = new PharmacyAdmin(firstName, lastName, username, password, email, true, false, pharmacy.get());
+        var admin = new PharmacyAdmin(firstName, lastName, username, password, email, true, false, pharmacy.get());
         admin.getAuthorities().add(this.authorityRepository.findByName("ROLE_PHARMACY_ADMIN"));
         this.save(admin);
         return admin;
@@ -58,7 +58,7 @@ public class PharmacyAdminService extends JPAService<PharmacyAdmin> implements I
 
     @Override
     public PharmacyAdmin updateAdmin(Long id, String firstName, String lastName) {
-        PharmacyAdmin admin = get(id);
+        var admin = get(id);
         admin.setFirstName(firstName);
         admin.setLastName(lastName);
         return admin;

@@ -12,6 +12,8 @@ public enum MedicineType {
         return type;
     }
 
+
+    @Override
     public String toString() {
         switch(type) {
             case 0:
@@ -20,7 +22,8 @@ public enum MedicineType {
                 return "Anesthetic";
             case 2:
                 return "Antihistamine";
+            default:
+                return null;
         }
-        return null;
     }
 }

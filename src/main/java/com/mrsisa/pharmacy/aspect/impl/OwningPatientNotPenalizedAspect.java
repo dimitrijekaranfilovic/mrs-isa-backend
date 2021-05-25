@@ -26,9 +26,9 @@ public class OwningPatientNotPenalizedAspect extends OwningAspectBase {
     @Before("@annotation(com.mrsisa.pharmacy.aspect.OwningPatientNotPenalized)")
     public void patientOwnsResourceAndNotPenalized(JoinPoint joinPoint) {
         Long patientId = getIdentityParameter(joinPoint, OwningPatientNotPenalized.class);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Patient Patient = patientService.findByUsernameWithAuthorities(authentication.getName());
-        if (!Patient.getId().equals(patientId)) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var patient = patientService.findByUsernameWithAuthorities(authentication.getName());
+        if (!patient.getId().equals(patientId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permissions to access this data.");
         }
 
@@ -40,7 +40,7 @@ public class OwningPatientNotPenalizedAspect extends OwningAspectBase {
             actionName = "this action";
         }
 
-        if (Patient.getNumPenalties() >= 3) {
+        if (patient.getNumPenalties() >= 3) {
             if (!message.isBlank()) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, message);
             } else {

@@ -4,10 +4,8 @@ import com.mrsisa.pharmacy.domain.enums.ReservationStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.MedicineReservationItem;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

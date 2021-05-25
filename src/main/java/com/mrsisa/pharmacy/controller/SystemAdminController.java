@@ -41,7 +41,7 @@ public class SystemAdminController {
     @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO registerSystemAdmin(@Valid @RequestBody SysAdminRegistrationDTO dto){
-        SystemAdmin s = this.systemAdminService.registerSystemAdmin(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail());
+        var s = this.systemAdminService.registerSystemAdmin(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail());
         return new UserDTO(s.getUsername(), s.getEmail(), s.getFirstName(), s.getLastName(), s.getId(), s.getVerified());
     }
 

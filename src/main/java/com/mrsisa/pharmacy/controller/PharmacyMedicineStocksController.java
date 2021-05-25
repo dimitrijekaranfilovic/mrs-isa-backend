@@ -44,7 +44,7 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
 
     @GetMapping(value = "/{id}/stocks/available")
     public Page<MedicineStockDTO> getPharmacyMedicineStocks(@PathVariable("id") Long id, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<MedicineStock> stockPage = medicineStockService.getAvailableMedicinesForPharmacy(pharmacy, pageable);
         return stockPage.map(toMedicineStockDTO::convert);
     }
@@ -53,7 +53,7 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/stocks/not-selected-in-promotion")
     public Page<MedicineStockDTO> getMedicineStocksNotInCurrentPromotion(@PathVariable("id") Long id, PromotionStocksSearchDTO dto, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<MedicineStock> stockPage = medicineStockService.getPharmacyStocksNotInPromotion(pharmacy, dto.getName(), dto.getFixedMedicineIds(), pageable);
         return stockPage.map(toMedicineStockDTO::convert);
     }
@@ -62,7 +62,7 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping("/{id}/stocks")
     public Page<MedicineStockDTO> getAllMedicineStocks(@PathVariable("id") Long id, @RequestParam(name = "name", defaultValue = "") String medicineName, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<MedicineStock> stockPage = medicineStockService.getMedicineStocksForPharmacy(pharmacy, medicineName.trim().toLowerCase(), pageable);
         return stockPage.map(toMedicineStockDTO::convert);
     }
@@ -72,8 +72,8 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @PostMapping("/{id}/stocks")
     @ResponseStatus(HttpStatus.CREATED)
     public MedicineStockDTO registerMedicine(@PathVariable("id") Long id, @Valid @RequestBody MedicineStockRegistrationDTO medicineStockRegistrationDTO) {
-        Medicine medicine = medicineService.getByCode(medicineStockRegistrationDTO.getMedicineCode());
-        MedicineStock medicineStock = medicineStockService.registerMedicineInPharmacy(id, medicine, medicineStockRegistrationDTO.getPrice(), medicineStockRegistrationDTO.getQuantity());
+        var medicine = medicineService.getByCode(medicineStockRegistrationDTO.getMedicineCode());
+        var medicineStock = medicineStockService.registerMedicineInPharmacy(id, medicine, medicineStockRegistrationDTO.getPrice(), medicineStockRegistrationDTO.getQuantity());
         return toMedicineStockDTO.convert(medicineStock);
     }
 
@@ -81,7 +81,7 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping("/{id}/stocks/all")
     public Collection<MedicineReducedDTO> getAllMedicines(@PathVariable("id") Long id) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         return toMedicineReducedDTO.convert(medicineStockService.getPharmacyStockList(pharmacy));
     }
 
@@ -89,7 +89,7 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @PutMapping("/{id}/stocks/{stockId}")
     public MedicineStockDTO updateMedicineStock(@PathVariable("id") Long id, @PathVariable("stockId") Long stockId, @Valid @RequestBody UpdateMedicineStockDTO updateMedicineStockDTO) {
-        MedicineStock medicineStock = medicineStockService.updateStock(id, stockId, updateMedicineStockDTO.getNewPrice());
+        var medicineStock = medicineStockService.updateStock(id, stockId, updateMedicineStockDTO.getNewPrice());
         return toMedicineStockDTO.convert(medicineStock);
     }
 
@@ -98,8 +98,8 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @DeleteMapping("/{id}/stocks/{stockId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeMedicine(@PathVariable("id") Long id, @PathVariable("stockId") Long stockId) {
-        Pharmacy pharmacy = getOr404(id);
-        MedicineStock medicineStock = medicineStockService.getStockInPharmacy(pharmacy.getId(), stockId);
+        var pharmacy = getOr404(id);
+        var medicineStock = medicineStockService.getStockInPharmacy(pharmacy.getId(), stockId);
         medicineStockService.removeMedicine(pharmacy, medicineStock);
     }
 
@@ -107,7 +107,7 @@ public class PharmacyMedicineStocksController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping("/{id}/is-registered/{medicineId}")
     public Boolean isMedicineRegisteredInPharmacy(@PathVariable("id") Long id, @PathVariable("medicineId") Long medicineId) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         return medicineStockService.isMedicineRegisteredInPharmacy(pharmacy, medicineService.get(medicineId));
     }
 }

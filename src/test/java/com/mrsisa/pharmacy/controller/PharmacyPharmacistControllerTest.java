@@ -42,7 +42,7 @@ public class PharmacyPharmacistControllerTest {
     }
 
     @Test
-    public void testRegisterPharmacist() throws Exception {
+    void testRegisterPharmacist() throws Exception {
         PharmacistRegistrationDTO dto = new PharmacistRegistrationDTO();
         dto.setFirstName(PHARMACIST_FIRST_NAME);
         dto.setLastName(PHARMACIST_LAST_NAME);

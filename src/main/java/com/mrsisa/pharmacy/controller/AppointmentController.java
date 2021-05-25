@@ -3,7 +3,6 @@ package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
 import com.mrsisa.pharmacy.domain.entities.*;
-import com.mrsisa.pharmacy.domain.enums.AppointmentStatus;
 import com.mrsisa.pharmacy.domain.enums.EmployeeType;
 import com.mrsisa.pharmacy.domain.valueobjects.WorkingDay;
 import com.mrsisa.pharmacy.dto.*;
@@ -43,8 +42,6 @@ public class AppointmentController {
     private final IEmploymentContractService employmentContractService;
     private final IPatientService patientService;
     private final ILeaveDaysRequestService leaveDaysRequestService;
-    private final ISystemSettingsService systemSettingsService;
-    private final IPharmacyEmployeeService pharmacyEmployeeService;
 
     private final IAppointmentConclusionValidator appointmentConclusionValidator;
     private final IBusyDatesValidator busyDatesValidator;
@@ -62,7 +59,7 @@ public class AppointmentController {
     public AppointmentController(IAppointmentService appointmentService,
                                  IEmploymentContractService employmentContractService,
                                  IPatientService patientService,
-                                 ISystemSettingsService systemSettingsService, IPharmacyEmployeeService pharmacyEmployeeService, IConverter<Appointment, AppointmentRangeResultDTO> toAppointmentRangeResultDTO,
+                                 IConverter<Appointment, AppointmentRangeResultDTO> toAppointmentRangeResultDTO,
                                  IConverter<Appointment, AppointmentStartDTO> toAppointmentStartDTO,
                                  IAppointmentConclusionValidator appointmentConclusionValidator,
                                  IBusyDatesValidator busyDatesValidator,
@@ -76,8 +73,6 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
         this.employmentContractService = employmentContractService;
         this.patientService = patientService;
-        this.systemSettingsService = systemSettingsService;
-        this.pharmacyEmployeeService = pharmacyEmployeeService;
         this.toAppointmentRangeResultDTO = toAppointmentRangeResultDTO;
         this.toAppointmentStartDTO = toAppointmentStartDTO;
         this.appointmentConclusionValidator = appointmentConclusionValidator;
@@ -110,7 +105,7 @@ public class AppointmentController {
     public CalendarDatesDTO getAllPharmacistAppointments(@PathVariable("id") Long id,
                                                                         @RequestParam("dateFrom") String fromTime,
                                                                         @RequestParam("dateTo") String toTime) {
-        EmploymentContract employmentContract = employmentContractService.getPharmacistContract(id);
+        var employmentContract = employmentContractService.getPharmacistContract(id);
         List<Appointment> appointments = appointmentService.getAppointmentsForEmployee(employmentContract.getPharmacy().getId(), id,
                 LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME), LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME), EmployeeType.PHARMACIST);
 
@@ -135,12 +130,12 @@ public class AppointmentController {
                                                                            @RequestParam("dateTo") String toTime,
                                                                            @RequestParam("patientId") Long patientId,
                                                                            @RequestParam("pharmacyId") Long pharmacyId) {
-        LocalDateTime fromDate =  LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME);
-        LocalDateTime toDate = LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME);
+        var fromDate =  LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME);
+        var toDate = LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME);
 
-        EmploymentContract employmentContract = employmentContractService.getContractWithPharmacy(id, pharmacyId);
+        var employmentContract = employmentContractService.getContractWithPharmacy(id, pharmacyId);
 
-        List<Appointment> appointments = appointmentService.getAllAvailableDermatologistAppointments(fromDate, toDate,
+        var appointments = appointmentService.getAllAvailableDermatologistAppointments(fromDate, toDate,
                 employmentContract.getId(), patientId);
 
         return appointments.stream().map(toAppointmentRangeResultDTO::convert).collect(Collectors.toList());
@@ -152,7 +147,7 @@ public class AppointmentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void scheduleAvailableDermatologistAppointment(@PathVariable("id") Long id,
                                                           @Valid @RequestBody AvailableAppointmentSchedulingDTO dto) {
-        EmploymentContract employmentContract = employmentContractService.getContractWithPharmacy(id, dto.getPharmacyId());
+        var employmentContract = employmentContractService.getContractWithPharmacy(id, dto.getPharmacyId());
         dto.setEmployeeId(employmentContract.getId());
 
         dermatologistAvailableAppointmentScheduleValidator.isValid(dto);
@@ -164,7 +159,7 @@ public class AppointmentController {
     @PreAuthorize("hasAnyRole('ROLE_PHARMACIST', 'ROLE_DERMATOLOGIST')")
     @OwningUser
     public AppointmentStartDTO getAppointmentInProgress(@PathVariable("id") Long id) {
-        Appointment appointment = appointmentService.getAppointmentInProgressForEmployee(id);
+        var appointment = appointmentService.getAppointmentInProgressForEmployee(id);
 
         return toAppointmentStartDTO.convert(appointment);
     }
@@ -186,28 +181,28 @@ public class AppointmentController {
     public BusyDatesDTO getBusyDatesForEmployeeAndPatient(@PathVariable("id") Long id,
                                                           @RequestParam("patientId") Long patientId,
                                                           @RequestParam("pharmacyId") Long pharmacyId) {
-        EmployeeBusyDaysDTO employeeAppointmentSchedulingDTO = new EmployeeBusyDaysDTO();
+        var employeeAppointmentSchedulingDTO = new EmployeeBusyDaysDTO();
         employeeAppointmentSchedulingDTO.setPatientId(patientId);
         employeeAppointmentSchedulingDTO.setPharmacyId(pharmacyId);
         employeeAppointmentSchedulingDTO.setEmployeeId(id);
 
         busyDatesValidator.isValid(employeeAppointmentSchedulingDTO);
 
-        List<Appointment> bookedEmployeeAppointments = this.appointmentService.getAllBusyAppointmentsForEmployee(employeeAppointmentSchedulingDTO.getEmployeeId());
-        List<Appointment> bookedPatientAppointments = this.appointmentService.getAllBookedAppointmentsForPatientNotWithEmployee(employeeAppointmentSchedulingDTO.getPatientId(),
+        var bookedEmployeeAppointments = this.appointmentService.getAllBusyAppointmentsForEmployee(employeeAppointmentSchedulingDTO.getEmployeeId());
+        var bookedPatientAppointments = this.appointmentService.getAllBookedAppointmentsForPatientNotWithEmployee(employeeAppointmentSchedulingDTO.getPatientId(),
                 employeeAppointmentSchedulingDTO.getEmployeeId());
 
         List<Appointment> allAppointments = new ArrayList<>(bookedEmployeeAppointments.size() + bookedPatientAppointments.size());
         allAppointments.addAll(bookedEmployeeAppointments);
         allAppointments.addAll(bookedPatientAppointments);
 
-        List<WorkingDay> workingDays = new ArrayList<>(employmentContractService.getContractWithPharmacy(employeeAppointmentSchedulingDTO.getEmployeeId(),
+        var workingDays = new ArrayList<>(employmentContractService.getContractWithPharmacy(employeeAppointmentSchedulingDTO.getEmployeeId(),
                 employeeAppointmentSchedulingDTO.getPharmacyId()).getWorkingHours());
 
-        List<AppointmentDatesDTO> appointmentDTOS = allAppointments.stream()
+        var appointmentDTOS = allAppointments.stream()
                 .map(toAppointmentDates::convert).collect(Collectors.toList());
 
-        List<WorkingDayTimeDTO> workingDayTimeDTOS = workingDays.stream()
+        var workingDayTimeDTOS = workingDays.stream()
                 .map(toWorkingDayTimeDTO::convert).collect(Collectors.toList());
 
 
@@ -220,20 +215,20 @@ public class AppointmentController {
     public LeaveRequestDatesDTO getAllLeaveDates(@PathVariable("id") Long id,
                                                  @RequestParam("dateFrom") String fromTime,
                                                  @RequestParam("dateTo") String toTime) {
-        LocalDateTime fromDate =  LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME);
-        LocalDateTime toDate = LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME);
+        var fromDate =  LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME);
+        var toDate = LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME);
 
 
-        List<Appointment> bookedEmployeeAppointments = appointmentService.getAllBusyAppointmentsForEmployeeForRange(id,
+        var bookedEmployeeAppointments = appointmentService.getAllBusyAppointmentsForEmployeeForRange(id,
                 fromDate, toDate);
 
-        List<LeaveDaysRequest> leaveDaysRequests = leaveDaysRequestService.getAllPendingAndAcceptedLeaveDaysRequestForEmployeeForRange(id,
+        var leaveDaysRequests = leaveDaysRequestService.getAllPendingAndAcceptedLeaveDaysRequestForEmployeeForRange(id,
                 fromDate, toDate);
 
-        List<AppointmentRangeResultDTO> appointmentDTOS = bookedEmployeeAppointments.stream()
+        var appointmentDTOS = bookedEmployeeAppointments.stream()
                 .map(toAppointmentRangeResultDTO::convert).collect(Collectors.toList());
 
-        List<LeaveRequestDateDTO> leaveRequestDateDTOS = leaveDaysRequests.stream().map(
+        var leaveRequestDateDTOS = leaveDaysRequests.stream().map(
                 toLeaveRequestDateDTO::convert).collect(Collectors.toList());
 
 

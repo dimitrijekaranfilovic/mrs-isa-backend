@@ -2,7 +2,6 @@ package com.mrsisa.pharmacy.dto.offer;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mrsisa.pharmacy.domain.enums.OfferStatus;
-import com.mrsisa.pharmacy.domain.enums.OrderStatus;
 import com.mrsisa.pharmacy.json.serializer.ISOLocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

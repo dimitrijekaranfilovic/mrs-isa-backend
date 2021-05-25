@@ -57,7 +57,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/orders")
     Page<OrderReducedInfoDTO> getPharmacyOrders(@PathVariable("id") Long id, @RequestParam(name = "status", required = false) OrderStatus orderStatus, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<Order> orderPage = orderService.getOrderForPharmacy(pharmacy, orderStatus, pageable);
         return orderPage.map(toOrderReducedDTO::convert);
     }
@@ -66,7 +66,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/orders/{orderId}")
     public OrderDTO getOrderDetails(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId) {
-        Order order = orderService.getOrder(orderId);
+        var order = orderService.getOrder(orderId);
         return toOrderDTO.convert(order);
     }
 
@@ -75,7 +75,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsEntity(entityId = "orderId", ownerField = "pharmacyAdmin", entity = Order.class)
     @PutMapping(value = "/{id}/orders/{orderId}")
     public OrderDTO updateOrder(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId, @Valid @RequestBody OrderUpdateDTO orderUpdateDTO) {
-        Order order = orderService.updateOrder(orderId, orderUpdateDTO.getDueDate());
+        var order = orderService.updateOrder(orderId, orderUpdateDTO.getDueDate());
         return toOrderDTO.convert(order);
     }
 
@@ -91,7 +91,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/orders/{orderId}/offers")
     public Page<OfferDTO> getOffersForOrder(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId, @RequestParam(value = "name", defaultValue = "") String query, @PageableDefault Pageable pageable) {
-        Order order = orderService.get(orderId);
+        var order = orderService.get(orderId);
         if (!order.getPharmacyAdmin().getPharmacy().getId().equals(id)) {
             throw new NotFoundException("Cannot find entity with id: " + orderId);
         }
@@ -121,9 +121,9 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @PostMapping(value = "/{id}/orders")
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDTO createOrder(@PathVariable("id") Long id, Principal principal, @Valid @RequestBody OrderCreationDTO orderCreationDTO) {
-        Pharmacy pharmacy = getOr404(id);
-        PharmacyAdmin pharmacyAdmin = (PharmacyAdmin) userService.findByUsernameWithAuthorities(principal.getName());
-        Order createdOrder = orderService.save(new Order(orderCreationDTO.getDueDate(), OrderStatus.IN_CREATION, pharmacyAdmin, pharmacy));
+        var pharmacy = getOr404(id);
+        var pharmacyAdmin = (PharmacyAdmin) userService.findByUsernameWithAuthorities(principal.getName());
+        var createdOrder = orderService.save(new Order(orderCreationDTO.getDueDate(), OrderStatus.IN_CREATION, pharmacyAdmin, pharmacy));
         return toOrderDTO.convert(createdOrder);
     }
 
@@ -132,7 +132,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsEntity(entityId = "orderId", ownerField = "pharmacyAdmin", entity = Order.class)
     @PutMapping(value = "/{id}/orders/{orderId}/publish")
     public OrderDTO publishOrder(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId) {
-        Order order = orderService.publish(orderId);
+        var order = orderService.publish(orderId);
         return toOrderDTO.convert(order);
     }
 
@@ -142,7 +142,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @PostMapping(value = "/{id}/orders/{orderId}/items")
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDTO addOrderItem(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId, @Valid @RequestBody AddOrderItemDTO addOrderItemDTO) {
-        Order order = orderService.addOrderItem(orderId, addOrderItemDTO.getMedicineId(), addOrderItemDTO.getQuantity(), addOrderItemDTO.getIsNew(), addOrderItemDTO.getNewPrice());
+        var order = orderService.addOrderItem(orderId, addOrderItemDTO.getMedicineId(), addOrderItemDTO.getQuantity(), addOrderItemDTO.getIsNew(), addOrderItemDTO.getNewPrice());
         return toOrderDTO.convert(order);
     }
 
@@ -151,7 +151,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsEntity(entityId = "orderId", ownerField = "pharmacyAdmin", entity = Order.class)
     @PutMapping(value = "/{id}/orders/{orderId}/items/{itemId}")
     public OrderDTO updateOrderItem(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId, @Valid @RequestBody UpdateOrderItemDTO updateOrderItemDTO) {
-        Order order = orderService.updateOrderItem(orderId, itemId, updateOrderItemDTO.getQuantity());
+        var order = orderService.updateOrderItem(orderId, itemId, updateOrderItemDTO.getQuantity());
         return toOrderDTO.convert(order);
     }
 
@@ -160,7 +160,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @OwnsEntity(entityId = "orderId", ownerField = "pharmacyAdmin", entity = Order.class)
     @DeleteMapping(value = "/{id}/orders/{orderId}/items/{itemId}")
     public OrderDTO removeOrderItem(@PathVariable("id") Long id, @PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
-        Order order = orderService.removeOrderItem(orderId, itemId);
+        var order = orderService.removeOrderItem(orderId, itemId);
         return toOrderDTO.convert(order);
     }
 }

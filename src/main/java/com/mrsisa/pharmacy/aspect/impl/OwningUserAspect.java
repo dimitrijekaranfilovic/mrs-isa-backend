@@ -26,8 +26,8 @@ public class OwningUserAspect extends OwningAspectBase {
     @Before("@annotation(com.mrsisa.pharmacy.aspect.OwningUser)")
     public void userOwnsResource(JoinPoint joinPoint) {
         Long userId = getIdentityParameter(joinPoint, OwningUser.class);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsernameWithAuthorities(authentication.getName());
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = userService.findByUsernameWithAuthorities(authentication.getName());
         if (!user.getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permissions to access this data.");
         }

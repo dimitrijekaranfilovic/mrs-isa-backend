@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -69,7 +68,7 @@ public class PatientCategoryService extends JPAService<PatientCategory> implemen
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + " already exists.");
         if(this.findByColor(color).isPresent())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + " already exists.");
-        PatientCategory category = new PatientCategory(name, points, discount, color);
+        var category = new PatientCategory(name, points, discount, color);
         this.patientCategoryRepository.save(category);
         return category;
     }
@@ -80,28 +79,28 @@ public class PatientCategoryService extends JPAService<PatientCategory> implemen
         if(category.getName().equals("Default category") && category.getPoints().equals(0) && category.getDiscount().equals(0) && category.getColor().equals("#ffffff"))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You cannot update the default category.");
         if(foundByName.isPresent()){
-            PatientCategory patientCategory = foundByName.get();
+            var patientCategory = foundByName.get();
             if(!patientCategory.getId().equals(category.getId()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with name " + name + " already exists.");
         }
 
         Optional<PatientCategory> foundByPoints = this.findByPoints(points);
         if(foundByPoints.isPresent()){
-            PatientCategory patientCategory = foundByPoints.get();
+            var patientCategory = foundByPoints.get();
             if(!patientCategory.getId().equals(category.getId()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with points " + points + " already exists.");
         }
 
         Optional<PatientCategory> foundByDiscount = this.findByDiscount(discount);
         if(foundByDiscount.isPresent()){
-            PatientCategory patientCategory = foundByDiscount.get();
+            var patientCategory = foundByDiscount.get();
             if(!patientCategory.getId().equals(category.getId()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + " already exists.");
         }
 
         Optional<PatientCategory> foundByColor = this.findByColor(color);
         if(foundByColor.isPresent()) {
-            PatientCategory patientCategory = foundByColor.get();
+            var patientCategory = foundByColor.get();
             if(!patientCategory.getId().equals(category.getId()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with color " + color + " already exists.");
         }
@@ -128,7 +127,7 @@ public class PatientCategoryService extends JPAService<PatientCategory> implemen
     @Override
     public PatientCategory getNextCategory(Integer points) {
         List<PatientCategory> patientCategoryList = this.patientCategoryRepository.getNextCategories(points);
-        if(patientCategoryList.size() == 0)
+        if(patientCategoryList.isEmpty())
             return null;
         return patientCategoryList.get(0);
     }

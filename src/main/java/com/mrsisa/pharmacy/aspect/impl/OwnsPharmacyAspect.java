@@ -28,9 +28,9 @@ public class OwnsPharmacyAspect extends OwningAspectBase {
     @Before("@annotation(com.mrsisa.pharmacy.aspect.OwnsPharmacy)")
     public void pharmacyAdminOwnsPharmacy(JoinPoint joinPoint) {
         Long pharmacyId = getIdentityParameter(joinPoint, OwnsPharmacy.class);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PharmacyAdmin pharmacyAdmin = pharmacyAdminService.getByUsername(authentication.getName());
-        Pharmacy pharmacy = pharmacyAdmin.getPharmacy();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var pharmacyAdmin = pharmacyAdminService.getByUsername(authentication.getName());
+        var pharmacy = pharmacyAdmin.getPharmacy();
         if ((pharmacy == null) || (!pharmacy.getId().equals(pharmacyId))) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permissions to access this data.");
         }

@@ -42,7 +42,7 @@ public class PharmacyAppointmentControllerTest {
     }
 
     @Test
-    public void testCreateAvailableAppointment() throws Exception {
+    void testCreateAvailableAppointment() throws Exception {
         AvailableAppointmentCreationDTO dto = new AvailableAppointmentCreationDTO();
         dto.setEmployeeId(APPOINTMENT_PHARMACIST_ID);
         dto.setFromTime(AVAILABLE_APPOINTMENT_FROM_TIME);

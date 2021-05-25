@@ -38,7 +38,7 @@ public class AppointmentReportService extends ReportServiceBase implements IAppo
     }
 
     public AppointmentStatistics getSingleAppointmentStatistics(Pharmacy pharmacy, LocalDate from, LocalDate to, EmployeeType employeeType, ILocalDateAdjuster adjuster, ILabelExtractor extractor) {
-        AppointmentStatistics statistics = new AppointmentStatistics(employeeType.toString() + " appointments");
+        var statistics = new AppointmentStatistics(employeeType.toString() + " appointments");
         LocalDate lowerBound = from;
         LocalDate upperBound = adjuster.getAdjusted(from);
         while (!upperBound.isAfter(to)) {
@@ -56,7 +56,7 @@ public class AppointmentReportService extends ReportServiceBase implements IAppo
         if (to.isBefore(from) || to.isEqual(from)) {
             throw new BusinessException("Invalid time range parameters.");
         }
-        AppointmentStatistics statistics = new AppointmentStatistics();
+        var statistics = new AppointmentStatistics();
         Long pharmacistCount = appointmentRepository.countAppointmentsForPharmacy(pharmacy.getId(), AppointmentStatus.TOOK_PLACE, EmployeeType.PHARMACIST, from.atStartOfDay(), to.atStartOfDay()).orElse(0L);
         Long dermatologistCount = appointmentRepository.countAppointmentsForPharmacy(pharmacy.getId(), AppointmentStatus.TOOK_PLACE, EmployeeType.DERMATOLOGIST, from.atStartOfDay(), to.atStartOfDay()).orElse(0L);
         statistics.addSample("Pharmacist appointments", pharmacistCount);

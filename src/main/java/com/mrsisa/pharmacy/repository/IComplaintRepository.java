@@ -22,8 +22,6 @@ public interface IComplaintRepository extends JpaRepository<Complaint, Long> {
     Page<Complaint> getUnansweredComplaints(Pageable pageable);
 
 
-    //Optional<Complaint> findByIdAndActiveTrue(Long id);
-
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select c from Complaint c where c.active = true and c.id = :id")
     Optional<Complaint> findByIdAndActiveTrueForUpdate(@Param("id") Long id);

@@ -55,7 +55,7 @@ public class SystemSettingsControllerTest {
     }
 
     @Test
-    public void testUpdateEmployeeAppointmentPoints() throws Exception {
+    void testUpdateEmployeeAppointmentPoints() throws Exception {
         Map<String, Integer> map = new HashMap<>();
         map.put("dermatologistPoints", 1);
         map.put("pharmacistPoints", 2);

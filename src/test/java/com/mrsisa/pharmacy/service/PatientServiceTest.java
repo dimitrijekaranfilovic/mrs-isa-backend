@@ -50,7 +50,7 @@ public class PatientServiceTest {
 
 
     @Test
-    public void testGetPatientByIdAndActive() {
+    void testGetPatientByIdAndActive() {
 
         when(patientRepositoryMock.findActivePatient(DB_PATIENT_ID, Boolean.TRUE))
                 .thenReturn(Optional.of(patientMock).orElse(null));
@@ -66,7 +66,7 @@ public class PatientServiceTest {
     }
 
     @Test
-    public void testGetPatientAllergies() {
+    void testGetPatientAllergies() {
         PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE);
         Medicine medMock1 = new Medicine();
         medMock1.setId(DB_MEDICINE_ID_1);
@@ -93,7 +93,7 @@ public class PatientServiceTest {
     }
 
     @Test
-    public void testGetPatientAllergiesSearchName() {
+    void testGetPatientAllergiesSearchName() {
         PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE);
         Medicine medMock1 = new Medicine();
         medMock1.setId(DB_MEDICINE_ID_1);
@@ -122,7 +122,7 @@ public class PatientServiceTest {
     }
 
     @Test
-    public void testGetPatientAllergiesSortName() {
+    void testGetPatientAllergiesSortName() {
         PageRequest pageRequest = PageRequest.of(0, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "name"));
         Medicine medMock1 = new Medicine();
         medMock1.setId(DB_MEDICINE_ID_1);
@@ -153,7 +153,7 @@ public class PatientServiceTest {
 
 
     @Test
-    public void testGetPatientAllergiesPagination() {
+    void testGetPatientAllergiesPagination() {
         PageRequest pageRequest = PageRequest.of(1, 1);
         Medicine medMock1 = new Medicine();
         medMock1.setId(DB_MEDICINE_ID_1);
@@ -183,7 +183,7 @@ public class PatientServiceTest {
 
 
     @Test()
-    public void testGetPatientAllergiesWrongSortParam() {
+    void testGetPatientAllergiesWrongSortParam() {
         PageRequest pageRequest = PageRequest
                 .of(0, PAGE_SIZE, Sort.by(Sort.Direction.DESC, NON_EXISTENT_SORT_PARAM));
         Medicine medMock1 = new Medicine();
@@ -213,7 +213,7 @@ public class PatientServiceTest {
 
     @Test()
     @Transactional
-    public void testUpdatePatientPersonalInfo() {
+    void testUpdatePatientPersonalInfo() {
 
         Patient oldPatient = new Patient();
         oldPatient.setId(DB_OLD_PATIENT_ID);
@@ -271,7 +271,7 @@ public class PatientServiceTest {
 
     @Test()
     @Transactional
-    public void testUpdatePatientPersonalInfoWrongPatientId() {
+    void testUpdatePatientPersonalInfoWrongPatientId() {
 
         Patient oldPatient = new Patient();
         oldPatient.setId(DB_OLD_PATIENT_ID);

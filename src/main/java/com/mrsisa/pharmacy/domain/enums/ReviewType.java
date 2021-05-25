@@ -12,6 +12,8 @@ public enum ReviewType {
         return type;
     }
 
+
+    @Override
     public String toString() {
         switch(type) {
             case 0:
@@ -20,7 +22,8 @@ public enum ReviewType {
                 return "Pharmacy";
             case 2:
                 return "Employee";
+            default:
+                return null;
         }
-        return null;
     }
 }

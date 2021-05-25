@@ -49,7 +49,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
 
     @Override
     public MedicineReservation getMedicineReservationForIssuing(Long id, Long pharmacyId) {
-        MedicineReservation medicineReservation = medicineReservationRepository.getMedicineReservationForIssuing(id);
+        var medicineReservation = medicineReservationRepository.getMedicineReservationForIssuing(id);
         if (medicineReservation == null || !medicineReservation.getPharmacy().getId().equals(pharmacyId) ||
                 medicineReservation.getReservationDeadline().isBefore(LocalDateTime.now())
                 || medicineReservation.getReservationStatus() != ReservationStatus.RESERVED) {
@@ -66,14 +66,14 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
 
     @Override
     public MedicineReservation issueReservation(Long id) {
-        MedicineReservation medicineReservation = medicineReservationRepository.getMedicineReservationToIssue(id)
+        var medicineReservation = medicineReservationRepository.getMedicineReservationToIssue(id)
                 .orElseThrow(() -> new BusinessException("Reservation has already been issued!"));
 
         if (medicineReservation.getReservationStatus() != ReservationStatus.RESERVED) {
             throw new BusinessException("Reservation has already been issued!");
         }
 
-        Patient patient = medicineReservation.getPatient();
+        var patient = medicineReservation.getPatient();
         medicineReservation.getReservedMedicines().forEach(item ->{
             MedicinePurchase medicinePurchase = new MedicinePurchase(item.getQuantity(),
                     item.getPrice(), medicineReservation.getPharmacy(), LocalDate.now(), item.getMedicine());
@@ -96,10 +96,10 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
                                                           LocalDateTime reservedAt,
                                                           LocalDateTime reservationDeadline) {
 
-        Pharmacy pharmacy = this.pharmacyRepository.findByIdAndActiveTrueUnlocked(pharmacyId)
+        var pharmacy = this.pharmacyRepository.findByIdAndActiveTrueUnlocked(pharmacyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pharmacy must be specified."));
 
-        Patient patient = this.patientRepository.findActivePatientUnlocked(patientId, true);
+        var patient = this.patientRepository.findActivePatientUnlocked(patientId, true);
         if (patient == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient must be specified.");
         }
@@ -112,7 +112,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reservation pickup date can't be before the current date!");
         }
 
-        MedicineStock stock = this.medicineStockRepository.getMedicineInPharmacy(
+        var stock = this.medicineStockRepository.getMedicineInPharmacy(
                 pharmacy.getId(), reservedDrug.getId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Drug " +
                         reservedDrug.getName() + " is no longer in the stock!"));
@@ -128,7 +128,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
         double stockItemPrice = Math.round(stock.getCurrentPrice() * discount * 100.0) / 100.0;
         Double price = stockItemPrice * quantity;
 
-        MedicineReservation newReservation = new MedicineReservation(
+        var newReservation = new MedicineReservation(
                 price, reservedAt, reservationDeadline, ReservationStatus.RESERVED, pharmacy, patient);
         newReservation.getReservedMedicines()
                 .add(new MedicineReservationItem(newReservation, quantity, reservedDrug, price));
@@ -151,11 +151,11 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
 
     @Override
     public Review getPatientReviewForDrug(Long patientId, Long drugId) {
-        Patient patient = this.patientRepository.findActivePatient(patientId, Boolean.TRUE);
+        var patient = this.patientRepository.findActivePatient(patientId, Boolean.TRUE);
         if (patient == null) {
             return null;
         }
-        Medicine drug = this.medicineRepository.getByIdAndActiveTrue(drugId)
+        var drug = this.medicineRepository.getByIdAndActiveTrue(drugId)
                 .orElse(null);
         if (drug == null) {
             return null;
@@ -168,7 +168,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
 
     @Override
     public MedicineReservation getPatientReservationById(Long reservationId, Long patientId) {
-        MedicineReservation mr = this.medicineReservationRepository.getReservationByIdAndActiveTrue(reservationId)
+        var mr = this.medicineReservationRepository.getReservationByIdAndActiveTrue(reservationId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment doesn't exist!"));
         if (!mr.getPatient().getId().equals(patientId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation doesn't belong to the patient");
@@ -179,7 +179,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
     @Override
     @Transactional(rollbackFor = ResponseStatusException.class)
     public void cancelReservation(Long reservationId) {
-        MedicineReservation reservation = this.medicineReservationRepository.getMedicineReservationForIssuing(reservationId);
+        var reservation = this.medicineReservationRepository.getMedicineReservationForIssuing(reservationId);
         if (reservation == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Specified Medicine reservation doesn't exist!");

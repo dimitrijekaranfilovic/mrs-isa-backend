@@ -46,14 +46,14 @@ public class OrderController {
     @PostMapping("/{id}/offers")
     @ResponseStatus(HttpStatus.CREATED)
     public OfferDTO createOffer(@PathVariable("id") Long orderId, @Valid @RequestBody OfferCreationDTO dto){
-        Offer offer = this.orderService.createOffer(orderId, dto.getSupplierId(), dto.getDeliveryDate(), dto.getTotalPrice(), true);
+        var offer = this.orderService.createOffer(orderId, dto.getSupplierId(), dto.getDeliveryDate(), dto.getTotalPrice(), true);
         return toOfferDTO.convert(offer);
     }
 
     @PreAuthorize("hasRole('ROLE_SUPPLIER')")
     @GetMapping("/{id}")
     public OrderDetailsDTO getOrderDetails(@PathVariable("id") Long id){
-        Order order = this.orderService.getOrder(id);
+        var order = this.orderService.getOrder(id);
         return toOrderDetailsDTO.convert(order);
     }
 }

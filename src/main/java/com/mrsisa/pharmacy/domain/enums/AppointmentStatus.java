@@ -12,6 +12,7 @@ public enum AppointmentStatus {
         return type;
     }
 
+    @Override
     public String toString() {
         switch (type) {
             case 0:
@@ -24,7 +25,8 @@ public enum AppointmentStatus {
                 return "Available";
             case 4:
                 return "Missed";
+            default:
+                return null;
         }
-        return null;
     }
 }

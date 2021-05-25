@@ -43,7 +43,7 @@ public class PharmacyServiceTest {
 
 
     @Test
-    public void testSubscribe(){
+    void testSubscribe(){
         Pharmacy ph = new Pharmacy();
         Patient p = new Patient();
         p.setId(-1L);
@@ -59,7 +59,7 @@ public class PharmacyServiceTest {
     }
 
     @Test
-    public void testFileComplaint(){
+    void testFileComplaint(){
         Pharmacy ph = new Pharmacy();
         ph.setId(-1L);
         ph.setName("Test apoteka");

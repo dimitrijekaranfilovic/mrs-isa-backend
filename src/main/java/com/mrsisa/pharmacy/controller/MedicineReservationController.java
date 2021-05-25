@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.domain.entities.MedicineReservation;
-import com.mrsisa.pharmacy.domain.entities.Patient;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.dto.medicine.MedicineReservationDTO;
 import com.mrsisa.pharmacy.service.*;
@@ -20,36 +19,26 @@ import java.security.Principal;
 public class MedicineReservationController {
 
     private final IMedicineReservationService medicineReservationService;
-
     private final IPharmacyEmployeeService pharmacyEmployeeService;
-
-    private final IMedicinePurchaseService medicinePurchaseService;
-
     private final IEmailService emailService;
-
-    private final IPatientService patientService;
-
     private final IConverter<MedicineReservation, MedicineReservationDTO> toMedicineReservationDTO;
 
     @Autowired
     public MedicineReservationController(IMedicineReservationService medicineReservationService,
                                          IPharmacyEmployeeService pharmacyEmployeeService,
                                          IConverter<MedicineReservation, MedicineReservationDTO> toMedicineReservationDTO,
-                                         IMedicinePurchaseService medicinePurchaseService,
-                                         IEmailService emailService, IPatientService patientService)
+                                         IEmailService emailService)
     {
         this.medicineReservationService = medicineReservationService;
         this.pharmacyEmployeeService = pharmacyEmployeeService;
         this.toMedicineReservationDTO = toMedicineReservationDTO;
-        this.medicinePurchaseService = medicinePurchaseService;
         this.emailService = emailService;
-        this.patientService = patientService;
     }
 
     @PreAuthorize("hasRole('ROLE_PHARMACIST')")
     @GetMapping(value = "/{id}")
     public MedicineReservationDTO getMedicineReservation(@PathVariable("id") Long reservationId, Principal principal) {
-        Pharmacy pharmacy = pharmacyEmployeeService.findActivePharmacyOfPharmacist(principal.getName());
+        var pharmacy = pharmacyEmployeeService.findActivePharmacyOfPharmacist(principal.getName());
         return toMedicineReservationDTO.convert(findValidMedicineReservation(reservationId, pharmacy));
     }
 
@@ -59,7 +48,7 @@ public class MedicineReservationController {
     public void issueReservation(@PathVariable("id") Long reservationId, Principal principal) {
         pharmacyEmployeeService.findActivePharmacyOfPharmacist(principal.getName());
 
-        MedicineReservation medicineReservation = medicineReservationService.issueReservation(reservationId);
+        var medicineReservation = medicineReservationService.issueReservation(reservationId);
         emailService.sendIssuedReservationMessage(medicineReservation);
     }
 
@@ -68,7 +57,7 @@ public class MedicineReservationController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pharmacy not found!");
         }
 
-        MedicineReservation medicineReservation = medicineReservationService.getMedicineReservationForIssuing(reservationId,
+        var medicineReservation = medicineReservationService.getMedicineReservationForIssuing(reservationId,
                 pharmacy.getId());
         if (medicineReservation == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Medicine reservation not found!");

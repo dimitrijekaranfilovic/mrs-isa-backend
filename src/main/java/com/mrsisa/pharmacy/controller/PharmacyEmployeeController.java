@@ -76,7 +76,7 @@ public class PharmacyEmployeeController {
     @PostMapping(value = "/dermatologist")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO registerDermatologist(@Valid @RequestBody EmployeeRegistrationDTO dto){
-        PharmacyEmployee employee = this.pharmacyEmployeeService.createDermatologist(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail());
+        var employee = this.pharmacyEmployeeService.createDermatologist(dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), dto.getEmail());
         return new UserDTO(employee.getUsername(), employee.getEmail(), employee.getFirstName(), employee.getLastName(), employee.getId(), employee.getVerified());
     }
 
@@ -90,7 +90,7 @@ public class PharmacyEmployeeController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @PostMapping("/{id}/complaints")
     public ComplaintDTO fileComplaint(@PathVariable("id") Long employeeId, @Valid @RequestBody ComplaintCreationDTO dto){
-        Patient patient = this.patientService.getPatientByIdAndActive(dto.getPatientId());
+        var patient = this.patientService.getPatientByIdAndActive(dto.getPatientId());
         if(patient == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + dto.getPatientId() + " does not exist.");
         Complaint complaint = this.pharmacyEmployeeService.fileComplaint(employeeId, patient, dto.getContent());
@@ -101,7 +101,7 @@ public class PharmacyEmployeeController {
     @OwningUser
     @PutMapping(value = "/{id}")
     public UserDTO updatePharmacyEmployee(@PathVariable("id") Long id, @Valid @RequestBody PharmacyEmployeeUpdateDTO dto) {
-        PharmacyEmployee pharmacyEmployee = pharmacyEmployeeService.updateEmployee(id, dto.getFirstName(), dto.getLastName());
+        var pharmacyEmployee = pharmacyEmployeeService.updateEmployee(id, dto.getFirstName(), dto.getLastName());
         return new UserDTO(pharmacyEmployee.getUsername(), pharmacyEmployee.getEmail(), pharmacyEmployee.getFirstName(),
                 pharmacyEmployee.getLastName(), pharmacyEmployee.getId(), pharmacyEmployee.getVerified());
     }
@@ -110,7 +110,7 @@ public class PharmacyEmployeeController {
     @OwningUser
     @GetMapping(value = "/averageGrade/{id}")
     public Double getAverageGrade(@PathVariable("id") Long id) {
-        PharmacyEmployee pharmacyEmployee = pharmacyEmployeeService.get(id);
+        var pharmacyEmployee = pharmacyEmployeeService.get(id);
         return pharmacyEmployee.getAverageGrade();
     }
 }

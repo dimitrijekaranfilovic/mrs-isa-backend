@@ -73,9 +73,6 @@ public class OrderService extends JPAService<Order> implements IOrderService {
         if(supplier.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Supplier does not exist.");
 
-//        if(deliveryDate.isAfter(order.get().getDueDate()))
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Delivery date cannot be after the order due date.");
-
         if(!multipleOffersForOrder){
             Optional<Offer> existingOffer = this.offerRepository.getOfferForSupplierAndOrder(supplierId, orderId);
 
@@ -91,7 +88,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
         if(order.get().getDueDate().isBefore(LocalDateTime.now()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deadline for offers for this order has passed.");
 
-        Offer offer = new Offer(totalCost, deliveryDate, OfferStatus.PENDING, supplier.get(), order.get());
+        var offer = new Offer(totalCost, deliveryDate, OfferStatus.PENDING, supplier.get(), order.get());
         this.offerRepository.save(offer);
         return offer;
     }
@@ -112,7 +109,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
     @Override
     public void acceptOffer(Long orderId, Long offerId) {
         log.info("Starting accept offer...");
-        Order order = get(orderId);
+        var order = get(orderId);
         if (order.getOrderStatus() == OrderStatus.PROCESSED) {
             throw new BusinessException("Order with id " + orderId + " has already been processed.");
         }
@@ -125,7 +122,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
         // Update stock
         medicineStockService.updatePharmacyStock(order.getPharmacy().getId(), orderId);
         // Update offer item status
-        Offer acceptedOffer = offerRepository.findOfferForOrder(offerId, orderId).orElseThrow(() -> new NotFoundException("Cannot find offer with id: " + offerId));
+        var acceptedOffer = offerRepository.findOfferForOrder(offerId, orderId).orElseThrow(() -> new NotFoundException("Cannot find offer with id: " + offerId));
         acceptedOffer.setOfferStatus(OfferStatus.ACCEPTED);
         order.getAvailableOffers().forEach(offer -> {
             if (!offer.getId().equals(acceptedOffer.getId())) {
@@ -139,8 +136,8 @@ public class OrderService extends JPAService<Order> implements IOrderService {
 
     @Override
     public Order addOrderItem(Long orderId, Long medicineId, Integer quantity, Boolean isNew, Double newPrice) {
-        Order order = getValidOrderForUpdate(orderId);
-        Medicine medicine = medicineRepository.findByIdAndActiveTrue(medicineId);
+        var order = getValidOrderForUpdate(orderId);
+        var medicine = medicineRepository.findByIdAndActiveTrue(medicineId);
         if (medicine == null) {
             throw new NotFoundException("Cannot find medicine with id: " + medicineId);
         }
@@ -159,18 +156,18 @@ public class OrderService extends JPAService<Order> implements IOrderService {
         orderItemRepository.getItemWithMedicine(orderId, medicineId).ifPresent(item -> {
             throw new BusinessException("Medicine is already added to this order.");
         });
-        MedicineOrderInfo item = new MedicineOrderInfo(order, quantity, medicine, isNew, newPrice);
+        var item = new MedicineOrderInfo(order, quantity, medicine, isNew, newPrice);
         order.getOrderItems().add(item);
         return order;
     }
 
     @Override
     public Order removeOrderItem(Long orderId, Long itemId) {
-        Order order = getValidOrderForUpdate(orderId);
+        var order = getValidOrderForUpdate(orderId);
         if (orderItemRepository.getItemsForOrderStream(orderId).count() == 1 && order.getOrderStatus() == OrderStatus.WAITING_FOR_OFFERS) {
             throw new BusinessException("Cannot leave the order empty. Add something and then try to remove items.");
         }
-        MedicineOrderInfo item = orderItemRepository.findItemForOrder(order.getId(), itemId).orElseThrow(() -> new NotFoundException("Cannot find item with id: " + itemId));
+        var item = orderItemRepository.findItemForOrder(order.getId(), itemId).orElseThrow(() -> new NotFoundException("Cannot find item with id: " + itemId));
         item.setActive(false);
         order.getOrderItems().remove(item);
         return order;
@@ -178,7 +175,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
 
     @Override
     public Page<MedicineOrderInfo> getOrderItems(Pharmacy pharmacy, Long orderId, String name, Pageable pageable) {
-        Order order = get(orderId);
+        var order = get(orderId);
         if (!order.getPharmacy().getId().equals(pharmacy.getId())) {
             throw new BusinessException("Order does not belong to this pharmacy.");
         }
@@ -187,7 +184,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
 
     @Override
     public Order publish(Long orderId) {
-        Order order = get(orderId);
+        var order = get(orderId);
         if (order.getOrderStatus() != OrderStatus.IN_CREATION) {
             throw new BusinessException("Order is already published.");
         }
@@ -198,15 +195,15 @@ public class OrderService extends JPAService<Order> implements IOrderService {
 
     @Override
     public Order updateOrder(Long orderId, LocalDateTime dueDate) {
-        Order order = getValidOrderForUpdate(orderId);
+        var order = getValidOrderForUpdate(orderId);
         order.setDueDate(dueDate);
         return order;
     }
 
     @Override
     public Order updateOrderItem(Long orderId, Long itemId, Integer quantity) {
-        Order order = getValidOrderForUpdate(orderId);
-        MedicineOrderInfo item = orderItemRepository.findItemForOrder(order.getId(), itemId).orElseThrow(() -> new NotFoundException("Cannot find order item with id: " + itemId));
+        var order = getValidOrderForUpdate(orderId);
+        var item = orderItemRepository.findItemForOrder(order.getId(), itemId).orElseThrow(() -> new NotFoundException("Cannot find order item with id: " + itemId));
         item.setQuantity(quantity);
         return order;
     }
@@ -218,7 +215,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
 
     @Override
     public void delete(Long id) {
-        Order order = get(id);
+        var order = get(id);
         if (order.getOrderStatus() == OrderStatus.PROCESSED) {
             throw new BusinessException("Cannot delete processed order.");
         }
@@ -230,7 +227,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
     }
 
     private Order getValidOrderForUpdate(Long orderId) {
-        Order order = get(orderId);
+        var order = get(orderId);
         if (order.getOrderStatus() == OrderStatus.PROCESSED) {
             throw new BusinessException("Cannot modify processed order.");
         }

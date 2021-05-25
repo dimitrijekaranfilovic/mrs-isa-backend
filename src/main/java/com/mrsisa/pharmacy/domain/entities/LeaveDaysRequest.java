@@ -4,10 +4,8 @@ import com.mrsisa.pharmacy.domain.enums.LeaveDaysRequestStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.Rejection;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "leave_days_request")

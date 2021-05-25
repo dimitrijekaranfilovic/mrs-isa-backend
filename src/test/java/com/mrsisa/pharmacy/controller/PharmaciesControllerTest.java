@@ -38,7 +38,7 @@ public class PharmaciesControllerTest {
     }
 
     @Test
-    public void testGetPharmacies() throws Exception {
+    void testGetPharmacies() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "?page=0&size=" + PAGE_SIZE_PHARMACIES)).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.content", hasSize(PAGE_SIZE_PHARMACIES)))

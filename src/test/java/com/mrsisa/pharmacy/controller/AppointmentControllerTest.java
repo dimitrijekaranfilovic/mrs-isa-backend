@@ -43,7 +43,7 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    public void testGetExaminedPatients() throws Exception {
+    void testGetExaminedPatients() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL_PREFIX + "allExamined/" + DB_ANDREA_TODOROVIC_ID)
                 .contentType(contentType)
                 .param("firstName", PATIENT_FIRST_NAME)
@@ -61,7 +61,7 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    public void testGetAllLeaveDates() throws Exception {
+    void testGetAllLeaveDates() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL_PREFIX +  "leaveDates/" + DB_ANDREA_TODOROVIC_ID)
                 .contentType(contentType)
                 .param("dateFrom", LEAVE_FROM_DATE)

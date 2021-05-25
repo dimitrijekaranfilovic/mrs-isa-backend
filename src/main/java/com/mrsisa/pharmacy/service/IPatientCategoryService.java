@@ -1,6 +1,5 @@
 package com.mrsisa.pharmacy.service;
 
-import com.mrsisa.pharmacy.domain.entities.Patient;
 import com.mrsisa.pharmacy.domain.entities.PatientCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,14 +1,11 @@
 package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
-import com.mrsisa.pharmacy.domain.entities.PharmacyAdmin;
 import com.mrsisa.pharmacy.service.IPharmacyAdminService;
 import com.mrsisa.pharmacy.service.IPharmacyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.persistence.EntityNotFoundException;
-import java.security.Principal;
 
 public abstract class PharmacyControllerBase {
 

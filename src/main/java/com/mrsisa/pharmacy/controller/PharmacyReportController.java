@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.aspect.OwnsPharmacy;
 import com.mrsisa.pharmacy.domain.aggregates.AppointmentStatistics;
 import com.mrsisa.pharmacy.domain.aggregates.IncomeStatistics;
 import com.mrsisa.pharmacy.domain.aggregates.MedicinePurchaseStatistics;
-import com.mrsisa.pharmacy.domain.entities.Medicine;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.enums.EmployeeType;
 import com.mrsisa.pharmacy.domain.enums.IncomeReportType;
@@ -22,15 +21,13 @@ import java.util.List;
 @RequestMapping("/api/pharmacies")
 public class PharmacyReportController extends PharmacyControllerBase {
 
-    private final IMedicineService medicineService;
     private final IPharmacyReportService pharmacyReportService;
     private final IAppointmentReportService appointmentReportService;
     private final IIncomeReportService incomeReportService;
 
     @Autowired
-    public PharmacyReportController(IPharmacyService pharmacyService, IPharmacyAdminService pharmacyAdminService, IMedicineService medicineService, IPharmacyReportService pharmacyReportService, IAppointmentReportService appointmentReportService, IIncomeReportService incomeReportService) {
+    public PharmacyReportController(IPharmacyService pharmacyService, IPharmacyAdminService pharmacyAdminService, IPharmacyReportService pharmacyReportService, IAppointmentReportService appointmentReportService, IIncomeReportService incomeReportService) {
         super(pharmacyService, pharmacyAdminService);
-        this.medicineService = medicineService;
         this.pharmacyReportService = pharmacyReportService;
         this.appointmentReportService = appointmentReportService;
         this.incomeReportService = incomeReportService;
@@ -40,9 +37,9 @@ public class PharmacyReportController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/purchased-medicines")
     public List<MedicinePurchaseStatistics> getMonthlyMedicineReport(@PathVariable("id") Long id, @RequestParam("medicineIds") List<Long> medicineIds, @RequestParam(name = "from") String from, @RequestParam(name = "to") String to, @RequestParam(name = "type") ReportType reportType) {
-        Pharmacy pharmacy = pharmacyService.get(id);
-        LocalDate fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-        LocalDate toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
+        var pharmacy = pharmacyService.get(id);
+        var fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+        var toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
         return pharmacyReportService.getMedicinePurchaseStatistics(medicineIds, pharmacy, fromTime, toTime, reportType);
     }
 
@@ -50,9 +47,9 @@ public class PharmacyReportController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/purchased-medicines/barchart")
     public MedicinePurchaseStatistics getMonthlyMedicineReport(@PathVariable("id") Long id, @RequestParam(name = "from") String from, @RequestParam(name = "to") String to, @RequestParam(name = "type") ReportType reportType) {
-        Pharmacy pharmacy = pharmacyService.get(id);
-        LocalDate fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-        LocalDate toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
+        var pharmacy = pharmacyService.get(id);
+        var fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+        var toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
         return pharmacyReportService.getMedicinePurchaseBarchart(pharmacy, fromTime, toTime, reportType);
     }
 
@@ -60,9 +57,9 @@ public class PharmacyReportController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/appointments-report")
     public List<AppointmentStatistics> getAppointmentsReport(@PathVariable("id") Long id, @RequestParam(name = "from") String from, @RequestParam(name = "to") String to, @RequestParam(name = "type") ReportType reportType, @RequestParam(name = "employeeTypes") List<EmployeeType> employeeTypes) {
-        Pharmacy pharmacy = pharmacyService.get(id);
-        LocalDate fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-        LocalDate toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
+        var pharmacy = pharmacyService.get(id);
+        var fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+        var toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
         return appointmentReportService.getAppointmentReport(pharmacy, fromTime, toTime, reportType, employeeTypes);
     }
 
@@ -70,9 +67,9 @@ public class PharmacyReportController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/appointments-report/barchart")
     public AppointmentStatistics getAppointmentsReport(@PathVariable("id") Long id, @RequestParam(name = "from") String from, @RequestParam(name = "to") String to, @RequestParam(name = "type") ReportType reportType) {
-        Pharmacy pharmacy = pharmacyService.get(id);
-        LocalDate fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-        LocalDate toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
+        var pharmacy = pharmacyService.get(id);
+        var fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+        var toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
         return appointmentReportService.getAppointmentBarchartReport(pharmacy, fromTime, toTime, reportType);
     }
 
@@ -80,9 +77,9 @@ public class PharmacyReportController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/income-report")
     public List<IncomeStatistics> getIncomeReport(@PathVariable("id") Long id, @RequestParam(name = "from") String from, @RequestParam(name = "to") String to, @RequestParam(name = "type") ReportType reportType, @RequestParam(name = "incomeTypes") List<IncomeReportType> incomeReportTypes) {
-        Pharmacy pharmacy = pharmacyService.get(id);
-        LocalDate fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-        LocalDate toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
+        var pharmacy = pharmacyService.get(id);
+        var fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+        var toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
         return incomeReportService.getIncomeReport(pharmacy, fromTime, toTime, reportType, incomeReportTypes);
     }
 
@@ -90,9 +87,9 @@ public class PharmacyReportController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/income-report/barchart")
     public IncomeStatistics getIncomeReport(@PathVariable("id") Long id, @RequestParam(name = "from") String from, @RequestParam(name = "to") String to, @RequestParam(name = "type") ReportType reportType) {
-        Pharmacy pharmacy = pharmacyService.get(id);
-        LocalDate fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
-        LocalDate toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
+        var pharmacy = pharmacyService.get(id);
+        var fromTime = LocalDate.parse(from, DateTimeFormatter.ISO_DATE);
+        var toTime = LocalDate.parse(to, DateTimeFormatter.ISO_DATE);
         return incomeReportService.getIncomeBarchartReport(pharmacy, fromTime, toTime, reportType);
     }
 }

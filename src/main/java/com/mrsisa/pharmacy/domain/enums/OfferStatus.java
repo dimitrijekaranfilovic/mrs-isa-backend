@@ -12,6 +12,7 @@ public enum OfferStatus {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:
@@ -20,7 +21,8 @@ public enum OfferStatus {
                 return "Pending";
             case 2:
                 return "Rejected";
+            default:
+                return null;
         }
-        return null;
     }
 }

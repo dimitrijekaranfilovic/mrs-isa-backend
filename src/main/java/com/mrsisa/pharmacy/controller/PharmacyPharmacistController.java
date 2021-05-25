@@ -41,7 +41,7 @@ public class PharmacyPharmacistController extends PharmacyControllerBase {
 
     @GetMapping(value = "/{id}/pharmacists")
     public Page<EmployeeDTO> getPharmacists(@PathVariable("id") Long id, @Valid EmployeeSearchDTO searchDTO, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<PharmacyEmployee> employeePage = pharmacyEmployeeService.getPharmacyPharmacists(pharmacy, searchDTO.getFirstName().toLowerCase().trim(),
                 searchDTO.getLastName().toLowerCase().trim(), searchDTO.getGradeLow(), searchDTO.getGradeHigh(), pageable);
         return employeePage.map(toEmployeeDTO::convert);
@@ -52,8 +52,8 @@ public class PharmacyPharmacistController extends PharmacyControllerBase {
     @PostMapping(value = "/{id}/pharmacists")
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDTO registerPharmacist(@PathVariable("id") Long id, @Valid @RequestBody PharmacistRegistrationDTO pharmacistRegistrationDTO) {
-        Pharmacy pharmacy = pharmacyService.getByIdWithEmployees(id);
-        PharmacyEmployee pharmacyEmployee = toPharmacyEmployee.convert(pharmacistRegistrationDTO);
+        var pharmacy = pharmacyService.getByIdWithEmployees(id);
+        var pharmacyEmployee = toPharmacyEmployee.convert(pharmacistRegistrationDTO);
         pharmacyEmployee = pharmacyEmployeeService.registerPharmacist(pharmacy, pharmacyEmployee, toWorkingDay.convert(pharmacistRegistrationDTO.getWorkingDays()));
         return toEmployeeDTO.convert(pharmacyEmployee);
     }
@@ -63,8 +63,8 @@ public class PharmacyPharmacistController extends PharmacyControllerBase {
     @DeleteMapping(value = "/{id}/pharmacists/{pharmacistId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void firePharmacist(@PathVariable("id") Long pharmacyId, @PathVariable("pharmacistId") Long pharmacistId) {
-        Pharmacy pharmacy = getOr404(pharmacyId);
-        PharmacyEmployee pharmacist = pharmacyEmployeeService.getPharmacistById(pharmacistId);
+        var pharmacy = getOr404(pharmacyId);
+        var pharmacist = pharmacyEmployeeService.getPharmacistById(pharmacistId);
         pharmacyEmployeeService.firePharmacist(pharmacy, pharmacist);
     }
 }

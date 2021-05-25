@@ -15,7 +15,7 @@ public class OptimisticLockAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {OptimisticLockingFailureException.class })
     protected ResponseEntity<Object> handleConflict(
             RuntimeException ex, WebRequest request) {
-        ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT,  "You are viewing an older version of data. Please refresh the page.");
+        var response = new ErrorResponse(HttpStatus.CONFLICT,  "You are viewing an older version of data. Please refresh the page.");
         return handleExceptionInternal(ex, response, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 }

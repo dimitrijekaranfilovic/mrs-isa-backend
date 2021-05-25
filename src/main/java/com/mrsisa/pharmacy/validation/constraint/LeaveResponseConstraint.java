@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.validation.constraint;
 
 import com.mrsisa.pharmacy.validation.validator.LeaveResponseValidator;
-import com.mrsisa.pharmacy.validation.validator.WorkingHoursValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

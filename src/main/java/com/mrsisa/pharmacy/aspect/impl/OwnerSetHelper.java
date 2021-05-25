@@ -17,7 +17,7 @@ public class OwnerSetHelper {
 
     @Transactional
     public <T extends BaseEntity> void throwIfNotOwner(ICRUDService<T> service, Long id, Method ownerMethod, User user) throws InvocationTargetException, IllegalAccessException {
-        T entity = service.get(id);
+        var entity = service.get(id);
         Set<?> owners = (Set<?>) ownerMethod.invoke(entity);
         owners.stream().filter(o -> {
            User owner = (User) o;

@@ -45,7 +45,7 @@ public class PharmacyAppointmentController extends PharmacyControllerBase {
 
     @GetMapping(value = "/{id}/dermatologist-appointments/all")
     public List<AppointmentRangeResultDTO> getPharmacyAvailableDermatologistAppointments(@PathVariable("id") Long id, @RequestParam("from") String fromTime, @RequestParam("to") String toTime) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         List<Appointment> appointmentPage = appointmentService.getAvailableDermatologistAppointmentsForPharmacy(pharmacy,
                 LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME), LocalDateTime.parse(toTime, DateTimeFormatter.ISO_DATE_TIME));
         return (List<AppointmentRangeResultDTO>) toAppointmentRangeDTO.convert(appointmentPage);
@@ -74,7 +74,7 @@ public class PharmacyAppointmentController extends PharmacyControllerBase {
 
     @GetMapping(value = "/{id}/dermatologist-appointments")
     public Page<AppointmentDTO> getAvailableDermatologistAppointments(@PathVariable("id") Long id, @PageableDefault Pageable pageable) {
-        Pharmacy pharmacy = getOr404(id);
+        var pharmacy = getOr404(id);
         Page<Appointment> appointmentPage = appointmentService.getAvailableDermatologistAppointmentsForPharmacy(pharmacy, pageable);
         return appointmentPage.map(toAppointmentDTO::convert);
     }
@@ -83,7 +83,7 @@ public class PharmacyAppointmentController extends PharmacyControllerBase {
     @OwnsPharmacy(identifier = "id")
     @PutMapping(value = "/{id}/appointments/price")
     public PharmacyDTO updateAppointmentPrice(@PathVariable("id") Long id, @Valid @RequestBody UpdateAppointmentPriceDTO updateAppointmentPriceDTO) {
-        Pharmacy updated = pharmacyService.updateAppointmentPrices(id, updateAppointmentPriceDTO.getPharmacistAppointmentPrice(), updateAppointmentPriceDTO.getDermatologistAppointmentPrice());
+        var updated = pharmacyService.updateAppointmentPrices(id, updateAppointmentPriceDTO.getPharmacistAppointmentPrice(), updateAppointmentPriceDTO.getDermatologistAppointmentPrice());
         return toPharmacyDTO.convert(updated);
     }
 
@@ -92,7 +92,7 @@ public class PharmacyAppointmentController extends PharmacyControllerBase {
     @PostMapping(value = "/{id}/appointments")
     @ResponseStatus(HttpStatus.CREATED)
     public AppointmentDTO createAvailableAppointment(@PathVariable("id") Long id, @Valid @RequestBody AvailableAppointmentCreationDTO dto) {
-        Appointment created = appointmentService.createAvailableAppointment(id, dto.getEmployeeId(), dto.getFromTime(), dto.getToTime());
+        var created = appointmentService.createAvailableAppointment(id, dto.getEmployeeId(), dto.getFromTime(), dto.getToTime());
         return toAppointmentDTO.convert(created);
     }
 }

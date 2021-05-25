@@ -58,9 +58,9 @@ public class ComplaintService extends JPAService<Complaint> implements IComplain
         if(complaint.getReply() != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Complaint with id " + complaint.getId() + " has already been replied to.");
 
-        SystemAdmin admin = adminOptional.get();
+        var admin = adminOptional.get();
 
-        ComplaintReply reply = new ComplaintReply(content, LocalDateTime.now(), admin, complaint);
+        var reply = new ComplaintReply(content, LocalDateTime.now(), admin, complaint);
         complaint.setReply(reply);
         return reply;
     }

@@ -56,7 +56,7 @@ public class PatientsControllerTest {
     }
 
     @Test
-    public void testGetPastDermatologistAppointments() throws Exception {
+    void testGetPastDermatologistAppointments() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL_PREFIX + "/" + 5 + "/past-dermatologist-appointments"
                 + "?name=&page=0&size=" + PAGE_SIZE_PAST_APPOINTMENTS)
                 .header("Authorization", "Bearer " + token))
@@ -85,7 +85,7 @@ public class PatientsControllerTest {
 
     @Test
     @Transactional
-    public void testRateEmployee() throws Exception {
+    void testRateEmployee() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put(URL_PREFIX + "/" + DB_DEJAN_DJORDJEVIC_ID + "/employees/"
                 + RATE_EMPLOYEE_ID
                 + "/rating")
@@ -98,7 +98,7 @@ public class PatientsControllerTest {
 
     @Test
     @Transactional
-    public void testRateEmployeeNoPreviousAppointmentError() throws Exception {
+    void testRateEmployeeNoPreviousAppointmentError() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put(URL_PREFIX + "/" + DB_DEJAN_DJORDJEVIC_ID + "/employees/"
                 + RATE_EMPLOYEE_ID_WRONG
                 + "/rating")

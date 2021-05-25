@@ -109,7 +109,7 @@ public class PatientController {
     @OwningPatientNotPenalized(actionName = "scheduling of dermatologist appointment")
     public AppointmentDTO bookDermatologistAppointment(@PathVariable("id") Long id,
                                                        @PathVariable("appointmentId") Long appointmentId) {
-        Appointment scheduled = this.appointmentService.bookDermatologistAppointment(id, appointmentId);
+        var scheduled = this.appointmentService.bookDermatologistAppointment(id, appointmentId);
         this.emailService.sendDermatologistAppointmentScheduledMessage(scheduled);
         return toAppointmentDTO.convert(scheduled);
     }
@@ -119,7 +119,7 @@ public class PatientController {
     @OwningPatientNotPenalized(actionName = "scheduling of pharmacist appointment")
     public AppointmentDTO bookPharmacistAppointment(@PathVariable("id") Long id,
                                                     @PathVariable("appointmentId") Long appointmentId) {
-        Appointment scheduled = this.appointmentService.bookPharmacistAppointment(id, appointmentId);
+        var scheduled = this.appointmentService.bookPharmacistAppointment(id, appointmentId);
         this.emailService.sendPharmacistAppointmentScheduledMessage(scheduled);
         return toAppointmentDTO.convert(scheduled);
     }
@@ -160,7 +160,7 @@ public class PatientController {
     @ResponseStatus(value = HttpStatus.OK)
     public RatingDTO getPatientRatingForPharmacy(@PathVariable("id") Long id,
                                                  @PathVariable("pharmacyId") Long pharmacyId) {
-        Review review = this.pharmacyService.getPatientReviewForPharmacy(id, pharmacyId);
+        var review = this.pharmacyService.getPatientReviewForPharmacy(id, pharmacyId);
         if (review == null) {
             return new RatingDTO();
         }
@@ -222,7 +222,7 @@ public class PatientController {
     @GetMapping(value = "/{id}/scheduled-dermatologist-appointments/calendar")
     public List<AppointmentRangeResultDTO> getPatientScheduledDermatologistAppointmentsCalendar(
             @PathVariable("id") Long id, @RequestParam("from") String fromTime, @RequestParam("to") String toTime) {
-        Patient patient = getOr404(id);
+        var patient = getOr404(id);
         List<Appointment> appointmentPage = appointmentService.
                 getScheduledAppointmentsForPatient(patient, EmployeeType.DERMATOLOGIST,
                         LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME),
@@ -233,7 +233,7 @@ public class PatientController {
     @GetMapping(value = "/{id}/scheduled-pharmacist-appointments/calendar")
     public List<AppointmentRangeResultDTO> getPatientScheduledPharmacistAppointmentsCalendar(
             @PathVariable("id") Long id, @RequestParam("from") String fromTime, @RequestParam("to") String toTime) {
-        Patient patient = getOr404(id);
+        var patient = getOr404(id);
         List<Appointment> appointmentPage = appointmentService.
                 getScheduledAppointmentsForPatient(patient, EmployeeType.PHARMACIST,
                         LocalDateTime.parse(fromTime, DateTimeFormatter.ISO_DATE_TIME),
@@ -275,7 +275,7 @@ public class PatientController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @OwningUser
     public MedicineDetailsDTO addPatientAllergy(@PathVariable("id") Long id, @PathVariable("medicineId") Long medicineId) {
-        Medicine med = this.medicineService.getMedicine(medicineId);
+        var med = this.medicineService.getMedicine(medicineId);
         return toMedicineDetailsDTO.convert(this.patientService.addPatientAllergy(id, med));
     }
 
@@ -324,7 +324,7 @@ public class PatientController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @OwningUser
     public PatientCategory getNextCategoryForPatient(@PathVariable("id") Long id){
-        Patient patient = this.patientService.getPatientByIdAndActive(id);
+        var patient = this.patientService.getPatientByIdAndActive(id);
         if(patient == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + id + " does not exist.");
         return this.patientCategoryService.getNextCategory(patient.getNumPoints());
@@ -334,7 +334,7 @@ public class PatientController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @OwningUser
     public PatientCategory getCurrentPatientCategory(@PathVariable("id") Long id){
-        Patient patient = this.patientService.getPatientByIdAndActive(id);
+        var patient = this.patientService.getPatientByIdAndActive(id);
         if(patient == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + id + " does not exist.");
         return patient.getPatientCategory();
@@ -361,7 +361,7 @@ public class PatientController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @OwningUser
     public AppointmentDTO getAppointment(@PathVariable("id") Long id, @PathVariable("appointmentId") Long appointmentId) {
-        Appointment a = this.appointmentService.getPatientAppointmentById(appointmentId, id);
+        var a = this.appointmentService.getPatientAppointmentById(appointmentId, id);
         return this.toAppointmentDTO.convert(a);
     }
 
@@ -370,7 +370,7 @@ public class PatientController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @OwningUser
     public MedicineReservationDTO getReservation(@PathVariable("id") Long id, @PathVariable("reservationId") Long reservationId) {
-        MedicineReservation mr = this.medicineReservationService.getPatientReservationById(reservationId, id);
+        var mr = this.medicineReservationService.getPatientReservationById(reservationId, id);
         return this.toMedicineReservationDTO.convert(mr);
     }
 
@@ -379,7 +379,7 @@ public class PatientController {
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     @OwningPatientNotPenalized(actionName = "e-recipe drug reservation")
     public RecipeDTO createRecipe(@PathVariable("id") Long id, @RequestBody RecipeCreationDTO dto) {
-        Recipe recipe = this.patientService.createRecipe(id, dto.getPharmacyId(), dto.getStocks());
+        var recipe = this.patientService.createRecipe(id, dto.getPharmacyId(), dto.getStocks());
         this.emailService.sendRecipeConfirmationMail(recipe.getPatient(), recipe);
         return toRecipeDTO.convert(recipe);
     }
@@ -411,7 +411,7 @@ public class PatientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO registerPatient(@Valid @RequestBody PatientRegistrationDTO dto) {
-        Patient patient = this.patientService
+        var patient = this.patientService
                 .registerPatient(dto.getFirstName(), dto.getLastName(), dto.getUsername(),
                         dto.getPassword(), dto.getEmail(), dto.getPhoneNumber(), dto.getAddress());
         VerificationToken token = new VerificationToken(patient);
@@ -430,7 +430,7 @@ public class PatientController {
 
     @GetMapping(value = "/activate")
     public VerificationDTO activateAccount(@RequestParam("token") String token) {
-        VerificationToken verificationToken = this.verificationTokenRepository.findByToken(token);
+        var verificationToken = this.verificationTokenRepository.findByToken(token);
         if (verificationToken == null)
             return new VerificationDTO(false, "Activation failed.");
         else {

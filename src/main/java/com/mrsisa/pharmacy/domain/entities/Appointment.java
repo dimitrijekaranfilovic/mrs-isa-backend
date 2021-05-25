@@ -5,14 +5,8 @@ import com.mrsisa.pharmacy.domain.valueobjects.Report;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 @Entity
 @Table(name = "appointment")

@@ -41,7 +41,7 @@ public class OrderServiceTest {
 
     @Test
     @Transactional
-    public void testPublishOrder() {
+    void testPublishOrder() {
         // Create dummy data
         Order order = new Order();
         order.setId(789L);

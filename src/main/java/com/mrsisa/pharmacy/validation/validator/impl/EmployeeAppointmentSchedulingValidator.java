@@ -39,7 +39,7 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
 
     @Override
     public void isValid(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO) {
-        EmploymentContract employmentContract = employmentContractService.getContractWithPharmacy(employeeAppointmentSchedulingDTO.getEmployeeId(),
+        var employmentContract = employmentContractService.getContractWithPharmacy(employeeAppointmentSchedulingDTO.getEmployeeId(),
                 employeeAppointmentSchedulingDTO.getPharmacyId());
         appointmentService.getScheduledAppointmentForPatientAndEmployee(employmentContract.getId(), employeeAppointmentSchedulingDTO.getPatientId());
 
@@ -55,8 +55,8 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
     }
 
     private void checkFromAndToDates(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO) {
-        LocalDateTime from = employeeAppointmentSchedulingDTO.getFrom();
-        LocalDateTime to = employeeAppointmentSchedulingDTO.getTo();
+        var from = employeeAppointmentSchedulingDTO.getFrom();
+        var to = employeeAppointmentSchedulingDTO.getTo();
 
 
         if (from.isBefore(LocalDateTime.now()) || to.isBefore(LocalDateTime.now())) {
@@ -73,10 +73,10 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
     }
 
     private void checkLeaveDaysRequestOverlapping(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO) {
-        LocalDateTime from = employeeAppointmentSchedulingDTO.getFrom();
-        LocalDateTime to = employeeAppointmentSchedulingDTO.getTo();
+        var from = employeeAppointmentSchedulingDTO.getFrom();
+        var to = employeeAppointmentSchedulingDTO.getTo();
 
-        Appointment firstAppointment = new Appointment(from, to,
+        var firstAppointment = new Appointment(from, to,
                 0.0, AppointmentStatus.BOOKED,
                 null);
 
@@ -97,12 +97,12 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
     }
 
     private void checkWorkingDays(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO) {
-        LocalDateTime from = employeeAppointmentSchedulingDTO.getFrom();
-        LocalDateTime to = employeeAppointmentSchedulingDTO.getTo();
-        DayOfWeek dayOfWeek = employeeAppointmentSchedulingDTO.getFrom().getDayOfWeek();
+        var from = employeeAppointmentSchedulingDTO.getFrom();
+        var to = employeeAppointmentSchedulingDTO.getTo();
+        var dayOfWeek = employeeAppointmentSchedulingDTO.getFrom().getDayOfWeek();
 
-        LocalTime fromTime = LocalTime.of(from.getHour(), from.getMinute());
-        LocalTime toTime = LocalTime.of(to.getHour(), to.getMinute());
+        var fromTime = LocalTime.of(from.getHour(), from.getMinute());
+        var toTime = LocalTime.of(to.getHour(), to.getMinute());
 
         List<WorkingDay> workingDays = new ArrayList<>(employmentContractService.getContractWithPharmacy(employeeAppointmentSchedulingDTO.getEmployeeId(),
                 employeeAppointmentSchedulingDTO.getPharmacyId()).getWorkingHours());
@@ -137,7 +137,7 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
     }
 
     private void checkAppointmentOverlapping(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO, Appointment appointment) {
-        Appointment firstAppointment = new Appointment(employeeAppointmentSchedulingDTO.getFrom(), employeeAppointmentSchedulingDTO.getTo(),
+        var firstAppointment = new Appointment(employeeAppointmentSchedulingDTO.getFrom(), employeeAppointmentSchedulingDTO.getTo(),
                 0.0, AppointmentStatus.BOOKED,
                 null);
 

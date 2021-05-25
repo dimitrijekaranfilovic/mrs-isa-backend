@@ -3,8 +3,6 @@ package com.mrsisa.pharmacy.service.impl;
 
 import com.mrsisa.pharmacy.domain.entities.*;
 import com.mrsisa.pharmacy.domain.enums.LeaveDaysRequestStatus;
-import com.mrsisa.pharmacy.domain.enums.OfferStatus;
-import com.mrsisa.pharmacy.repository.IOrderRepository;
 import com.mrsisa.pharmacy.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -30,7 +28,7 @@ public class EmailService implements IEmailService {
     @Override
     @Async
     public void sendSimpleMessage(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
+        var message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -74,9 +72,9 @@ public class EmailService implements IEmailService {
     @Override
     @Async
     public void sendConfirmationMessage(String username, String to, String activationLink) throws MessagingException {
-        StringBuilder msgContent = new StringBuilder();
+        var msgContent = new StringBuilder();
 
-        MimeMessage message = mailSender.createMimeMessage();
+        var message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
 
@@ -100,11 +98,7 @@ public class EmailService implements IEmailService {
         helper.setText(msgContent.toString(), true);
 
         mailSender.send(message);
-//        MimeMessage message = mailSender.createMimeMessage();
-//
-//        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-//        helper.setTo(to);
-//        helper.setSubject("Testing from Spring Boot");
+
     }
 
     @Override
