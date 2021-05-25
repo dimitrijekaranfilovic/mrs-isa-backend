@@ -1,14 +1,12 @@
 package com.mrsisa.pharmacy.aspect.impl;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
-import com.mrsisa.pharmacy.domain.entities.User;
 import com.mrsisa.pharmacy.service.IUserService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;

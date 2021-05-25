@@ -7,7 +7,6 @@ import com.mrsisa.pharmacy.dto.medicine.MedicineDTO;
 import com.mrsisa.pharmacy.dto.medicine.MedicineDetailsDTO;
 import com.mrsisa.pharmacy.dto.medicine.MedicineRegistrationDTO;
 import com.mrsisa.pharmacy.dto.medicine.MedicineSearchDTO;
-import com.mrsisa.pharmacy.service.IEmploymentContractService;
 import com.mrsisa.pharmacy.service.IMedicineService;
 import com.mrsisa.pharmacy.support.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;

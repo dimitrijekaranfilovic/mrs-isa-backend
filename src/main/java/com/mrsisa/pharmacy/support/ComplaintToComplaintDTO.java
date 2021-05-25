@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.support;
 
 import com.mrsisa.pharmacy.domain.entities.Complaint;
-import com.mrsisa.pharmacy.domain.entities.ComplaintReply;
 import com.mrsisa.pharmacy.dto.complaint.ComplaintDTO;
 import com.mrsisa.pharmacy.dto.complaint.ComplaintReplyDTO;
 import org.springframework.stereotype.Component;

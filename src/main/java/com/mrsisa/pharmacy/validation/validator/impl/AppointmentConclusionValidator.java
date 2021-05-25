@@ -1,11 +1,8 @@
 package com.mrsisa.pharmacy.validation.validator.impl;
 
-import com.mrsisa.pharmacy.domain.entities.Appointment;
-import com.mrsisa.pharmacy.domain.entities.EmploymentContract;
 import com.mrsisa.pharmacy.domain.entities.MedicineStock;
 import com.mrsisa.pharmacy.domain.enums.AppointmentStatus;
 import com.mrsisa.pharmacy.dto.appointment.AppointmentConclusionDTO;
-import com.mrsisa.pharmacy.dto.stock.MedicineStockConcludeDTO;
 import com.mrsisa.pharmacy.service.IAppointmentService;
 import com.mrsisa.pharmacy.service.IEmploymentContractService;
 import com.mrsisa.pharmacy.service.IMedicineStockService;

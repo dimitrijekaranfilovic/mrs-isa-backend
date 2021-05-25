@@ -1,6 +1,5 @@
 package com.mrsisa.pharmacy.validation.validator.impl;
 
-import com.mrsisa.pharmacy.domain.entities.EmploymentContract;
 import com.mrsisa.pharmacy.dto.employee.EmployeeBusyDaysDTO;
 import com.mrsisa.pharmacy.service.IAppointmentService;
 import com.mrsisa.pharmacy.service.IEmploymentContractService;

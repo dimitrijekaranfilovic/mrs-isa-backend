@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -142,7 +141,7 @@ public class EmailService implements IEmailService {
         String subject = "Order " + offer.getOriginalOrder().getId() + " results";
         StringBuilder sb = new StringBuilder();
         sb.append("Dear ").append(offer.getSupplier().getFirstName()).append(",\n\n");
-        assert offer.getOfferStatus().toString() != null;
+        assert !offer.getOfferStatus().toString().equals("");
         String result = offer.getOfferStatus().toString().toLowerCase();
         sb.append("Your offer ").append(offer.getId()).append(" has been ").append(result).append(".\n");
         sb.append("\nAll the best,\n").append(offer.getOriginalOrder().getPharmacy().getName()).append(".");

@@ -33,7 +33,7 @@ public enum MedicineShape {
             case 7:
                 return "Powder";
             default:
-                return null;
+                return "";
         }
     }
 }

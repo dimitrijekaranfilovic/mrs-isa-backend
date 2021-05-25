@@ -1,6 +1,5 @@
 package com.mrsisa.pharmacy.support;
 
-import com.mrsisa.pharmacy.domain.entities.Medicine;
 import com.mrsisa.pharmacy.domain.entities.MedicineStock;
 import com.mrsisa.pharmacy.dto.stock.MedicineStockDetailedDTO;
 import org.springframework.lang.NonNull;

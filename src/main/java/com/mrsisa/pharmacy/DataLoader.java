@@ -42,11 +42,17 @@ public class DataLoader implements ApplicationRunner {
     private final IRecipeRepository recipeRepository;
     private final IPromotionRepository promotionRepository;
     private final ISystemSettingsRepository systemSettingsRepository;
-    private static final String PASSWORD = "test123";
+    
+    private static final String TEST123 = "test123";
     private static final String SERBIA = "Serbia";
     private static final String NOVI_SAD = "Novi Sad";
     private static final String ZIP_CODE = "21101";
-
+    private static final String NINE_AM = "09:00";
+    private static final String FIVE_PM = "17:00";
+    private static final String DATE_1 = "23.06.2021. 09:40";
+    private static final String DATE_2 = "21.03.2021.";
+    
+    
     private final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
     @Autowired
@@ -77,8 +83,8 @@ public class DataLoader implements ApplicationRunner {
     @SuppressWarnings("unused")
     public void run(ApplicationArguments args) throws Exception {
         logger.info("Starting database initialization...");
-        String loremIpsumDescription = "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.";
-        String adminString = "admin";
+        var loremIpsumDescription = "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.";
+        var adminString = "admin";
         // Create authorities
         var systemAdminAuthority = createAuthority("ROLE_SYSTEM_ADMIN");
         var pharmacyAdminAuthority = createAuthority("ROLE_PHARMACY_ADMIN");
@@ -88,9 +94,9 @@ public class DataLoader implements ApplicationRunner {
         var supplierAuthority = createAuthority("ROLE_SUPPLIER");
 
         // Create system admins
-        var systemAdmin1 = new SystemAdmin("Stanko", "Antic", "stankoantic", PASSWORD, "stankoantic@gmail.com", true, true);
+        var systemAdmin1 = new SystemAdmin("Stanko", "Antic", "stankoantic", TEST123, "stankoantic@gmail.com", true, true);
         systemAdmin1.getAuthorities().add(systemAdminAuthority);
-        var systemAdmin2 = new SystemAdmin("Pera", "Zivanovic", "perazivanovic", PASSWORD, "perazivanovic@gmail.com", true, true);
+        var systemAdmin2 = new SystemAdmin("Pera", "Zivanovic", "perazivanovic", TEST123, "perazivanovic@gmail.com", true, true);
         systemAdmin2.getAuthorities().add(systemAdminAuthority);
         var systemAdmin3 = new SystemAdmin(adminString, adminString, adminString, adminString, "admin@gmail.com", true, true);
         systemAdmin3.getAuthorities().add(systemAdminAuthority);
@@ -152,13 +158,13 @@ public class DataLoader implements ApplicationRunner {
         var treccaLocation = new Location(41.890558171850785, 12.506332260870309, new Address("Italy", "Rome", "Via Emanuele Filiberto", "155", "00185"));
         var trecca = new Pharmacy("Trecca Mastrangelli", loremIpsumDescription, treccaLocation);
 
-        var benuAdmin = new PharmacyAdmin("Vidoje", "Gavrilovic", "vidojegavrilovic", PASSWORD, "vidojegavrilovic@gmail.com", true, true, benu);
+        var benuAdmin = new PharmacyAdmin("Vidoje", "Gavrilovic", "vidojegavrilovic", TEST123, "vidojegavrilovic@gmail.com", true, true, benu);
         benuAdmin.getAuthorities().add(pharmacyAdminAuthority);
         benu.getPharmacyAdmins().add(benuAdmin);
-        var drMaxAdmin = new PharmacyAdmin("Mladen", "Gojkovic", "mladengojkovic", PASSWORD, "mladengojkovic@gmail.com", true, true, drMax);
+        var drMaxAdmin = new PharmacyAdmin("Mladen", "Gojkovic", "mladengojkovic", TEST123, "mladengojkovic@gmail.com", true, true, drMax);
         drMaxAdmin.getAuthorities().add(pharmacyAdminAuthority);
         drMax.getPharmacyAdmins().add(drMaxAdmin);
-        var jankovicAdmin = new PharmacyAdmin("Milovan", "Todorovic", "milovantodorovic", PASSWORD, "milovantodorovic@gmail.com", true, true, jankovic);
+        var jankovicAdmin = new PharmacyAdmin("Milovan", "Todorovic", "milovantodorovic", TEST123, "milovantodorovic@gmail.com", true, true, jankovic);
         jankovicAdmin.getAuthorities().add(pharmacyAdminAuthority);
         jankovic.getPharmacyAdmins().add(jankovicAdmin);
         var lillyAdmin = new PharmacyAdmin("root", "root", "root", "root", "root@gmail.com", true, true, lilly);
@@ -217,51 +223,51 @@ public class DataLoader implements ApplicationRunner {
         var dm3 = createPharmacyEmployee("Anastasija", "Bojevic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.4);
 
         // Create employment contracts
-        var ec1 = createEmploymentContract(dm3, benu, "22.03.2021.", getWorkingHours("09:00", "12:00"));
-        var ec2 = createEmploymentContract(ph1, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
+        var ec1 = createEmploymentContract(dm3, benu, "22.03.2021.", getWorkingHours(NINE_AM, "12:00"));
+        var ec2 = createEmploymentContract(ph1, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
 
         // ############## Testing contract ######################################
-        var ec2a = createEmploymentContract(tempPharmacist1, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2b = createEmploymentContract(tempPharmacist2, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2c = createEmploymentContract(tempPharmacist3, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2d = createEmploymentContract(tempPharmacist4, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2e = createEmploymentContract(tempPharmacist5, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2f = createEmploymentContract(tempPharmacist6, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2g = createEmploymentContract(tempPharmacist7, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2h = createEmploymentContract(tempPharmacist8, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2i = createEmploymentContract(tempPharmacist9, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2j = createEmploymentContract(tempPharmacist10, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2k = createEmploymentContract(tempPharmacist11, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2l = createEmploymentContract(tempPharmacist12, benu, "21.03.2021.", getWorkingHours("09:00", "17:00"));
+        var ec2a = createEmploymentContract(tempPharmacist1, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2b = createEmploymentContract(tempPharmacist2, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2c = createEmploymentContract(tempPharmacist3, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2d = createEmploymentContract(tempPharmacist4, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2e = createEmploymentContract(tempPharmacist5, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2f = createEmploymentContract(tempPharmacist6, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2g = createEmploymentContract(tempPharmacist7, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2h = createEmploymentContract(tempPharmacist8, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2i = createEmploymentContract(tempPharmacist9, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2j = createEmploymentContract(tempPharmacist10, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2k = createEmploymentContract(tempPharmacist11, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2l = createEmploymentContract(tempPharmacist12, benu, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
 
-        var tempC = createEmploymentContract(tempDermatologist1, benu, "21.03.2021.", getWorkingHours("18:00", "20:00"));
-        var ec2aa = createEmploymentContract(tempDermatologist1, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2bb = createEmploymentContract(tempDermatologist2, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2cc = createEmploymentContract(tempDermatologist3, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2dd = createEmploymentContract(tempDermatologist4, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2ee = createEmploymentContract(tempDermatologist5, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2ff = createEmploymentContract(tempDermatologist6, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2gg = createEmploymentContract(tempDermatologist7, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2hh = createEmploymentContract(tempDermatologist8, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2ii = createEmploymentContract(tempDermatologist9, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2jj = createEmploymentContract(tempDermatologist10, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2kk = createEmploymentContract(tempDermatologist11, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec2ll = createEmploymentContract(tempDermatologist12, drMax, "21.03.2021.", getWorkingHours("09:00", "17:00"));
+        var tempC = createEmploymentContract(tempDermatologist1, benu, DATE_2, getWorkingHours("18:00", "20:00"));
+        var ec2aa = createEmploymentContract(tempDermatologist1, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2bb = createEmploymentContract(tempDermatologist2, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2cc = createEmploymentContract(tempDermatologist3, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2dd = createEmploymentContract(tempDermatologist4, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2ee = createEmploymentContract(tempDermatologist5, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2ff = createEmploymentContract(tempDermatologist6, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2gg = createEmploymentContract(tempDermatologist7, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2hh = createEmploymentContract(tempDermatologist8, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2ii = createEmploymentContract(tempDermatologist9, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2jj = createEmploymentContract(tempDermatologist10, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2kk = createEmploymentContract(tempDermatologist11, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec2ll = createEmploymentContract(tempDermatologist12, drMax, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
         // ##################################################################################################################
-        var ec3 = createEmploymentContract(ph2, benu, "22.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec4 = createEmploymentContract(dm1, benu, "21.03.2021.", getWorkingHours("09:00", "14:00"));
-        var ec5 = createEmploymentContract(dm1, drMax, "22.03.2021.", getWorkingHours("15:00", "17:00"));
-        var ec6 = createEmploymentContract(ph3, drMax, "23.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec7 = createEmploymentContract(ph4, drMax, "22.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec8 = createEmploymentContract(dm2, drMax, "21.03.2021.", getWorkingHours("09:00", "11:00"));
-        var ec9 = createEmploymentContract(dm2, jankovic, "24.03.2021.", getWorkingHours("11:30", "17:00"));
-        var ec10 = createEmploymentContract(ph5, jankovic, "22.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec11 = createEmploymentContract(ph6, jankovic, "21.03.2021.", getWorkingHours("09:00", "17:00"));
-        var ec12 = createEmploymentContract(dm3, jankovic, "23.03.2021.", getWorkingHours("14:00", "17:00"));
+        var ec3 = createEmploymentContract(ph2, benu, "22.03.2021.", getWorkingHours(NINE_AM, FIVE_PM));
+        var ec4 = createEmploymentContract(dm1, benu, DATE_2, getWorkingHours(NINE_AM, "14:00"));
+        var ec5 = createEmploymentContract(dm1, drMax, "22.03.2021.", getWorkingHours("15:00", FIVE_PM));
+        var ec6 = createEmploymentContract(ph3, drMax, "23.03.2021.", getWorkingHours(NINE_AM, FIVE_PM));
+        var ec7 = createEmploymentContract(ph4, drMax, "22.03.2021.", getWorkingHours(NINE_AM, FIVE_PM));
+        var ec8 = createEmploymentContract(dm2, drMax, DATE_2, getWorkingHours(NINE_AM, "11:00"));
+        var ec9 = createEmploymentContract(dm2, jankovic, "24.03.2021.", getWorkingHours("11:30", FIVE_PM));
+        var ec10 = createEmploymentContract(ph5, jankovic, "22.03.2021.", getWorkingHours(NINE_AM, FIVE_PM));
+        var ec11 = createEmploymentContract(ph6, jankovic, DATE_2, getWorkingHours(NINE_AM, FIVE_PM));
+        var ec12 = createEmploymentContract(dm3, jankovic, "23.03.2021.", getWorkingHours("14:00", FIVE_PM));
 
         // Create suppliers
-        var testSupplier = new Supplier("Dusan", "Erdeljan", "dusanerdeljan", PASSWORD, "dusanerdeljan99@gmail.com", true, true, "Moja kompanija");
-        var testSupplier1 = new Supplier("Dusan", "Erdeljan", "dusanerdeljan1", PASSWORD, "dusanerdeljan858@gmail.com", true, true, "Moja kompanija");
+        var testSupplier = new Supplier("Dusan", "Erdeljan", "dusanerdeljan", TEST123, "dusanerdeljan99@gmail.com", true, true, "Moja kompanija");
+        var testSupplier1 = new Supplier("Dusan", "Erdeljan", "dusanerdeljan1", TEST123, "dusanerdeljan858@gmail.com", true, true, "Moja kompanija");
         testSupplier.getAuthorities().add(supplierAuthority);
         testSupplier1.getAuthorities().add(supplierAuthority);
         userRepository.save(testSupplier);
@@ -404,19 +410,19 @@ public class DataLoader implements ApplicationRunner {
         var a38 = createAvailableAppointment("22.06.2021. 12:30", "22.06.2021. 15:30",3000,ec3);
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies
-        var a39 = createAvailableAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec2aa);
+        var a39 = createAvailableAppointment(DATE_1, "23.06.2021. 12:30",2800,ec2aa);
         var a40 = createAvailableAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",2800,ec6);
-        var a41 = createAvailableAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec7);
+        var a41 = createAvailableAppointment(DATE_1, "23.06.2021. 12:30",2800,ec7);
         var a42 = createAvailableAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",2800,ec7);
-        var a43 = createAvailableAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",3500,ec10);
+        var a43 = createAvailableAppointment(DATE_1, "23.06.2021. 12:30",3500,ec10);
         var a44 = createAvailableAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",3500,ec10);
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies that are already booked
-        var a49 = createBookedAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec2a, p1);
+        var a49 = createBookedAppointment(DATE_1, "23.06.2021. 12:30",2800,ec2a, p1);
         var a50 = createBookedAppointment("08.05.2021. 02:30", "08.05.2021. 22:30",2800,ec2aa, p1);
-        var a51 = createBookedAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec2c, p3);
+        var a51 = createBookedAppointment(DATE_1, "23.06.2021. 12:30",2800,ec2c, p3);
         var a52 = createBookedAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",2800,ec2d, p4);
-        var a53 = createBookedAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",3500,ec2e, p5);
+        var a53 = createBookedAppointment(DATE_1, "23.06.2021. 12:30",3500,ec2e, p5);
         var a54 = createBookedAppointment("23.06.2021. 13:30", "23.06.2021. 15:30",3500,ec2f, p1);
 
         // Test data for charts
@@ -504,7 +510,6 @@ public class DataLoader implements ApplicationRunner {
         IntStream.rangeClosed(1, 30).forEach(day ->  medicinePurchaseRepository.save(new MedicinePurchase(ThreadLocalRandom.current().nextInt(0, 20 + 1), 200.0, benu, LocalDate.of(2021, 4, day), brufen)));
         IntStream.rangeClosed(1, 30).forEach(day ->  medicinePurchaseRepository.save(new MedicinePurchase(ThreadLocalRandom.current().nextInt(0, 10 + 1), 200.0, benu, LocalDate.of(2021, 4, day), gabana)));
 
-        // TODO: Add everything else according to your needs here
         // Add promotions
         var promotion = new Promotion(benu, "Hajmo na nog hop, ublazite bol uz ibutop...Samo mu recite stop uz ibutop, I B U T O P :grimmacing:", LocalDate.of(2021, 5, 2), LocalDate.of(2021, 5, 14), PromotionStatus.ACTIVE);
         var item1 = new PromotionItem(promotion, aspirin, 50);
@@ -603,7 +608,7 @@ public class DataLoader implements ApplicationRunner {
 
     private Supplier createSupplier(String firstName, String lastName, String company, Authority authority) {
         String username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        Supplier supplier = new Supplier(firstName, lastName, username, PASSWORD, generateMail(username), true, true, company);
+        var supplier = new Supplier(firstName, lastName, username, TEST123, generateMail(username), true, true, company);
         supplier.getAuthorities().add(authority);
         userRepository.save(supplier);
         return supplier;
@@ -611,7 +616,7 @@ public class DataLoader implements ApplicationRunner {
 
     private void configurePharmacyAppointmentPrices(Pharmacy pharmacy, double pharmacistAppointmentPrice, double dermatologistAppointmentPrice) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-        LocalDate fromDate = LocalDate.parse("21.03.2021.", formatter);
+        LocalDate fromDate = LocalDate.parse(DATE_2, formatter);
         AppointmentPrice pharmacistPrice = new AppointmentPrice(pharmacistAppointmentPrice, fromDate, null, false, pharmacy, EmployeeType.PHARMACIST);
         AppointmentPrice dermatologistPrice = new AppointmentPrice(dermatologistAppointmentPrice, fromDate, null, false, pharmacy, EmployeeType.DERMATOLOGIST);
         pharmacy.addPharmacistAppointmentPrice(pharmacistPrice);
@@ -634,16 +639,16 @@ public class DataLoader implements ApplicationRunner {
 
     private Appointment createAppointment(String from, String to, double price, EmploymentContract contract, Patient patient, AppointmentStatus status, Report report) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
-        LocalDateTime dateFrom = LocalDateTime.parse(from, formatter);
-        LocalDateTime dateTo = LocalDateTime.parse(to, formatter);
-        Appointment appointment = new Appointment(dateFrom, dateTo, price, status, patient, contract, report);
+        var dateFrom = LocalDateTime.parse(from, formatter);
+        var dateTo = LocalDateTime.parse(to, formatter);
+        var appointment = new Appointment(dateFrom, dateTo, price, status, patient, contract, report);
         appointmentRepository.save(appointment);
         return appointment;
     }
 
     private void addToStock(Pharmacy pharmacy, Medicine medicine, double price, int quantity) {
-        MedicineStock stock = new MedicineStock(quantity, pharmacy, medicine);
-        StockPrice priceTag = new StockPrice(price, false, stock);
+        var stock = new MedicineStock(quantity, pharmacy, medicine);
+        var priceTag = new StockPrice(price, false, stock);
         stock.addPriceTag(priceTag);
         pharmacy.getMedicineStocks().add(stock);
         medicineStockRepository.save(stock);
@@ -655,7 +660,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private Medicine createMedicine(String code, String name, MedicineShape shape, MedicineType type, String composition, String manufacturer, boolean issueOnRecipe, Integer points) {
-        Medicine medicine = new Medicine(code, name, shape, type, composition, manufacturer, issueOnRecipe, "No additional notes.", points);
+        var medicine = new Medicine(code, name, shape, type, composition, manufacturer, issueOnRecipe, "No additional notes.", points);
         medicineRepository.save(medicine);
         return medicine;
     }
@@ -675,7 +680,7 @@ public class DataLoader implements ApplicationRunner {
 
     private EmploymentContract createEmploymentContract(PharmacyEmployee employee, Pharmacy pharmacy, String from, Collection<WorkingDay> workingHours) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-        EmploymentContract contract = new EmploymentContract(LocalDate.parse(from, formatter), null, employee, pharmacy);
+        var contract = new EmploymentContract(LocalDate.parse(from, formatter), null, employee, pharmacy);
         employee.getContracts().add(contract);
         pharmacy.getEmployees().add(contract);
         workingHours.forEach(workingDay -> {
@@ -688,7 +693,7 @@ public class DataLoader implements ApplicationRunner {
 
     private Patient createPatient(String firstName, String lastName, int numPoints, int numPenalties, PatientCategory category, String phoneNumber, Address address, Authority authority) {
         String username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        Patient patient = new Patient(firstName, lastName, username, PASSWORD, generateMail(username), true, true, numPoints, numPenalties, phoneNumber, category, address);
+        var patient = new Patient(firstName, lastName, username, TEST123, generateMail(username), true, true, numPoints, numPenalties, phoneNumber, category, address);
         patient.getAuthorities().add(authority);
         userRepository.save(patient);
         return patient;
@@ -696,12 +701,10 @@ public class DataLoader implements ApplicationRunner {
 
     private PharmacyEmployee createPharmacyEmployee(String firstName, String lastName, EmployeeType employeeType, Authority authority, Double averageGrade, Complaint... complaints) {
         String username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        PharmacyEmployee employee = new PharmacyEmployee(firstName, lastName, username, PASSWORD, generateMail(username), true, true, employeeType);
+        var employee = new PharmacyEmployee(firstName, lastName, username, TEST123, generateMail(username), true, true, employeeType);
         employee.getAuthorities().add(authority);
         employee.setAverageGrade(averageGrade);
-        Arrays.stream(complaints).forEach(complaint -> {
-            employee.getComplaints().add(complaint);
-        });
+        Arrays.stream(complaints).forEach(complaint -> employee.getComplaints().add(complaint));
 
         userRepository.save(employee);
         return employee;
@@ -713,8 +716,8 @@ public class DataLoader implements ApplicationRunner {
 
     private Collection<WorkingDay> getWorkingHours(String fromTime, String toTime) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime beginTimestamp = LocalTime.parse(fromTime, formatter);
-        LocalTime endTimestamp = LocalTime.parse(toTime, formatter);
+        var beginTimestamp = LocalTime.parse(fromTime, formatter);
+        var endTimestamp = LocalTime.parse(toTime, formatter);
         return List.of(
                 new WorkingDay(DayOfWeek.MONDAY, beginTimestamp, endTimestamp),
                 new WorkingDay(DayOfWeek.TUESDAY, beginTimestamp, endTimestamp),
@@ -725,13 +728,13 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private PatientCategory createPatientCategory(String categoryName, int numPoints, int discount, String color) {
-        PatientCategory patientCategory = new PatientCategory(categoryName, numPoints, discount, color);
+        var patientCategory = new PatientCategory(categoryName, numPoints, discount, color);
         patientCategoryRepository.save(patientCategory);
         return patientCategory;
     }
 
     private Authority createAuthority(String roleName) {
-        Authority authority = new Authority(roleName);
+        var authority = new Authority(roleName);
         authorityRepository.save(authority);
         return authority;
     }

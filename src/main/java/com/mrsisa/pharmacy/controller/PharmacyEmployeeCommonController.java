@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.aspect.OwnsPharmacy;
 import com.mrsisa.pharmacy.domain.entities.Appointment;
 import com.mrsisa.pharmacy.domain.entities.EmploymentContract;
 import com.mrsisa.pharmacy.domain.entities.LeaveDaysRequest;
-import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.dto.*;
 import com.mrsisa.pharmacy.dto.appointment.AppointmentRangeResultDTO;
 import com.mrsisa.pharmacy.dto.employee.EmployeeListItemDTO;

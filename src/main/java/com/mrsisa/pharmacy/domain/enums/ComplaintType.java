@@ -20,7 +20,7 @@ public enum ComplaintType {
             case 1:
                 return "Pharmacy";
             default:
-                return null;
+                return "";
         }
     }
 }

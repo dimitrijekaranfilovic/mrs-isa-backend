@@ -284,7 +284,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
         if (employee == null) {
             return null;
         }
-        return employee.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patientId)).findFirst()
+        return employee.getReviews().stream().filter(r -> r.getReviewer().getId().equals(patientId)).findFirst()
                 // in case there is no existing review for the employee
                 .orElse(null);
     }

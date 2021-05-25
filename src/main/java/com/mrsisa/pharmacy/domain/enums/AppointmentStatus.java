@@ -26,7 +26,7 @@ public enum AppointmentStatus {
             case 4:
                 return "Missed";
             default:
-                return null;
+                return "";
         }
     }
 }

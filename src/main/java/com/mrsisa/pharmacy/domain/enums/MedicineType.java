@@ -23,7 +23,7 @@ public enum MedicineType {
             case 2:
                 return "Antihistamine";
             default:
-                return null;
+                return "";
         }
     }
 }

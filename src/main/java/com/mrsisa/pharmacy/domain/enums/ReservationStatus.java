@@ -25,7 +25,7 @@ public enum ReservationStatus {
             case 3:
                 return "Expired";
             default:
-                return null;
+                return "";
         }
     }
 }

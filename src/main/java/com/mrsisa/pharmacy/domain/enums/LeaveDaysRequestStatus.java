@@ -22,7 +22,7 @@ public enum LeaveDaysRequestStatus {
             case 2:
                 return "Rejected";
             default:
-                return null;
+                return "";
         }
     }
 }

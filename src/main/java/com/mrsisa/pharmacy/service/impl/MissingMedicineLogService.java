@@ -1,7 +1,5 @@
 package com.mrsisa.pharmacy.service.impl;
 
-import com.mrsisa.pharmacy.domain.entities.Appointment;
-import com.mrsisa.pharmacy.domain.entities.MedicineStock;
 import com.mrsisa.pharmacy.domain.entities.MissingMedicineLog;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.repository.IMissingMedicineLogRepository;

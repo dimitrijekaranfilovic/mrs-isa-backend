@@ -2,7 +2,6 @@ package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
-import com.mrsisa.pharmacy.domain.entities.PharmacyAdmin;
 import com.mrsisa.pharmacy.dto.pharmacyadmin.PharmacyAdminRegistrationDTO;
 import com.mrsisa.pharmacy.dto.pharmacyadmin.PharmacyAdminUpdateDTO;
 import com.mrsisa.pharmacy.dto.pharmacy.PharmacyDTO;

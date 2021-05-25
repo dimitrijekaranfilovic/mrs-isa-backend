@@ -253,13 +253,8 @@ public class AppointmentController {
     public void concludeAppointment(@PathVariable("id") Long id, @Valid @RequestBody AppointmentConclusionDTO appointmentConclusionDTO) {
         appointmentConclusionDTO.setEmployeeId(id);
         appointmentConclusionValidator.isValid(appointmentConclusionDTO);
-        //Patient patient = this.patientService.getPatientByIdAndActive(appointmentConclusionDTO.getPatientId());
-        //SystemSettings settings = this.systemSettingsService.findById(1L);
-
         appointmentService.concludeAppointment(appointmentConclusionDTO.getReportText(), appointmentConclusionDTO.getPharmacyId(), appointmentConclusionDTO.getPatientId(),
                 appointmentConclusionDTO.getAppointmentId(), appointmentConclusionDTO.getMedicineStocks());
-
-        //Optional<PharmacyEmployee> employee = this.pharmacyEmployeeService.findById(appointmentConclusionDTO.getEmployeeId());
 
     }
 
@@ -271,7 +266,7 @@ public class AppointmentController {
         employeeAppointmentSchedulingDTO.setEmployeeId(id);
         employeeAppointmentSchedulingValidator.isValid(employeeAppointmentSchedulingDTO);
 
-        EmploymentContract employmentContract = employmentContractService.getContractWithPharmacy(id, employeeAppointmentSchedulingDTO.getPharmacyId());
+        var employmentContract = employmentContractService.getContractWithPharmacy(id, employeeAppointmentSchedulingDTO.getPharmacyId());
         appointmentService.scheduleAppointmentForEmployee(employeeAppointmentSchedulingDTO.getFrom(), employeeAppointmentSchedulingDTO.getTo(),
                 employeeAppointmentSchedulingDTO.getPatientId(), employmentContract, employeeAppointmentSchedulingDTO.getPharmacyId());
 

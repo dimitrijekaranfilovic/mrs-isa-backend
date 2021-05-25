@@ -21,7 +21,7 @@ public enum OrderStatus {
             case 2:
                 return "In creation";
             default:
-                return null;
+                return "";
         }
     }
 }

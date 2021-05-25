@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.service.impl;
 
 import com.mrsisa.pharmacy.domain.entities.Medicine;
-import com.mrsisa.pharmacy.domain.entities.Patient;
 import com.mrsisa.pharmacy.domain.entities.Review;
 import com.mrsisa.pharmacy.domain.enums.MedicineShape;
 import com.mrsisa.pharmacy.domain.enums.MedicineType;

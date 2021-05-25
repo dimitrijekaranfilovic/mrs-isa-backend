@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.service.impl;
 
 import com.mrsisa.pharmacy.domain.aggregates.MedicinePurchaseStatistics;
-import com.mrsisa.pharmacy.domain.entities.Medicine;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.enums.ReportType;
 import com.mrsisa.pharmacy.exception.BusinessException;

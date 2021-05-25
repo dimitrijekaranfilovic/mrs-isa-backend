@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.aspect.OwnsPharmacy;
 import com.mrsisa.pharmacy.domain.aggregates.AppointmentStatistics;
 import com.mrsisa.pharmacy.domain.aggregates.IncomeStatistics;
 import com.mrsisa.pharmacy.domain.aggregates.MedicinePurchaseStatistics;
-import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.enums.EmployeeType;
 import com.mrsisa.pharmacy.domain.enums.IncomeReportType;
 import com.mrsisa.pharmacy.domain.enums.ReportType;

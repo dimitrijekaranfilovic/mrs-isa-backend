@@ -20,7 +20,7 @@ public enum EmployeeType {
             case 1:
                 return "Dermatologist";
             default:
-                return null;
+                return "";
         }
     }
 }

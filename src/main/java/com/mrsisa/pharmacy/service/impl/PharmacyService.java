@@ -258,7 +258,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
         }
 
         // in case user has already reviewed the pharmacy
-        var review = pharmacy.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        var review = pharmacy.getReviews().stream().filter(r -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 // in case there is no existing review for the pharmacy
                 .orElse(new Review());
 

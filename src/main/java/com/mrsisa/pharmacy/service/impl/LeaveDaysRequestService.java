@@ -2,7 +2,6 @@ package com.mrsisa.pharmacy.service.impl;
 
 import com.mrsisa.pharmacy.domain.entities.LeaveDaysRequest;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
-import com.mrsisa.pharmacy.domain.entities.PharmacyEmployee;
 import com.mrsisa.pharmacy.domain.enums.EmployeeType;
 import com.mrsisa.pharmacy.domain.enums.LeaveDaysRequestStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.Rejection;

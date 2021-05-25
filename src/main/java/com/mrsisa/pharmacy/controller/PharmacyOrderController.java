@@ -4,7 +4,6 @@ import com.mrsisa.pharmacy.aspect.OwnsEntity;
 import com.mrsisa.pharmacy.aspect.OwnsPharmacy;
 import com.mrsisa.pharmacy.domain.entities.Offer;
 import com.mrsisa.pharmacy.domain.entities.Order;
-import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.entities.PharmacyAdmin;
 import com.mrsisa.pharmacy.domain.enums.OrderStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.MedicineOrderInfo;
@@ -56,7 +55,7 @@ public class PharmacyOrderController extends PharmacyControllerBase {
     @PreAuthorize("hasRole('ROLE_PHARMACY_ADMIN')")
     @OwnsPharmacy(identifier = "id")
     @GetMapping(value = "/{id}/orders")
-    Page<OrderReducedInfoDTO> getPharmacyOrders(@PathVariable("id") Long id, @RequestParam(name = "status", required = false) OrderStatus orderStatus, @PageableDefault Pageable pageable) {
+    public Page<OrderReducedInfoDTO> getPharmacyOrders(@PathVariable("id") Long id, @RequestParam(name = "status", required = false) OrderStatus orderStatus, @PageableDefault Pageable pageable) {
         var pharmacy = getOr404(id);
         Page<Order> orderPage = orderService.getOrderForPharmacy(pharmacy, orderStatus, pageable);
         return orderPage.map(toOrderReducedDTO::convert);

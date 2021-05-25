@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.validation.validator.impl;
 
 import com.mrsisa.pharmacy.domain.entities.Appointment;
-import com.mrsisa.pharmacy.domain.entities.EmploymentContract;
 import com.mrsisa.pharmacy.domain.entities.LeaveDaysRequest;
 import com.mrsisa.pharmacy.domain.enums.AppointmentStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.WorkingDay;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;

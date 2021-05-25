@@ -23,7 +23,7 @@ public enum ReviewType {
             case 2:
                 return "Employee";
             default:
-                return null;
+                return "";
         }
     }
 }

@@ -2,7 +2,6 @@ package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
 import com.mrsisa.pharmacy.domain.entities.Complaint;
-import com.mrsisa.pharmacy.domain.entities.Patient;
 import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.entities.PharmacyEmployee;
 import com.mrsisa.pharmacy.domain.enums.EmployeeType;

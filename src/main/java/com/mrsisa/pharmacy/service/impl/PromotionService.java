@@ -1,7 +1,6 @@
 package com.mrsisa.pharmacy.service.impl;
 
 import com.mrsisa.pharmacy.domain.entities.MedicineStock;
-import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.domain.entities.Promotion;
 import com.mrsisa.pharmacy.domain.enums.PromotionStatus;
 import com.mrsisa.pharmacy.domain.valueobjects.PromotionItem;

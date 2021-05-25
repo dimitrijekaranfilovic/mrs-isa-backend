@@ -22,7 +22,7 @@ public enum IncomeReportType {
             case 2:
                 return "Medicine sales";
             default:
-                return null;
+                return "";
         }
     }
 }

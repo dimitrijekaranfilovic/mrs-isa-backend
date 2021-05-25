@@ -1,9 +1,7 @@
 package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwnsPharmacy;
-import com.mrsisa.pharmacy.domain.entities.Medicine;
 import com.mrsisa.pharmacy.domain.entities.MedicineStock;
-import com.mrsisa.pharmacy.domain.entities.Pharmacy;
 import com.mrsisa.pharmacy.dto.medicine.MedicineReducedDTO;
 import com.mrsisa.pharmacy.dto.promotion.PromotionStocksSearchDTO;
 import com.mrsisa.pharmacy.dto.stock.MedicineStockDTO;

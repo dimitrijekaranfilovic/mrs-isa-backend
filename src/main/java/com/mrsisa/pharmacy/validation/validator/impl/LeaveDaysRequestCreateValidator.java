@@ -3,7 +3,6 @@ package com.mrsisa.pharmacy.validation.validator.impl;
 import com.mrsisa.pharmacy.domain.entities.Appointment;
 import com.mrsisa.pharmacy.domain.entities.EmploymentContract;
 import com.mrsisa.pharmacy.domain.entities.LeaveDaysRequest;
-import com.mrsisa.pharmacy.domain.entities.PharmacyEmployee;
 import com.mrsisa.pharmacy.domain.enums.AppointmentStatus;
 import com.mrsisa.pharmacy.dto.leavedays.LeaveDaysRequestCreateDTO;
 import com.mrsisa.pharmacy.service.IAppointmentService;

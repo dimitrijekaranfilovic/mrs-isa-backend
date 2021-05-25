@@ -2,7 +2,6 @@ package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
 import com.mrsisa.pharmacy.domain.entities.Offer;
-import com.mrsisa.pharmacy.domain.entities.Supplier;
 import com.mrsisa.pharmacy.dto.*;
 import com.mrsisa.pharmacy.dto.offer.OfferDTO;
 import com.mrsisa.pharmacy.dto.offer.OfferSearchDTO;

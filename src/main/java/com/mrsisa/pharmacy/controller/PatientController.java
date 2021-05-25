@@ -414,7 +414,7 @@ public class PatientController {
         var patient = this.patientService
                 .registerPatient(dto.getFirstName(), dto.getLastName(), dto.getUsername(),
                         dto.getPassword(), dto.getEmail(), dto.getPhoneNumber(), dto.getAddress());
-        VerificationToken token = new VerificationToken(patient);
+        var token = new VerificationToken(patient);
         this.verificationTokenRepository.save(token);
 
         try {
@@ -434,7 +434,7 @@ public class PatientController {
         if (verificationToken == null)
             return new VerificationDTO(false, "Activation failed.");
         else {
-            Patient patient = verificationToken.getPatient();
+            var patient = verificationToken.getPatient();
             if (patient.getVerified())
                 return new VerificationDTO(true, "Account has already been activated.");
             if (verificationToken.isExpired())
