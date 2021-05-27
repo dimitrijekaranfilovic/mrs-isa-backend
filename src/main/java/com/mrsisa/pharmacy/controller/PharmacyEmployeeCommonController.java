@@ -58,7 +58,7 @@ public class PharmacyEmployeeCommonController extends PharmacyControllerBase {
     @GetMapping(value = "/{pharmacyId}/employees/{employeeId}")
     public PharmacyEmployeeDetailsDTO getEmployeeDetails(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("employeeId") Long employeeId) {
         var pharmacy = getOr404(pharmacyId);
-        EmploymentContract contract = employmentContractService.getPharmacyEmployee(pharmacy.getId(), employeeId);
+        var contract = employmentContractService.getPharmacyEmployee(pharmacy.getId(), employeeId);
         return toEmployeeDetailsDTO.convert(contract);
     }
 

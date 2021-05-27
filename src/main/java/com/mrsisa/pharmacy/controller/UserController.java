@@ -64,7 +64,7 @@ public class UserController {
         String token = jwtUtil.generateToken(authentication);
         String username = jwtUtil.extractUsernameFromToken(token);
         try {
-            User user = userService.findByUsernameWithAuthorities(username);
+            var user = userService.findByUsernameWithAuthorities(username);
             List<String> authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toList());
             return new AuthTokenDTO(token, username, user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getLoggedIn(),authorities);
         } catch (Exception ex) {

@@ -75,7 +75,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
 
         var patient = medicineReservation.getPatient();
         medicineReservation.getReservedMedicines().forEach(item ->{
-            MedicinePurchase medicinePurchase = new MedicinePurchase(item.getQuantity(),
+            var medicinePurchase = new MedicinePurchase(item.getQuantity(),
                     item.getPrice(), medicineReservation.getPharmacy(), LocalDate.now(), item.getMedicine());
             medicinePurchaseRepository.save(medicinePurchase);
             patient.addPoints(item.getMedicine().getPoints() * item.getQuantity());
@@ -162,7 +162,7 @@ public class MedicineReservationService extends JPAService<MedicineReservation> 
         }
 
         // in case user has already reviewed the drug
-        return drug.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        return drug.getReviews().stream().filter(r -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 .orElse(null);
     }
 

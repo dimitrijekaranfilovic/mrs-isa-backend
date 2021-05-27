@@ -12,7 +12,7 @@ public abstract class PharmacyControllerBase {
     protected IPharmacyService pharmacyService;
     protected IPharmacyAdminService pharmacyAdminService;
 
-    public PharmacyControllerBase(IPharmacyService pharmacyService, IPharmacyAdminService pharmacyAdminService) {
+    protected PharmacyControllerBase(IPharmacyService pharmacyService, IPharmacyAdminService pharmacyAdminService) {
         this.pharmacyService = pharmacyService;
         this.pharmacyAdminService = pharmacyAdminService;
     }

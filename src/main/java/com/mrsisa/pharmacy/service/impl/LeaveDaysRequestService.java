@@ -91,7 +91,7 @@ public class LeaveDaysRequestService extends JPAService<LeaveDaysRequest> implem
     public LeaveDaysRequest createLeaveDaysRequest(Long employeeId, LocalDate from, LocalDate to) {
         var pharmacyEmployee = pharmacyEmployeeRepository.findById(employeeId).orElseThrow(
                 () -> new BusinessException("Employee with id  " + employeeId + " does not exist"));
-        LeaveDaysRequest leaveDaysRequest = new LeaveDaysRequest(from, to, pharmacyEmployee, LeaveDaysRequestStatus.PENDING);
+        var leaveDaysRequest = new LeaveDaysRequest(from, to, pharmacyEmployee, LeaveDaysRequestStatus.PENDING);
         save(leaveDaysRequest);
         return leaveDaysRequest;
     }
@@ -123,7 +123,7 @@ public class LeaveDaysRequestService extends JPAService<LeaveDaysRequest> implem
         if (request.getLeaveDaysRequestStatus() != LeaveDaysRequestStatus.PENDING) {
             throw new BusinessException("Leave request already has response.");
         }
-        if (accepted) {
+        if (Boolean.TRUE.equals(accepted)) {
             // Check if employee has booked appointments at that time
             appointmentRepository.getAppointmentsForEmployeePerson(request.getEmployee().getId(), request.getFrom().atStartOfDay(), request.getTo().plusDays(1).atStartOfDay())
                     .findAny().ifPresent(appointment -> {

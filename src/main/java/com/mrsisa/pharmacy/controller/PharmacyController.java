@@ -84,7 +84,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @ResponseStatus(HttpStatus.CREATED)
     public PromotionCreationResponseDTO createPromotion(@PathVariable("id") Long id, @Valid @RequestBody PromotionCreationDTO dto) {
         var promotion = toPromotion.convert(dto);
-        final Promotion created = promotionService.createPromotion(id, promotion);
+        final var created = promotionService.createPromotion(id, promotion);
         var pharmacy = pharmacyService.getPharmacyWithSubscribers(id);
         pharmacy.getPromotionSubscribers().stream().filter(BaseEntity::getActive).forEach(sub -> emailService.notifySubscriberAboutPromotion(sub, created));
         return toPromotionResponseDTO.convert(created);
@@ -133,7 +133,7 @@ public class PharmacyController extends PharmacyControllerBase {
     @PutMapping(value = "/{id}/leave-days-requests/{requestId}")
     public LeaveDaysRequestDTO responseToLeaveRequest(@PathVariable("id") Long id, @PathVariable("requestId") Long requestId, @Valid @RequestBody LeaveDaysRequestResponseDTO dto) {
         var pharmacy = getOr404(id);
-        LeaveDaysRequest request = leaveDaysRequestService.respondPharmacistRequest(pharmacy, requestId, dto.getAccepted(), dto.getRejectionReason());
+        var request = leaveDaysRequestService.respondPharmacistRequest(pharmacy, requestId, dto.getAccepted(), dto.getRejectionReason());
         emailService.notifyEmployeeAboutLeaveRequestResponse(request);
         return toLeaveDaysRequestDTO.convert(request);
     }

@@ -37,7 +37,7 @@ public interface IPharmacyRepository extends JpaRepository<Pharmacy, Long> {
     Haversine SQL formula that was used here
     http://www.plumislandmedia.net/mysql/haversine-mysql-nearest-loc/
      */
-    String haversineFormula = "111.045* DEGREES(ACOS(LEAST(1.0, COS(RADIANS(:latitude))\n" +
+    String HAVERSINE_FORMULA = "111.045* DEGREES(ACOS(LEAST(1.0, COS(RADIANS(:latitude))\n" +
             "                 * COS(RADIANS(ph.location.latitude))\n" +
             "                 * COS(RADIANS(:longitude) - RADIANS(ph.location.longitude))\n" +
             "                 + SIN(RADIANS(:latitude))\n" +
@@ -47,11 +47,11 @@ public interface IPharmacyRepository extends JpaRepository<Pharmacy, Long> {
             " where ph.active=true " +
             " and (lower(ph.name) like :name or lower(ph.location.address.city) like :locationAddressCity) " +
             " and ph.averageGrade >= :gradeLow and ph.averageGrade <= :gradeHigh " +
-            " and " + haversineFormula + "<= :distance ",
+            " and " + HAVERSINE_FORMULA + "<= :distance ",
             countQuery = "select count(ph) from Pharmacy ph where ph.active=true " +
                     " and (lower(ph.name) like :name or lower(ph.location.address.city) like :locationAddressCity) " +
                     " and ph.averageGrade >= :gradeLow and ph.averageGrade <= :gradeHigh " +
-                    " and " + haversineFormula + "<= :distance")
+                    " and " + HAVERSINE_FORMULA + "<= :distance")
     Page<Pharmacy> getPharmaciesSearchFilter(@Param("name") String name,
                                              @Param("locationAddressCity") String locationAddressCity,
                                              @Param("gradeLow") Double gradeLow,
@@ -75,7 +75,7 @@ public interface IPharmacyRepository extends JpaRepository<Pharmacy, Long> {
             " and :dateTime between a.from and a.to " +
             " and a.employee.pharmacyEmployee.employeeType = :employeeType " +
             " and a.appointmentStatus = :appointmentStatus " +
-            " and " + haversineFormula + "<= :distance "
+            " and " + HAVERSINE_FORMULA + "<= :distance "
     )
     Page<Pharmacy> getPharmaciesWithAvailablePharmacistAppointmentsOnSpecifiedDateAndtime(@Param("name") String name,
                                                                                           @Param("locationAddressCity") String locationAddressCity,

@@ -29,14 +29,12 @@ import javax.validation.Valid;
 public class SupplierController {
 
     private final ISupplierService supplierService;
-    private final IAuthorityService authorityService;
     private final IOfferService offerService;
     private final IConverter<Offer, OfferDTO> toOfferDTO;
 
     @Autowired
-    public SupplierController(ISupplierService supplierService, IAuthorityService authorityService, IOfferService offerService, IConverter<Offer, OfferDTO> toOfferDTO){
+    public SupplierController(ISupplierService supplierService, IOfferService offerService, IConverter<Offer, OfferDTO> toOfferDTO){
         this.supplierService = supplierService;
-        this.authorityService = authorityService;
         this.offerService = offerService;
         this.toOfferDTO = toOfferDTO;
     }

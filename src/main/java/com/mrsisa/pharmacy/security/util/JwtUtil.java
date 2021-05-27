@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 public class JwtUtil {
 
     @Value("${jwt.token.validity}")
-    public long TOKEN_VALIDITY;
+    public long tokenValidity;
 
     @Value("${jwt.signing.key}")
-    public String SIGNING_KEY;
+    public String signingKey;
 
     @Value("${jwt.authorities.key}")
-    public String AUTHORITIES_KEY;
+    public String authoritiesKey;
 
     public String extractUsernameFromToken(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -36,19 +36,19 @@ public class JwtUtil {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
+        final var claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(SIGNING_KEY)
+                .setSigningKey(signingKey)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
-        final Date expiration = extractExpirationDateFromToken(token);
+        final var expiration = extractExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
@@ -59,10 +59,10 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
+                .claim(authoritiesKey, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY*1000))
-                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + tokenValidity*1000))
+                .signWith(SignatureAlgorithm.HS256, signingKey)
                 .compact();
     }
 
@@ -73,14 +73,14 @@ public class JwtUtil {
 
     public UsernamePasswordAuthenticationToken getAuthenticationToken(final String token, final UserDetails userDetails) {
 
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final var jwtParser = Jwts.parser().setSigningKey(signingKey);
 
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
 
-        final Claims claims = claimsJws.getBody();
+        final var claims = claimsJws.getBody();
 
         final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                Arrays.stream(claims.get(authoritiesKey).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 

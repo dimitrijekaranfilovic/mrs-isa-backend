@@ -61,7 +61,7 @@ public class MedicineService extends JPAService<Medicine> implements IMedicineSe
 
         var medicine = new Medicine(code, name, shape, type, composition, manufacturer, issueOnRecipe, notes, points);
         replacementIds.forEach(id -> {
-            Medicine replacement = this.getMedicine(id);
+            var replacement = this.getMedicine(id);
             if (replacement == null)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Medicine with id " + id + " does not exist.");
             medicine.getReplacements().add(replacement);
@@ -99,15 +99,14 @@ public class MedicineService extends JPAService<Medicine> implements IMedicineSe
         // or from the e recipe
 
         if (this.medicineReservationRepository.checkIfPatientHasMedicineReservationsWithSpecificDrug(patientId,
-                drugId, ReservationStatus.PICKED) <= 0) {
-            if (this.recipeRepository.checkIfPatientHasAnyERecipesWithSpecificDrug(patientId, drugId) <= 0)
+                drugId, ReservationStatus.PICKED) <= 0 && this.recipeRepository.checkIfPatientHasAnyERecipesWithSpecificDrug(patientId, drugId) <= 0) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient does not have any " +
                         "prior drug reservation pickups or e-recipe reservations." +
                         " Therefore he cannot rate the drug.");
         }
 
         // in case user has already reviewed the drug
-        var review = drug.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        var review = drug.getReviews().stream().filter(r -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 // in case there is no existing review for the drug
                 .orElse(new Review());
 

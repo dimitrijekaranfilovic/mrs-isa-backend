@@ -42,11 +42,11 @@ public abstract class User extends BaseEntity {
     @Version
     private Short version;
 
-    public User() {
+    protected User() {
         super();
     }
 
-    public User(String firstName, String lastName, String username, String password, String email, Boolean verified,
+    protected User(String firstName, String lastName, String username, String password, String email, Boolean verified,
                 Boolean loggedIn) {
         this();
         this.setFirstName(firstName);

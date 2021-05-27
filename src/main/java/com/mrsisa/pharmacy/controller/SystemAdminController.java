@@ -2,10 +2,9 @@ package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
 import com.mrsisa.pharmacy.domain.entities.Complaint;
-import com.mrsisa.pharmacy.domain.entities.SystemAdmin;
-import com.mrsisa.pharmacy.dto.complaint.ComplaintDTO;
 import com.mrsisa.pharmacy.dto.SysAdminRegistrationDTO;
 import com.mrsisa.pharmacy.dto.UserDTO;
+import com.mrsisa.pharmacy.dto.complaint.ComplaintDTO;
 import com.mrsisa.pharmacy.service.IComplaintService;
 import com.mrsisa.pharmacy.service.ISystemAdminService;
 import com.mrsisa.pharmacy.support.IConverter;

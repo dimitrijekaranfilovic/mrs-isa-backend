@@ -42,7 +42,7 @@ public abstract class CRUDService<T extends BaseEntity> implements ICRUDService<
 
     private T findEntityChecked(Long id) throws EntityNotFoundException {
         var entity = getEntityRepository().findById(id).orElseThrow(() -> new NotFoundException("Cannot find entity with id: " + id));
-        if (entity.getActive()) {
+        if (Boolean.TRUE.equals(entity.getActive())) {
             return entity;
         }
         throw new NotFoundException("Cannot find entity with id: " + id);

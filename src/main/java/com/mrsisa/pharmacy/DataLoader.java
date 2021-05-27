@@ -68,6 +68,7 @@ public class DataLoader implements ApplicationRunner {
     private static final String MANUFACTURER= "proizvodjac";
     private static final String COMPOSITION= "sastav";
     private static final String DIAGNOSTICS= "dijagnostika";
+    private static final String NO_NOTES = "No additional notes.";
     
     
     private final Logger logger = LoggerFactory.getLogger(DataLoader.class);
@@ -309,28 +310,28 @@ public class DataLoader implements ApplicationRunner {
 
 
         // Create medicines
-        var aspirin = saveMedicine(new Medicine("MED_1", "Aspirin", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "acetilsalicilna kiselina", "BAYER BITTERFELD GMBH", false, "No additional notes.", 1));
-        var brufen = saveMedicine(new Medicine("MED_2", "Brufen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ibuprofen", "ABBVIE S.R.L.", false, "No additional notes.", 2));
-        var hepalpan = saveMedicine(new Medicine("MED_3", "Hepalpan", MedicineShape.GEL, MedicineType.ANESTHETIC, "heparin-natrijum", COMPANY_GALENIKA, false, "No additional notes.", 2));
-        var galitifen = saveMedicine(new Medicine("MED_4", "Galitifen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ketotifen", COMPANY_GALENIKA, true, "No additional notes.", 2));
-        var itanem = saveMedicine(new Medicine("MED_5", "Itanem", MedicineShape.SOLUTION, MedicineType.ANESTHETIC, "meropenem", COMPANY_GALENIKA, false, "No additional notes.", 2));
-        var paravano = saveMedicine(new Medicine("MED_6", "Paravano", MedicineShape.TABLET, MedicineType.ANESTHETIC, "rosuvastatin", "HEMOFARM AD", true, "No additional notes.", 2));
-        var soliphar = saveMedicine(new Medicine("MED_7", "SoliPhar", MedicineShape.TABLET, MedicineType.ANESTHETIC, "solifenacin", "PHARMAS D.O.O.", true, "No additional notes.", 2));
-        var gabana = saveMedicine(new Medicine("MED_8", "Gabana", MedicineShape.CAPSULE, MedicineType.ANTIBIOTIC, "pregabalin", "PHARMACEUTICALBALKANS DOO", true, "No additional notes.", 2));
-        var nebispes = saveMedicine(new Medicine("MED_9", "Nebispes", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "nebivolol", "PHARMANOVA D.O.O.", true, "No additional notes.", 2));
-        var tragal = saveMedicine(new Medicine("MED_10", "Tragal", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, "sertralin", COMPANY_GALENIKA, true, "No additional notes.", 2));
+        var aspirin = saveMedicine(new Medicine("MED_1", "Aspirin", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "acetilsalicilna kiselina", "BAYER BITTERFELD GMBH", false, NO_NOTES, 1));
+        var brufen = saveMedicine(new Medicine("MED_2", "Brufen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ibuprofen", "ABBVIE S.R.L.", false, NO_NOTES, 2));
+        var hepalpan = saveMedicine(new Medicine("MED_3", "Hepalpan", MedicineShape.GEL, MedicineType.ANESTHETIC, "heparin-natrijum", COMPANY_GALENIKA, false, NO_NOTES, 2));
+        var galitifen = saveMedicine(new Medicine("MED_4", "Galitifen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ketotifen", COMPANY_GALENIKA, true, NO_NOTES, 2));
+        var itanem = saveMedicine(new Medicine("MED_5", "Itanem", MedicineShape.SOLUTION, MedicineType.ANESTHETIC, "meropenem", COMPANY_GALENIKA, false, NO_NOTES, 2));
+        var paravano = saveMedicine(new Medicine("MED_6", "Paravano", MedicineShape.TABLET, MedicineType.ANESTHETIC, "rosuvastatin", "HEMOFARM AD", true, NO_NOTES, 2));
+        var soliphar = saveMedicine(new Medicine("MED_7", "SoliPhar", MedicineShape.TABLET, MedicineType.ANESTHETIC, "solifenacin", "PHARMAS D.O.O.", true, NO_NOTES, 2));
+        var gabana = saveMedicine(new Medicine("MED_8", "Gabana", MedicineShape.CAPSULE, MedicineType.ANTIBIOTIC, "pregabalin", "PHARMACEUTICALBALKANS DOO", true, NO_NOTES, 2));
+        var nebispes = saveMedicine(new Medicine("MED_9", "Nebispes", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "nebivolol", "PHARMANOVA D.O.O.", true, NO_NOTES, 2));
+        var tragal = saveMedicine(new Medicine("MED_10", "Tragal", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, "sertralin", COMPANY_GALENIKA, true, NO_NOTES, 2));
 
-        var m1 = saveMedicine(new Medicine("MED_11", "Lijek1", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, false, "No additional notes.", 2));
-        var m2 = saveMedicine(new Medicine("MED_12", "Lijek2", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, false, "No additional notes.", 2));
-        var m3 = saveMedicine(new Medicine("MED_13", "Lijek3", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m4 = saveMedicine(new Medicine("MED_14", "Lijek4", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m5 = saveMedicine(new Medicine("MED_15", "Lijek5", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m6 = saveMedicine(new Medicine("MED_16", "Lijek6", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m7 = saveMedicine(new Medicine("MED_17", "Lijek7", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m8 = saveMedicine(new Medicine("MED_18", "Lijek8", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m9 = saveMedicine(new Medicine("MED_19", "Lijek9", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m10 = saveMedicine(new Medicine("MED_20", "Lijek10", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
-        var m11 = saveMedicine(new Medicine("MED_21", "Lijek11", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, "No additional notes.", 2));
+        var m1 = saveMedicine(new Medicine("MED_11", "Lijek1", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, false, NO_NOTES, 2));
+        var m2 = saveMedicine(new Medicine("MED_12", "Lijek2", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, false, NO_NOTES, 2));
+        var m3 = saveMedicine(new Medicine("MED_13", "Lijek3", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m4 = saveMedicine(new Medicine("MED_14", "Lijek4", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m5 = saveMedicine(new Medicine("MED_15", "Lijek5", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m6 = saveMedicine(new Medicine("MED_16", "Lijek6", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m7 = saveMedicine(new Medicine("MED_17", "Lijek7", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m8 = saveMedicine(new Medicine("MED_18", "Lijek8", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m9 = saveMedicine(new Medicine("MED_19", "Lijek9", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m10 = saveMedicine(new Medicine("MED_20", "Lijek10", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
+        var m11 = saveMedicine(new Medicine("MED_21", "Lijek11", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, COMPOSITION, MANUFACTURER, true, NO_NOTES, 2));
 
         // Create medicine replacements
         configureMedicineReplacements(hepalpan, nebispes, tragal);

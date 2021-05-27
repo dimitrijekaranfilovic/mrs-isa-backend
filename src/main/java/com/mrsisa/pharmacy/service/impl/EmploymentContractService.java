@@ -16,6 +16,8 @@ import java.util.List;
 public class EmploymentContractService extends JPAService<EmploymentContract> implements IEmploymentContractService {
     private final IEmploymentContractRepository employmentContractRepository;
 
+    private static final String NOT_FOUND = "Cannot find employee with id: ";
+
     @Autowired
     public EmploymentContractService(IEmploymentContractRepository employmentContractRepository) {
         this.employmentContractRepository = employmentContractRepository;
@@ -28,12 +30,12 @@ public class EmploymentContractService extends JPAService<EmploymentContract> im
 
     @Override
     public EmploymentContract getPharmacyEmployee(Long pharmacyId, Long employeeId) {
-        return employmentContractRepository.getEmployeeContractWithPharmacy(employeeId, pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find employee with id: " + employeeId));
+        return employmentContractRepository.getEmployeeContractWithPharmacy(employeeId, pharmacyId).orElseThrow(() -> new NotFoundException(NOT_FOUND + employeeId));
     }
 
     @Override
     public EmploymentContract getPharmacistContract(Long pharmacistId) {
-        return employmentContractRepository.getEmployeeContractForEmployee(pharmacistId, EmployeeType.PHARMACIST).orElseThrow(() -> new NotFoundException("Cannot find employee with id: " + pharmacistId));
+        return employmentContractRepository.getEmployeeContractForEmployee(pharmacistId, EmployeeType.PHARMACIST).orElseThrow(() -> new NotFoundException(NOT_FOUND + pharmacistId));
     }
 
     @Override
@@ -43,7 +45,7 @@ public class EmploymentContractService extends JPAService<EmploymentContract> im
 
     @Override
     public EmploymentContract getContractWithPharmacy(Long employeeId, Long pharmacyId) {
-        return employmentContractRepository.getEmployeeContractForPharmacyAndEmployee(pharmacyId, employeeId).orElseThrow(() -> new NotFoundException("Cannot find employee with id: " + employeeId));
+        return employmentContractRepository.getEmployeeContractForPharmacyAndEmployee(pharmacyId, employeeId).orElseThrow(() -> new NotFoundException(NOT_FOUND + employeeId));
     }
 
     @Override

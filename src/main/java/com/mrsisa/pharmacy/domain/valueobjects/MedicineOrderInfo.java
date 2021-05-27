@@ -47,10 +47,6 @@ public class MedicineOrderInfo extends BaseEntity {
         this.setMedicinePrice(price);
     }
 
-    public MedicineOrderInfo(Order order, Integer quantity, Medicine medicine) {
-        this(quantity, medicine, false, null);
-    }
-
     public MedicineOrderInfo(Integer quantity, Medicine medicine) {
         this(quantity, medicine, false, null);
     }

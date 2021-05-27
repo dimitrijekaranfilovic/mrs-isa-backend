@@ -24,11 +24,11 @@ public abstract class PriceTag extends BaseEntity {
     @Column(name = "is_promotion", nullable = false)
     private Boolean isPromotion;
 
-    public PriceTag() {
+    protected PriceTag() {
         super();
     }
 
-    public PriceTag(Double price, LocalDate from, LocalDate to, Boolean isPromotion) {
+    protected PriceTag(Double price, LocalDate from, LocalDate to, Boolean isPromotion) {
         this();
         this.setPrice(price);
         this.setFrom(from);
@@ -36,7 +36,7 @@ public abstract class PriceTag extends BaseEntity {
         this.setIsPromotion(isPromotion);
     }
 
-    public PriceTag(Double price, Boolean isPromotion) {
+    protected PriceTag(Double price, Boolean isPromotion) {
         this(price, LocalDate.now(), null, isPromotion);
     }
 

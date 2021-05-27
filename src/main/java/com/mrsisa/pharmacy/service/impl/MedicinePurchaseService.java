@@ -28,7 +28,7 @@ public class MedicinePurchaseService extends JPAService<MedicinePurchase> implem
     @Override
     public void createMedicinePurchaseFromMedicineReservationItem(MedicineReservationItem medicineReservationItem,
                                                                   Pharmacy pharmacy) {
-        MedicinePurchase medicinePurchase = new MedicinePurchase(medicineReservationItem.getQuantity(),
+        var medicinePurchase = new MedicinePurchase(medicineReservationItem.getQuantity(),
                 medicineReservationItem.getPrice(), pharmacy, LocalDate.now(), medicineReservationItem.getMedicine());
         medicinePurchaseRepository.save(medicinePurchase);
     }

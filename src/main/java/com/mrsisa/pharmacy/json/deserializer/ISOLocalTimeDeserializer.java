@@ -13,7 +13,7 @@ public class ISOLocalTimeDeserializer extends JsonDeserializer<LocalTime> {
     @Override
     public LocalTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         TextNode node = jsonParser.getCodec().readTree(jsonParser);
-        String dateString = node.textValue();
+        var dateString = node.textValue();
         return LocalTime.parse(dateString, DateTimeFormatter.ISO_TIME);
     }
 }

@@ -24,10 +24,10 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Value("${jwt.header.string}")
-    public String HEADER_STRING;
+    public String headerString;
 
     @Value("${jwt.token.prefix}")
-    public String TOKEN_PREFIX;
+    public String tokenPrefix;
 
 
     private final UserDetailsService userService;
@@ -41,13 +41,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        final String authorizationHeader = httpServletRequest.getHeader(HEADER_STRING);
+        final String authorizationHeader = httpServletRequest.getHeader(headerString);
 
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
-            jwt = authorizationHeader.replace(TOKEN_PREFIX, "");
+        if (authorizationHeader != null && authorizationHeader.startsWith(tokenPrefix)) {
+            jwt = authorizationHeader.replace(tokenPrefix, "");
             try {
                 username = jwtUtil.extractUsernameFromToken(jwt);
             } catch (IllegalArgumentException | SignatureException | ExpiredJwtException | MalformedJwtException ignored) {
@@ -59,8 +59,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 userDetails = userService.loadUserByUsername(username);
 
-                if (jwtUtil.validateToken(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                if (Boolean.TRUE.equals(jwtUtil.validateToken(jwt, userDetails))) {
+                    var usernamePasswordAuthenticationToken =
                             jwtUtil.getAuthenticationToken(jwt, userDetails);
                     usernamePasswordAuthenticationToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

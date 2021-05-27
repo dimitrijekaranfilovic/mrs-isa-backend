@@ -12,6 +12,7 @@ public enum OrderStatus {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:

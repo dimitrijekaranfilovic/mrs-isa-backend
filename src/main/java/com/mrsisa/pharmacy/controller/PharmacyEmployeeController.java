@@ -92,7 +92,7 @@ public class PharmacyEmployeeController {
         var patient = this.patientService.getPatientByIdAndActive(dto.getPatientId());
         if(patient == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + dto.getPatientId() + " does not exist.");
-        Complaint complaint = this.pharmacyEmployeeService.fileComplaint(employeeId, patient, dto.getContent());
+        var complaint = this.pharmacyEmployeeService.fileComplaint(employeeId, patient, dto.getContent());
         return toComplaintDTO.convert(complaint);
     }
 

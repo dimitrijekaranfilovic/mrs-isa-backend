@@ -12,6 +12,7 @@ public enum PromotionStatus {
         return type;
     }
 
+    @Override
     public String toString() {
         switch(type) {
             case 0:

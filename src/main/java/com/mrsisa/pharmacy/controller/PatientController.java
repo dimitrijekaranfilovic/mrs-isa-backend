@@ -435,7 +435,7 @@ public class PatientController {
             return new VerificationDTO(false, "Activation failed.");
         else {
             var patient = verificationToken.getPatient();
-            if (patient.getVerified())
+            if (Boolean.TRUE.equals(patient.getVerified()))
                 return new VerificationDTO(true, "Account has already been activated.");
             if (verificationToken.isExpired())
                 return new VerificationDTO(false, "Activation link has expired.");

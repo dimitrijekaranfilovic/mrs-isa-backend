@@ -54,7 +54,7 @@ public class ComplaintService extends JPAService<Complaint> implements IComplain
         Optional<SystemAdmin> adminOptional = this.adminRepository.findByIdAndActiveTrue(adminId);
         if(adminOptional.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "System admin with id " + adminId + " does not exist.");
-        Complaint complaint = optionalComplaint.get();
+        var complaint = optionalComplaint.get();
         if(complaint.getReply() != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Complaint with id " + complaint.getId() + " has already been replied to.");
 
