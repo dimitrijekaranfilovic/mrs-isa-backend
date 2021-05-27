@@ -105,6 +105,7 @@ public class DataLoader implements ApplicationRunner {
         // Create authorities
         var systemAdminAuthority = createAuthority("ROLE_SYSTEM_ADMIN");
         var pharmacyAdminAuthority = createAuthority("ROLE_PHARMACY_ADMIN");
+        var patientAuthority = createAuthority("ROLE_PATIENT");
         var pharmacistAuthority = createAuthority("ROLE_PHARMACIST");
         var dermatologistAuthority = createAuthority("ROLE_DERMATOLOGIST");
         var supplierAuthority = createAuthority("ROLE_SUPPLIER");
@@ -130,11 +131,23 @@ public class DataLoader implements ApplicationRunner {
 
         // Create patients
         var p6 = createPatient("pera", "", 1650, 2, bronzeCategory, "0601133327", getNoviSadAddress("Gogoljeva", "14"));
+        savePatient(p6, patientAuthority);
+
         var p1 = createPatient("Dejan", "Djordjevic", 1650, 1, bronzeCategory, "0601133327", getNoviSadAddress("Gogoljeva", "14"));
+        savePatient(p1, patientAuthority);
+
         var p2 = createPatient("Ljiljana", "Petrovic", 2200, 1, silverCategory, "456", getNoviSadAddress("Radnicka", "88A"));
+        savePatient(p2, patientAuthority);
+
         var p3 = createPatient("Pera", "Tanackovic", 3780, 1, goldCategory, "789", getNoviSadAddress("Sumadijska", "22"));
+        savePatient(p3, patientAuthority);
+
         var p4 = createPatient("Ivana", "Mandic", 9000, 0, platinumCategory, "199", getNoviSadAddress("Resavska", "60"));
+        savePatient(p4, patientAuthority);
+
         var p5 = createPatient("Pera", "Pera", 3600, 3, goldCategory, "199333111", getNoviSadAddress("Resavska", "62"));
+        savePatient(p5, patientAuthority);
+
 
         var c1 = createComplaint("losa usluga", ComplaintType.PHARMACY, p1, "Benu Apoteka");
         var c2 = createComplaint("dugo sam cekao", ComplaintType.EMPLOYEE, p1, "Andrea Todorovic");
@@ -708,10 +721,12 @@ public class DataLoader implements ApplicationRunner {
 
     private Patient createPatient(String firstName, String lastName, int numPoints, int numPenalties, PatientCategory category, String phoneNumber, Address address) {
         var username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        var patient = new Patient(firstName, lastName, username, TEST123, generateMail(username), true, true, numPoints, numPenalties, phoneNumber, category, address);
-        patient.getAuthorities().add(createAuthority("ROLE_PATIENT"));
+        return new Patient(firstName, lastName, username, TEST123, generateMail(username), true, true, numPoints, numPenalties, phoneNumber, category, address);
+    }
+
+    private void savePatient(Patient patient, Authority patientAuthority) {
+        patient.getAuthorities().add(patientAuthority);
         userRepository.save(patient);
-        return patient;
     }
 
     private PharmacyEmployee createPharmacyEmployee(String firstName, String lastName, EmployeeType employeeType, Authority authority, Double averageGrade, Complaint... complaints) {
