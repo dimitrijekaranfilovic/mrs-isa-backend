@@ -4,3 +4,4 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=dimitrijekaranfilovic_mrs-isa-backend)
 
 API hosted at https://mrs-isa-tim-1-backend.herokuapp.com/
+
