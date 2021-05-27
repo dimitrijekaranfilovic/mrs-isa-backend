@@ -84,7 +84,7 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
             LocalDateTime secondFrom = request.getFrom().atStartOfDay();
             LocalDateTime secondTo = request.getTo().atTime(23, 59);
 
-            Appointment secondAppointment = new Appointment(secondFrom, secondTo,
+            var secondAppointment = new Appointment(secondFrom, secondTo,
                     0.0, AppointmentStatus.BOOKED,
                     null);
 
@@ -125,13 +125,13 @@ public class EmployeeAppointmentSchedulingValidator implements IEmployeeAppointm
         List<Appointment> bookedAppointments = appointmentService.getAllBookedAppointmentsForPatientNotWithEmployee(employeeAppointmentSchedulingDTO.getPatientId(),
                 employeeAppointmentSchedulingDTO.getEmployeeId());
 
-        bookedAppointments.forEach(appointment -> { checkAppointmentOverlapping(employeeAppointmentSchedulingDTO, appointment); });
+        bookedAppointments.forEach(appointment -> checkAppointmentOverlapping(employeeAppointmentSchedulingDTO, appointment));
     }
 
     private void checkEmployeeAppointmentsOverlapping(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO) {
         List<Appointment> bookedAppointments = appointmentService.getAllBusyAppointmentsForEmployee(employeeAppointmentSchedulingDTO.getEmployeeId());
 
-        bookedAppointments.forEach(appointment -> { checkAppointmentOverlapping(employeeAppointmentSchedulingDTO, appointment); });
+        bookedAppointments.forEach(appointment -> checkAppointmentOverlapping(employeeAppointmentSchedulingDTO, appointment));
     }
 
     private void checkAppointmentOverlapping(EmployeeAppointmentSchedulingDTO employeeAppointmentSchedulingDTO, Appointment appointment) {

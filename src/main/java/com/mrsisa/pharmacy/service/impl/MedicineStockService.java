@@ -217,7 +217,7 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
     }
 
     private Patient getIfPatientExists(Long patientId) {
-        Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new NotFoundException("Cannot find patient with id: " + patientId));
+        var patient = patientRepository.findById(patientId).orElseThrow(() -> new NotFoundException("Cannot find patient with id: " + patientId));
         if (!patient.getActive()) {
             throw new NotFoundException("Cannot find patient with id: " + patientId);
         }

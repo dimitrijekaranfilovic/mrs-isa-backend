@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class MedicineStockServiceTest {
+class MedicineStockServiceTest {
 
     @Mock
     private IPromotionItemRepository promotionItemRepositoryMock;

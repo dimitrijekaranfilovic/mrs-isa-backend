@@ -245,7 +245,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
                     ". Therefore he cannot rate the " + employeeType + ".");
         }
         // in case user has already reviewed the employee
-        var review = employee.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        var review = employee.getReviews().stream().filter(r -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 // in case there is no existing review for the employee
                 .orElse(new Review());
 
@@ -296,7 +296,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     @Override
     public PharmacyEmployee updateEmployee(Long id, String firstName, String lastName) {
-        PharmacyEmployee pharmacyEmployee = get(id);
+        var pharmacyEmployee = get(id);
         pharmacyEmployee.setFirstName(firstName);
         pharmacyEmployee.setLastName(lastName);
         return pharmacyEmployee;

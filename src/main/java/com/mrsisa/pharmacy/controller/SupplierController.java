@@ -9,7 +9,6 @@ import com.mrsisa.pharmacy.dto.offer.OfferUpdateDTO;
 import com.mrsisa.pharmacy.dto.supplier.SupplierDTO;
 import com.mrsisa.pharmacy.dto.supplier.SupplierRegistrationDTO;
 import com.mrsisa.pharmacy.dto.supplier.SupplierUpdateDTO;
-import com.mrsisa.pharmacy.service.IAuthorityService;
 import com.mrsisa.pharmacy.service.IOfferService;
 import com.mrsisa.pharmacy.service.ISupplierService;
 import com.mrsisa.pharmacy.support.IConverter;

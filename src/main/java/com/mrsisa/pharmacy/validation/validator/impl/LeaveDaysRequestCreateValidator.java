@@ -68,10 +68,10 @@ public class LeaveDaysRequestCreateValidator implements ILeaveDaysRequestCreateV
 
         List<LeaveDaysRequest> pendingRequests = leaveDaysRequestService.getAllPendingAndAcceptedLeaveDaysRequestForEmployee(dto.getEmployeeId());
         pendingRequests.forEach(request -> {
-            LocalDateTime secondFrom = request.getFrom().atStartOfDay();
-            LocalDateTime secondTo = request.getTo().atTime(23, 59);
+            var secondFrom = request.getFrom().atStartOfDay();
+            var secondTo = request.getTo().atTime(23, 59);
 
-            Appointment secondAppointment = new Appointment(secondFrom, secondTo,
+            var secondAppointment = new Appointment(secondFrom, secondTo,
                     0.0, AppointmentStatus.BOOKED,
                     null);
 

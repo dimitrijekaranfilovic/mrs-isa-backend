@@ -1,14 +1,10 @@
 package com.mrsisa.pharmacy.service;
 
-import com.mrsisa.pharmacy.domain.entities.Appointment;
 import com.mrsisa.pharmacy.domain.entities.LeaveDaysRequest;
-import com.mrsisa.pharmacy.domain.entities.Patient;
 import com.mrsisa.pharmacy.domain.entities.PharmacyEmployee;
-import com.mrsisa.pharmacy.domain.enums.AppointmentStatus;
 import com.mrsisa.pharmacy.domain.enums.LeaveDaysRequestStatus;
 import com.mrsisa.pharmacy.repository.ILeaveDaysRequestRepository;
 import com.mrsisa.pharmacy.repository.IPharmacyEmployeeRepository;
-import com.mrsisa.pharmacy.service.impl.AppointmentService;
 import com.mrsisa.pharmacy.service.impl.LeaveDaysRequestService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class LeaveDaysRequestServiceTest {
+class LeaveDaysRequestServiceTest {
 
     @Mock
     private IPharmacyEmployeeRepository pharmacyEmployeeRepositoryMock;

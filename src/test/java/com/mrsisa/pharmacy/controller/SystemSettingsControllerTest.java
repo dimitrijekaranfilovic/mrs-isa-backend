@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-public class SystemSettingsControllerTest {
+class SystemSettingsControllerTest {
 
     private static final String URL_PREFIX = "/api/system-settings";
 

@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-public class MedicineStockControllerTest {
+class MedicineStockControllerTest {
 
     private static final String URL_PREFIX = "/api/medicine-stocks";
 

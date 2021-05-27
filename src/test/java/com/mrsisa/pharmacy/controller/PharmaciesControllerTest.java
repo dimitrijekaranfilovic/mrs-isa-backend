@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class PharmaciesControllerTest {
+class PharmaciesControllerTest {
 
     private static final String URL_PREFIX = "/api/pharmacies";
 

@@ -19,6 +19,7 @@ import java.util.Optional;
 public class PatientCategoryService extends JPAService<PatientCategory> implements IPatientCategoryService {
     private final IPatientCategoryRepository patientCategoryRepository;
     private final IPatientRepository patientRepository;
+    private static final String ALREADY_EXISTS = " already exists.";
 
     @Autowired
     public PatientCategoryService(IPatientCategoryRepository patientCategoryRepository, IPatientRepository patientRepository) {
@@ -61,13 +62,13 @@ public class PatientCategoryService extends JPAService<PatientCategory> implemen
     @Override
     public PatientCategory createCategory(String name, Integer points, Integer discount, String color) {
         if(this.findByName(name).isPresent())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with name " + name + " already exists.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with name " + name + ALREADY_EXISTS);
         if(this.findByPoints(points).isPresent())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with points " + points + " already exists.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with points " + points + ALREADY_EXISTS);
         if(this.findByDiscount(discount).isPresent())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + " already exists.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + ALREADY_EXISTS);
         if(this.findByColor(color).isPresent())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + " already exists.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with color " + discount + ALREADY_EXISTS);
         var category = new PatientCategory(name, points, discount, color);
         this.patientCategoryRepository.save(category);
         return category;
@@ -81,28 +82,28 @@ public class PatientCategoryService extends JPAService<PatientCategory> implemen
         if(foundByName.isPresent()){
             var patientCategory = foundByName.get();
             if(!patientCategory.getId().equals(category.getId()))
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with name " + name + " already exists.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with name " + name + ALREADY_EXISTS);
         }
 
         Optional<PatientCategory> foundByPoints = this.findByPoints(points);
         if(foundByPoints.isPresent()){
             var patientCategory = foundByPoints.get();
             if(!patientCategory.getId().equals(category.getId()))
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with points " + points + " already exists.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with points " + points + ALREADY_EXISTS);
         }
 
         Optional<PatientCategory> foundByDiscount = this.findByDiscount(discount);
         if(foundByDiscount.isPresent()){
             var patientCategory = foundByDiscount.get();
             if(!patientCategory.getId().equals(category.getId()))
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + " already exists.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with discount " + discount + ALREADY_EXISTS);
         }
 
         Optional<PatientCategory> foundByColor = this.findByColor(color);
         if(foundByColor.isPresent()) {
             var patientCategory = foundByColor.get();
             if(!patientCategory.getId().equals(category.getId()))
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with color " + color + " already exists.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category with color " + color + ALREADY_EXISTS);
         }
         category.setName(name);
         category.setPoints(points);

@@ -20,7 +20,7 @@ import static com.mrsisa.pharmacy.util.TestUtil.json;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class LeaveDaysRequestControllerTest {
+class LeaveDaysRequestControllerTest {
     private static final String URL_PREFIX = "/api/leave-days-requests/";
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;

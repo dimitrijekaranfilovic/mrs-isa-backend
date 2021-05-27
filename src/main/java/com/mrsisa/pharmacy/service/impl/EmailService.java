@@ -146,7 +146,8 @@ public class EmailService implements IEmailService {
         var subject = "Order " + offer.getOriginalOrder().getId() + " results";
         var sb = new StringBuilder();
         sb.append(DEAR).append(offer.getSupplier().getFirstName()).append(DEAR_END);
-        assert !offer.getOfferStatus().toString().equals("");
+        if(offer.getOfferStatus().toString().equals(""))
+            return;
         var result = offer.getOfferStatus().toString().toLowerCase();
         sb.append("Your offer ").append(offer.getId()).append(" has been ").append(result).append(".\n");
         sb.append(ALL_THE_BEST).append(offer.getOriginalOrder().getPharmacy().getName()).append(".");

@@ -32,7 +32,7 @@ public class DermatologistAvailableAppointmentScheduleValidator implements IDerm
     }
 
     private void checkAppointmentValidity(AvailableAppointmentSchedulingDTO dto) {
-        Appointment appointment = appointmentService.get(dto.getAppointmentId());
+        var appointment = appointmentService.get(dto.getAppointmentId());
 
         if (!appointment.getAppointmentStatus().equals(AppointmentStatus.AVAILABLE)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Appointment is not available!");
@@ -49,7 +49,7 @@ public class DermatologistAvailableAppointmentScheduleValidator implements IDerm
     }
 
     private void checkPatientAppointmentOverlapping(AvailableAppointmentSchedulingDTO dto) {
-        Appointment dermatologistAppointment = appointmentService.get(dto.getAppointmentId());
+        var dermatologistAppointment = appointmentService.get(dto.getAppointmentId());
         List<Appointment> patientAppointments = appointmentService.getAllBookedAppointmentsForPatient(dto.getPatientId());
 
         patientAppointments.forEach(appointment -> {

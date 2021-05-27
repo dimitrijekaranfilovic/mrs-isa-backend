@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class AppointmentServiceTest {
+class AppointmentServiceTest {
 
     @Mock
     private IPharmacyRepository pharmacyRepositoryMock;

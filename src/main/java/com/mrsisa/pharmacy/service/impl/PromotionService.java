@@ -59,13 +59,11 @@ public class PromotionService extends JPAService<Promotion> implements IPromotio
 
     @Override
     public void endExpiredPromotions() {
-        promotionRepository.getActiveExpiredPromotionsStream(PromotionStatus.ACTIVE, LocalDate.now()).forEach(promotion -> {
-            promotion.getPromotionItems().forEach(item -> {
-                // Need to fetch the stock again here so that I can lock it
-                medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock -> medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getInverseDiscountFactor())));
-                promotion.setPromotionStatus(PromotionStatus.EXPIRED);
-            });
-        });
+        promotionRepository.getActiveExpiredPromotionsStream(PromotionStatus.ACTIVE, LocalDate.now()).forEach(promotion -> promotion.getPromotionItems().forEach(item -> {
+            // Need to fetch the stock again here so that I can lock it
+            medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock -> medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getInverseDiscountFactor())));
+            promotion.setPromotionStatus(PromotionStatus.EXPIRED);
+        }));
     }
 
     @Override
@@ -75,14 +73,12 @@ public class PromotionService extends JPAService<Promotion> implements IPromotio
 
     @Override
     public void applyPromotionDiscounts() {
-        promotionRepository.getPromotionsWhichStartTodayStream(PromotionStatus.ACTIVE, LocalDate.now().plusDays(1)).forEach(promotion -> {
-            promotion.getPromotionItems().forEach(item -> {
-                // Need to fetch the stock again here so that I can lock it
-                medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock ->
-                        medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getDiscountFactor())));
-                promotion.setPromotionStatus(PromotionStatus.EXPIRED);
-            });
-        });
+        promotionRepository.getPromotionsWhichStartTodayStream(PromotionStatus.ACTIVE, LocalDate.now().plusDays(1)).forEach(promotion -> promotion.getPromotionItems().forEach(item -> {
+            // Need to fetch the stock again here so that I can lock it
+            medicineStockRepository.getMedicineInPharmacy(promotion.getPharmacy().getId(), item.getMedicine().getId()).ifPresent(medicineStock ->
+                    medicineStock.setCurrentPrice(getNewPrice(medicineStock, item.getDiscountFactor())));
+            promotion.setPromotionStatus(PromotionStatus.EXPIRED);
+        }));
     }
 
     private Double getNewPrice(MedicineStock stock, Double multiplier) {

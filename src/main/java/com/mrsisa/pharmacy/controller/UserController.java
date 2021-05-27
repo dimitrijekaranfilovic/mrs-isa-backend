@@ -2,7 +2,6 @@ package com.mrsisa.pharmacy.controller;
 
 import com.mrsisa.pharmacy.aspect.OwningUser;
 import com.mrsisa.pharmacy.domain.entities.Authority;
-import com.mrsisa.pharmacy.domain.entities.User;
 import com.mrsisa.pharmacy.dto.*;
 import com.mrsisa.pharmacy.security.util.JwtUtil;
 import com.mrsisa.pharmacy.service.IUserService;

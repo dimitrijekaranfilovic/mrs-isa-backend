@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class AppointmentControllerTest {
+class AppointmentControllerTest {
     private static final String URL_PREFIX = "/api/appointments/";
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;

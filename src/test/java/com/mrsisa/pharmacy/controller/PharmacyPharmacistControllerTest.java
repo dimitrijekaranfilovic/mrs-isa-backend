@@ -19,7 +19,7 @@ import static com.mrsisa.pharmacy.util.TestUtil.json;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class PharmacyPharmacistControllerTest {
+class PharmacyPharmacistControllerTest {
     private static final String URL_PREFIX = "/api/pharmacies/" + PHARMACY_ID + "/pharmacists";
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;

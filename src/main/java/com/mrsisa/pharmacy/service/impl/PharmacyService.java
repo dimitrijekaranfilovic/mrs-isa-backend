@@ -282,14 +282,14 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
         if (patient == null) {
             return null;
         }
-        Pharmacy pharmacy = this.pharmacyRepository.findByIdAndActiveTrue(pharmacyId)
+        var pharmacy = this.pharmacyRepository.findByIdAndActiveTrue(pharmacyId)
                 .orElse(null);
         if (pharmacy == null) {
             return null;
         }
 
         // in case user has already reviewed the drug
-        return pharmacy.getReviews().stream().filter((r) -> r.getReviewer().getId().equals(patient.getId())).findFirst()
+        return pharmacy.getReviews().stream().filter(r -> r.getReviewer().getId().equals(patient.getId())).findFirst()
                 .orElse(null);
     }
 

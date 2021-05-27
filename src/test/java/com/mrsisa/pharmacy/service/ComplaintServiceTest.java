@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @SpringBootTest
-public class ComplaintServiceTest {
+class ComplaintServiceTest {
 
     @Mock
     private IComplaintRepository complaintRepositoryMock;

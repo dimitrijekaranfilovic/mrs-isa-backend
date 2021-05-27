@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static com.mrsisa.pharmacy.constants.PharmacyAppointmentsConstants.*;
 
 @SpringBootTest
-public class PharmacyAppointmentControllerTest {
+class PharmacyAppointmentControllerTest {
     private static final String URL_PREFIX = "/api/pharmacies/" + APPOINTMENT_PHARMACY_ID + "/appointments";
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;

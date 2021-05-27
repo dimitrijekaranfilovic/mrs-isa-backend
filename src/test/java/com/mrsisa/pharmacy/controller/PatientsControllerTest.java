@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class PatientsControllerTest {
+class PatientsControllerTest {
 
     private static final String URL_PREFIX = "/api/patients";
 

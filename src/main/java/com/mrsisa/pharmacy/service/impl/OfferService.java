@@ -44,7 +44,7 @@ public class OfferService extends JPAService<Offer> implements IOfferService {
         Optional<Offer> optionalOffer = this.offerRepository.getOfferForSupplierUsingOfferId(supplierId, offerId);
         if(optionalOffer.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Offer does not exist.");
-        Offer offer = optionalOffer.get();
+        var offer = optionalOffer.get();
         if(offer.getOriginalOrder().getDueDate().isBefore(LocalDateTime.now()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deadline for offers for this order has passed.");
         if(offer.getOfferStatus() != OfferStatus.PENDING)

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 ;
 
 @SpringBootTest
-public class PharmacyMedicineStocksControllerTest {
+class PharmacyMedicineStocksControllerTest {
     private static final String URL_PREFIX = "/api/pharmacies/" + PHARMACY_ID + "/stocks";
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;

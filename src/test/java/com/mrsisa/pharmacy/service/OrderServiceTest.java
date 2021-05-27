@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class OrderServiceTest {
+class OrderServiceTest {
 
     @Mock
     private IOfferRepository offerRepositoryMock;
@@ -64,7 +64,7 @@ public class OrderServiceTest {
 
     @Test
     @Transactional
-    public void testAcceptOffer() {
+    void testAcceptOffer() {
         // Test cast constants
         final Long PHARMACY_ID = 1234L;
         final Long ORDER_ID = 789L;
