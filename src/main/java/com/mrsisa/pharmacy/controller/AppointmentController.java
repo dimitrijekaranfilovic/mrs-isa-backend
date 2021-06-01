@@ -160,7 +160,6 @@ public class AppointmentController {
     @OwningUser
     public AppointmentStartDTO getAppointmentInProgress(@PathVariable("id") Long id) {
         var appointment = appointmentService.getAppointmentInProgressForEmployee(id);
-
         return toAppointmentStartDTO.convert(appointment);
     }
 
