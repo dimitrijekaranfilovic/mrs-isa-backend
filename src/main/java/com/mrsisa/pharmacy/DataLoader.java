@@ -39,6 +39,7 @@ public class DataLoader implements ApplicationRunner {
     private static final String DATE_4 = "28.03.2020. 10:20";
     private static final String DATE_5 = "04.06.2021. 17:00";
 
+    
     private static final String DIJAGNOSTIKA = "dijagnostika";
     private static final String NOVI_SAD = "Novi Sad";
     private static final String SERBIA = "Serbia";
