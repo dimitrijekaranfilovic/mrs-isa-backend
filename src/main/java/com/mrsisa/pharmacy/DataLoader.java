@@ -30,6 +30,23 @@ public class DataLoader implements ApplicationRunner {
     public static final String GALENIKA_AD = "GALENIKA AD";
     public static final String SASTAV = "sastav";
     public static final String PROIZVODJAC = "proizvodjac";
+    public static final String TEST_123 = "test123";
+    public static final String ADMIN = "admin";
+    private static  final String DESCRIPTION = "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.";
+    private static final String DATE_1 = "06.06.2021. 19:00";
+    private static final String DATE_2 = "23.06.2021. 12:30";
+    private static final String DATE_3 = "23.06.2021. 09:40";
+    private static final String DATE_4 = "28.03.2020. 10:20";
+    private static final String DATE_5 = "04.06.2021. 17:00";
+
+    private static final String DIJAGNOSTIKA = "dijagnostika";
+    private static final String NOVI_SAD = "Novi Sad";
+    private static final String SERBIA = "Serbia";
+    private static final String BULEVAR_OSLOBODJENJA = "Bulevar Oslobodjenja";
+    private static final String ZIP_CODE = "21101";
+    private static final String VESNA = "Vesna";
+    private static final String ANDREA = "Andrea";
+    private static final String FORMAT = "dd.MM.yyyy. HH:mm";
     private final IAuthorityRepository authorityRepository;
     private final IUserRepository userRepository;
     private final IPharmacyRepository pharmacyRepository;
@@ -90,11 +107,11 @@ public class DataLoader implements ApplicationRunner {
         var supplierAuthority = createAuthority("ROLE_SUPPLIER");
 
         // Create system admins
-        var systemAdmin1 = new SystemAdmin("Stanko", "Antic", "stankoantic", "test123", "stankoantic@gmail.com", true, true);
+        var systemAdmin1 = new SystemAdmin("Stanko", "Antic", "stankoantic", TEST_123, "stankoantic@gmail.com", true, true);
         systemAdmin1.getAuthorities().add(systemAdminAuthority);
-        var systemAdmin2 = new SystemAdmin("Pera", "Zivanovic", "perazivanovic", "test123", "perazivanovic@gmail.com", true, true);
+        var systemAdmin2 = new SystemAdmin("Pera", "Zivanovic", "perazivanovic", TEST_123, "perazivanovic@gmail.com", true, true);
         systemAdmin2.getAuthorities().add(systemAdminAuthority);
-        var systemAdmin3 = new SystemAdmin("admin", "admin", "admin", "admin", "admin@gmail.com", true, true);
+        var systemAdmin3 = new SystemAdmin(ADMIN, ADMIN, ADMIN, ADMIN, "admin@gmail.com", true, true);
         systemAdmin3.getAuthorities().add(systemAdminAuthority);
         userRepository.save(systemAdmin1);
         userRepository.save(systemAdmin2);
@@ -126,41 +143,41 @@ public class DataLoader implements ApplicationRunner {
         var benu = new Pharmacy("Benu Apoteka", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer magna tortor, commodo elementum augue hendrerit, aliquet porttitor odio. Etiam efficitur pellentesque velit sit amet malesuada.", benuLocation);
         benu.setAverageGrade(4.86);
         benu.getComplaints().add(c1);
-        var drMaxLocation = new Location(45.248661135597416, 19.839300607106516, getNoviSadAddress("Bulevar oslobodjenja", "105"));
+        var drMaxLocation = new Location(45.248661135597416, 19.839300607106516, getNoviSadAddress(BULEVAR_OSLOBODJENJA, "105"));
         var drMax = new Pharmacy("Dr Max", "Mauris et velit vitae justo aliquet aliquam tristique et risus. Nunc luctus elit at malesuada luctus. Aliquam tincidunt felis ac sodales bibendum.", drMaxLocation);
         var jankovicLocation = new Location(45.25681728629487, 19.81379914341574, getNoviSadAddress("Hadzi Ruvimovia", "48"));
-        var jankovic = new Pharmacy("Jankovic", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", jankovicLocation);
-        var lillyLocation = new Location(45.26128371780874, 19.81573069750041, new Address("Serbia", "Novi Sad", "Janka Veselinovica", "20", "21137"));
-        var lilly = new Pharmacy("Lilly", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", lillyLocation);
+        var jankovic = new Pharmacy("Jankovic", DESCRIPTION, jankovicLocation);
+        var lillyLocation = new Location(45.26128371780874, 19.81573069750041, new Address(SERBIA, NOVI_SAD, "Janka Veselinovica", "20", "21137"));
+        var lilly = new Pharmacy("Lilly", DESCRIPTION, lillyLocation);
 
-        var dmLocation = new Location(45.26129717114014, 19.812867840128376, new Address("Serbia", "Novi Sad", "Trg Majke Jevrosime", "21", "21137"));
-        var dm = new Pharmacy("DM", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", dmLocation);
+        var dmLocation = new Location(45.26129717114014, 19.812867840128376, new Address(SERBIA, NOVI_SAD, "Trg Majke Jevrosime", "21", "21137"));
+        var dm = new Pharmacy("DM", DESCRIPTION, dmLocation);
 
-        var ibisLocation = new Location(45.2630180312307, 19.83046478671768, new Address("Serbia", "Novi Sad", "Bulevar oslobodjenja", "4a", "21101"));
-        var ibis = new Pharmacy("Ibis", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", ibisLocation);
+        var ibisLocation = new Location(45.2630180312307, 19.83046478671768, new Address(SERBIA, NOVI_SAD, BULEVAR_OSLOBODJENJA, "4a", ZIP_CODE));
+        var ibis = new Pharmacy("Ibis", DESCRIPTION, ibisLocation);
 
-        var mediGrupLocation = new Location(44.82198829616635, 20.462140149011613, new Address("Serbia", "Stari Grad Urban Municipality", "Cara Dusana", "58", "11158"));
-        var mediGrup = new Pharmacy("MediGrup", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", mediGrupLocation);
+        var mediGrupLocation = new Location(44.82198829616635, 20.462140149011613, new Address(SERBIA, "Stari Grad Urban Municipality", "Cara Dusana", "58", "11158"));
+        var mediGrup = new Pharmacy("MediGrup", DESCRIPTION, mediGrupLocation);
 
-        var apotekaBgLocation = new Location(44.82288751241458, 20.45877372595868, new Address("Serbia", "Stari Grad Urban Municipality", "Kralja Petra", "85", "11158"));
-        var apotekaBg = new Pharmacy("Apoteka Beograd", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", apotekaBgLocation);
+        var apotekaBgLocation = new Location(44.82288751241458, 20.45877372595868, new Address(SERBIA, "Stari Grad Urban Municipality", "Kralja Petra", "85", "11158"));
+        var apotekaBg = new Pharmacy("Apoteka Beograd", DESCRIPTION, apotekaBgLocation);
 
-        var tiliaLocation = new Location(45.254689574828035, 19.8350150917808, new Address("Serbia", "Novi Sad", "Bulevar oslobodjenja", "66", "21101"));
-        var tilia = new Pharmacy("Tilia", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", tiliaLocation);
+        var tiliaLocation = new Location(45.254689574828035, 19.8350150917808, new Address(SERBIA, NOVI_SAD, BULEVAR_OSLOBODJENJA, "66", ZIP_CODE));
+        var tilia = new Pharmacy("Tilia", DESCRIPTION, tiliaLocation);
 
-        var livsaneLocation = new Location(45.25001916978874, 19.848136592714777, new Address("Serbia", "Novi Sad", "Strazilovska", "19a", "21101"));
-        var livsane = new Pharmacy("Livsane", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", livsaneLocation);
+        var livsaneLocation = new Location(45.25001916978874, 19.848136592714777, new Address(SERBIA, NOVI_SAD, "Strazilovska", "19a", ZIP_CODE));
+        var livsane = new Pharmacy("Livsane", DESCRIPTION, livsaneLocation);
 
         var treccaLocation = new Location(41.890558171850785, 12.506332260870309, new Address("Italy", "Rome", "Via Emanuele Filiberto", "155", "00185"));
-        var trecca = new Pharmacy("Trecca Mastrangelli", "Duis augue quam, pulvinar in condimentum id, aliquet tristique nibh. Pellentesque in facilisis velit. Aliquam eu aliquam ante. Donec a lacinia tortor.", treccaLocation);
+        var trecca = new Pharmacy("Trecca Mastrangelli", DESCRIPTION, treccaLocation);
 
-        PharmacyAdmin benuAdmin = new PharmacyAdmin("Vidoje", "Gavrilovic", "vidojegavrilovic", "test123", "vidojegavrilovic@gmail.com", true, true, benu);
+        PharmacyAdmin benuAdmin = new PharmacyAdmin("Vidoje", "Gavrilovic", "vidojegavrilovic", TEST_123, "vidojegavrilovic@gmail.com", true, true, benu);
         benuAdmin.getAuthorities().add(pharmacyAdminAuthority);
         benu.getPharmacyAdmins().add(benuAdmin);
-        PharmacyAdmin drMaxAdmin = new PharmacyAdmin("Mladen", "Gojkovic", "mladengojkovic", "test123", "mladengojkovic@gmail.com", true, true, drMax);
+        PharmacyAdmin drMaxAdmin = new PharmacyAdmin("Mladen", "Gojkovic", "mladengojkovic", TEST_123, "mladengojkovic@gmail.com", true, true, drMax);
         drMaxAdmin.getAuthorities().add(pharmacyAdminAuthority);
         drMax.getPharmacyAdmins().add(drMaxAdmin);
-        PharmacyAdmin jankovicAdmin = new PharmacyAdmin("Milovan", "Todorovic", "milovantodorovic", "test123", "milovantodorovic@gmail.com", true, true, jankovic);
+        PharmacyAdmin jankovicAdmin = new PharmacyAdmin("Milovan", "Todorovic", "milovantodorovic", TEST_123, "milovantodorovic@gmail.com", true, true, jankovic);
         jankovicAdmin.getAuthorities().add(pharmacyAdminAuthority);
         jankovic.getPharmacyAdmins().add(jankovicAdmin);
         PharmacyAdmin lillyAdmin = new PharmacyAdmin("root", "root", "root", "root", "root@gmail.com", true, true, lilly);
@@ -180,7 +197,7 @@ public class DataLoader implements ApplicationRunner {
 
         // Create pharmacists
         var ph1 = createPharmacyEmployee("Rakita", "Moldovan", EmployeeType.PHARMACIST, pharmacistAuthority, 4.2);
-        var ph2 = createPharmacyEmployee("Vesna", "Janketic", EmployeeType.PHARMACIST, pharmacistAuthority, 3.7);
+        var ph2 = createPharmacyEmployee(VESNA, "Janketic", EmployeeType.PHARMACIST, pharmacistAuthority, 3.7);
         var ph3 = createPharmacyEmployee("Ljubinka", "Pap", EmployeeType.PHARMACIST, pharmacistAuthority, 5.0);
         var ph4 = createPharmacyEmployee("Sara", "Velimirovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.8);
         var ph5 = createPharmacyEmployee("Neda", "Pejic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.1);
@@ -189,19 +206,19 @@ public class DataLoader implements ApplicationRunner {
         // Only for testing
         var tempPharmacist1 = createPharmacyEmployee("Slavica", "Krstic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.7);
         var tempPharmacist2 = createPharmacyEmployee("Dragana", "Aleksic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.8);
-        var tempPharmacist3 = createPharmacyEmployee("Vesna", "Nedeljkovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.95);
+        var tempPharmacist3 = createPharmacyEmployee(VESNA, "Nedeljkovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.95);
         var tempPharmacist4 = createPharmacyEmployee("Gorana", "Andric", EmployeeType.PHARMACIST, pharmacistAuthority, 4.2);
         var tempPharmacist5 = createPharmacyEmployee("Zorka", "Bojanic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.1);
         var tempPharmacist6 = createPharmacyEmployee("Elena", "Borisavljevic", EmployeeType.PHARMACIST, pharmacistAuthority, 3.7);
-        var tempPharmacist7 = createPharmacyEmployee("Andrea", "Jovanovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.6);
+        var tempPharmacist7 = createPharmacyEmployee(ANDREA, "Jovanovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.6);
         var tempPharmacist8 = createPharmacyEmployee("Bogdana", "Markovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.6);
         var tempPharmacist9 = createPharmacyEmployee("Bogdana", "Darkovic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.5);
         var tempPharmacist10 = createPharmacyEmployee("Renja", "Miljatovic", EmployeeType.PHARMACIST, pharmacistAuthority, 2.7);
         var tempPharmacist11 = createPharmacyEmployee("Sofija", "Brkic", EmployeeType.PHARMACIST, pharmacistAuthority, 3.7);
         var tempPharmacist12 = createPharmacyEmployee("Milena", "Vujic", EmployeeType.PHARMACIST, pharmacistAuthority, 4.8);
 
-        var tempDermatologist1 = createPharmacyEmployee("Andrea", "Todorovic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.7, c2);
-        var tempDermatologist2 = createPharmacyEmployee("Andrea", "Novakovic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.8);
+        var tempDermatologist1 = createPharmacyEmployee(ANDREA, "Todorovic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.7, c2);
+        var tempDermatologist2 = createPharmacyEmployee(ANDREA, "Novakovic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.8);
         var tempDermatologist3 = createPharmacyEmployee("Snezana", "Brdjanin", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.95);
         var tempDermatologist4 = createPharmacyEmployee("Mina", "Savicevic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.2);
         var tempDermatologist5 = createPharmacyEmployee("Milana", "Lazic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.1);
@@ -211,7 +228,7 @@ public class DataLoader implements ApplicationRunner {
         var tempDermatologist9 = createPharmacyEmployee("Stojanka", "Carapic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.5);
         var tempDermatologist10 = createPharmacyEmployee("Emilija", "Nikolic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 2.7);
         var tempDermatologist11 = createPharmacyEmployee("Jasna", "Pajic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 3.7);
-        var tempDermatologist12 = createPharmacyEmployee("Vesna", "Evic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.8);
+        var tempDermatologist12 = createPharmacyEmployee(VESNA, "Evic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 4.8);
 
         // Create dermatologists
         var dm1 = createPharmacyEmployee("Divna", "Bojanic", EmployeeType.DERMATOLOGIST, dermatologistAuthority, 3.6);
@@ -262,8 +279,8 @@ public class DataLoader implements ApplicationRunner {
         var ec12 = createEmploymentContract(dm3, jankovic, "23.03.2021.", getWorkingHours("14:00", TO_WORKING_HOURS));
 
         // Create suppliers
-        var testSupplier = new Supplier("Dusan", "Erdeljan", "dusanerdeljan", "test123", "dusanerdeljan99@gmail.com", true, true, "Moja kompanija");
-        var testSupplier1 = new Supplier("Dusan", "Erdeljan", "dusanerdeljan1", "test123", "dusanerdeljan858@gmail.com", true, true, "Moja kompanija");
+        var testSupplier = new Supplier("Dusan", "Erdeljan", "dusanerdeljan", TEST_123, "dusanerdeljan99@gmail.com", true, true, "Moja kompanija");
+        var testSupplier1 = new Supplier("Dusan", "Erdeljan", "dusanerdeljan1", TEST_123, "dusanerdeljan858@gmail.com", true, true, "Moja kompanija");
         testSupplier.getAuthorities().add(supplierAuthority);
         testSupplier1.getAuthorities().add(supplierAuthority);
         userRepository.save(testSupplier);
@@ -362,16 +379,16 @@ public class DataLoader implements ApplicationRunner {
 
 
         // Create appointments which already took place
-        var a7 = createAppointmentWhichTookPlace("01.02.2021. 12:00", "01.02.2021. 12:30", 3000.0, tempC, p1, new Report("dijagnostika"));
-        var a8 = createAppointmentWhichTookPlace("01.02.2021. 16:00", "01.02.2021. 16:25", 2000.0, tempC, p2, new Report("dijagnostika"));
-        var a9 = createAppointmentWhichTookPlace("01.02.2021. 09:00", "01.02.2021. 09:50", 2500.0, ec2aa, p3, new Report("dijagnostika"));
-        var a15 = createAppointmentWhichTookPlace("01.02.2021. 10:00", "01.02.2021. 10:45", 3000.0, ec2aa, p1, new Report("dijagnostika"));
-        var a19 = createAppointmentWhichTookPlace("01.02.2020. 10:00", "01.02.2020. 10:45", 2000.0, ec2aa, p1, new Report("dijagnostika"));
-        var a20 = createAppointmentWhichTookPlace("04.03.2019. 11:00", "04.03.2019. 12:45", 1000.0, ec4, p1, new Report("dijagnostika"));
+        var a7 = createAppointmentWhichTookPlace("01.02.2021. 12:00", "01.02.2021. 12:30", 3000.0, tempC, p1, new Report(DIJAGNOSTIKA));
+        var a8 = createAppointmentWhichTookPlace("01.02.2021. 16:00", "01.02.2021. 16:25", 2000.0, tempC, p2, new Report(DIJAGNOSTIKA));
+        var a9 = createAppointmentWhichTookPlace("01.02.2021. 09:00", "01.02.2021. 09:50", 2500.0, ec2aa, p3, new Report(DIJAGNOSTIKA));
+        var a15 = createAppointmentWhichTookPlace("01.02.2021. 10:00", "01.02.2021. 10:45", 3000.0, ec2aa, p1, new Report(DIJAGNOSTIKA));
+        var a19 = createAppointmentWhichTookPlace("01.02.2020. 10:00", "01.02.2020. 10:45", 2000.0, ec2aa, p1, new Report(DIJAGNOSTIKA));
+        var a20 = createAppointmentWhichTookPlace("04.03.2019. 11:00", "04.03.2019. 12:45", 1000.0, ec4, p1, new Report(DIJAGNOSTIKA));
 
-        var a90 = createAppointmentWhichTookPlace("04.03.2019. 11:00", "04.03.2019. 12:45", 1000.0, ec2a, p1, new Report("dijagnostika"));
-        var a91 = createAppointmentWhichTookPlace("04.03.2020. 11:00", "04.03.2020. 13:45", 1200.0, ec2b, p1, new Report("dijagnostika"));
-        var a92 = createAppointmentWhichTookPlace("04.03.2021. 11:00", "04.03.2021. 18:45", 1300.0, ec2c, p1, new Report("dijagnostika"));
+        var a90 = createAppointmentWhichTookPlace("04.03.2019. 11:00", "04.03.2019. 12:45", 1000.0, ec2a, p1, new Report(DIJAGNOSTIKA));
+        var a91 = createAppointmentWhichTookPlace("04.03.2020. 11:00", "04.03.2020. 13:45", 1200.0, ec2b, p1, new Report(DIJAGNOSTIKA));
+        var a92 = createAppointmentWhichTookPlace("04.03.2021. 11:00", "04.03.2021. 18:45", 1300.0, ec2c, p1, new Report(DIJAGNOSTIKA));
 
         // Add missing medicine logs (this is not valid data and is only used for testing)
         ArrayList<Medicine> logMedicines = new ArrayList<>(List.of(aspirin, brufen, galitifen));
@@ -410,55 +427,55 @@ public class DataLoader implements ApplicationRunner {
         var a38 = createAvailableAppointment("22.06.2021. 12:30", "22.06.2021. 15:30",3000,ec3);
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies
-        var a39 = createAvailableAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec2aa);
-        var a40 = createAvailableAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",2800,ec6);
-        var a41 = createAvailableAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec7);
-        var a42 = createAvailableAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",2800,ec7);
-        var a43 = createAvailableAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",3500,ec10);
-        var a44 = createAvailableAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",3500,ec10);
+        var a39 = createAvailableAppointment(DATE_3, DATE_2,2800,ec2aa);
+        var a40 = createAvailableAppointment(DATE_2, "23.06.2021. 15:30",2800,ec6);
+        var a41 = createAvailableAppointment(DATE_3, DATE_2,2800,ec7);
+        var a42 = createAvailableAppointment(DATE_2, "23.06.2021. 15:30",2800,ec7);
+        var a43 = createAvailableAppointment(DATE_3, DATE_2,3500,ec10);
+        var a44 = createAvailableAppointment(DATE_2, "23.06.2021. 15:30",3500,ec10);
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies that are already booked
-        var a49 = createBookedAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec2a, p1);
+        var a49 = createBookedAppointment(DATE_3, DATE_2,2800,ec2a, p1);
         var a50 = createBookedAppointment("08.05.2021. 02:30", "08.05.2021. 22:30",2800,ec2aa, p1);
-        var a51 = createBookedAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",2800,ec2c, p3);
-        var a52 = createBookedAppointment("23.06.2021. 12:30", "23.06.2021. 15:30",2800,ec2d, p4);
-        var a53 = createBookedAppointment("23.06.2021. 09:40", "23.06.2021. 12:30",3500,ec2e, p5);
+        var a51 = createBookedAppointment(DATE_3, DATE_2,2800,ec2c, p3);
+        var a52 = createBookedAppointment(DATE_2, "23.06.2021. 15:30",2800,ec2d, p4);
+        var a53 = createBookedAppointment(DATE_3, DATE_2,3500,ec2e, p5);
         var a54 = createBookedAppointment("23.06.2021. 13:30", "23.06.2021. 15:30",3500,ec2f, p1);
 
         // Test data for charts
-        var a71 = createAppointmentWhichTookPlace("01.04.2021. 12:00", "01.04.2021. 12:30", 3000.0, tempC, p1, new Report("dijagnostika"));
-        var a82 = createAppointmentWhichTookPlace("01.03.2021. 16:00", "01.03.2021. 16:25", 2000.0, tempC, p2, new Report("dijagnostika"));
-        var a73 = createAppointmentWhichTookPlace("01.04.2021. 12:00", "01.04.2021. 12:30", 3000.0, tempC, p1, new Report("dijagnostika"));
-        var a84 = createAppointmentWhichTookPlace("01.06.2021. 16:00", "01.06.2021. 16:25", 2000.0, tempC, p2, new Report("dijagnostika"));
-        var a75 = createAppointmentWhichTookPlace("01.07.2021. 12:00", "01.07.2021. 12:30", 3000.0, tempC, p1, new Report("dijagnostika"));
-        var a86 = createAppointmentWhichTookPlace("01.08.2021. 16:00", "01.08.2021. 16:25", 2000.0, tempC, p2, new Report("dijagnostika"));
+        var a71 = createAppointmentWhichTookPlace("01.04.2021. 12:00", "01.04.2021. 12:30", 3000.0, tempC, p1, new Report(DIJAGNOSTIKA));
+        var a82 = createAppointmentWhichTookPlace("01.03.2021. 16:00", "01.03.2021. 16:25", 2000.0, tempC, p2, new Report(DIJAGNOSTIKA));
+        var a73 = createAppointmentWhichTookPlace("01.04.2021. 12:00", "01.04.2021. 12:30", 3000.0, tempC, p1, new Report(DIJAGNOSTIKA));
+        var a84 = createAppointmentWhichTookPlace("01.06.2021. 16:00", "01.06.2021. 16:25", 2000.0, tempC, p2, new Report(DIJAGNOSTIKA));
+        var a75 = createAppointmentWhichTookPlace("01.07.2021. 12:00", "01.07.2021. 12:30", 3000.0, tempC, p1, new Report(DIJAGNOSTIKA));
+        var a86 = createAppointmentWhichTookPlace("01.08.2021. 16:00", "01.08.2021. 16:25", 2000.0, tempC, p2, new Report(DIJAGNOSTIKA));
 
         // Create medicine reservations
         var medicineReservation1 = createMedicineReservation(450.0, "28.03.2021. 10:00", "05.08.2021. 10:00", benu, p1, new MedicineReservationItem(2, aspirin, 300.0));
         var medicineReservation2 = createMedicineReservation(550.0, "28.03.2021. 10:15", "05.06.2021. 10:00", drMax, p2, new MedicineReservationItem(3, brufen, 220.0));
         var medicineReservation3 = createMedicineReservation(650.0, "28.03.2021. 10:20", "05.06.2021. 10:00", jankovic, p3, new MedicineReservationItem(3, aspirin, 290.0));
-        var medicineReservation4 = createMedicineReservation(650.0, "28.03.2020. 10:20", "05.06.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, aspirin, 290.0));
+        var medicineReservation4 = createMedicineReservation(650.0, DATE_4, "05.06.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, aspirin, 290.0));
 
-        var medicineReservation5 = createIssuedMedicineReservation(650.0, "28.03.2020. 10:20", "05.04.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, aspirin, 290.0));
+        var medicineReservation5 = createIssuedMedicineReservation(650.0, DATE_4, "05.04.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, aspirin, 290.0));
         var medicineReservation6 = createIssuedMedicineReservation(850.0, "23.03.2020. 10:20", "05.06.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, brufen, 390.0));
         var medicineReservation7 = createIssuedMedicineReservation(350.0, "21.03.2020. 10:20", "05.07.2020. 10:00", benu, p1, new MedicineReservationItem(3, aspirin, 540.0));
-        var medicineReservation8 = createIssuedMedicineReservation(450.0, "28.03.2020. 10:20", "05.04.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, aspirin, 290.0));
+        var medicineReservation8 = createIssuedMedicineReservation(450.0, DATE_4, "05.04.2020. 10:00", jankovic, p1, new MedicineReservationItem(3, aspirin, 290.0));
         var medicineReservation9 = createIssuedMedicineReservation(250.0, "23.03.2020. 10:20", "05.11.2020. 10:00", jankovic, p1, new MedicineReservationItem(2, brufen, 390.0));
         var medicineReservation10 = createIssuedMedicineReservation(150.0, "21.03.2020. 10:20", "05.12.2020. 10:00", benu, p1, new MedicineReservationItem(1, hepalpan, 540.0));
 
         // Create order
         var order1 = createOrder("05.06.2021. 18:00", benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen), new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen), new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen), new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen), new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen), new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen), new MedicineOrderInfo(10, aspirin), new MedicineOrderInfo(30, brufen));
-        var order2 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(50, hepalpan), new MedicineOrderInfo(100, galitifen));
-        var order21 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(55, hepalpan), new MedicineOrderInfo(101, galitifen));
-        var order22 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(51, hepalpan), new MedicineOrderInfo(99, galitifen));
-        var order23 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(52, hepalpan), new MedicineOrderInfo(98, galitifen));
-        var order24 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(53, hepalpan), new MedicineOrderInfo(97, galitifen));
-        var order25 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(54, hepalpan), new MedicineOrderInfo(96, galitifen));
-        var order31 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(55, hepalpan), new MedicineOrderInfo(101, galitifen));
-        var order32 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(51, hepalpan), new MedicineOrderInfo(99, galitifen));
-        var order33 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(52, hepalpan), new MedicineOrderInfo(98, galitifen));
-        var order34 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(53, hepalpan), new MedicineOrderInfo(97, galitifen));
-        var order35 = createOrder("06.06.2021. 19:00", benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(54, hepalpan), new MedicineOrderInfo(96, galitifen));
+        var order2 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(50, hepalpan), new MedicineOrderInfo(100, galitifen));
+        var order21 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(55, hepalpan), new MedicineOrderInfo(101, galitifen));
+        var order22 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(51, hepalpan), new MedicineOrderInfo(99, galitifen));
+        var order23 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(52, hepalpan), new MedicineOrderInfo(98, galitifen));
+        var order24 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(53, hepalpan), new MedicineOrderInfo(97, galitifen));
+        var order25 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(54, hepalpan), new MedicineOrderInfo(96, galitifen));
+        var order31 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(55, hepalpan), new MedicineOrderInfo(101, galitifen));
+        var order32 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(51, hepalpan), new MedicineOrderInfo(99, galitifen));
+        var order33 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(52, hepalpan), new MedicineOrderInfo(98, galitifen));
+        var order34 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(53, hepalpan), new MedicineOrderInfo(97, galitifen));
+        var order35 = createOrder(DATE_1, benuAdmin, benu, OrderStatus.PROCESSED, new MedicineOrderInfo(54, hepalpan), new MedicineOrderInfo(96, galitifen));
 
         var order3 = createOrder("07.06.2021. 17:30", drMaxAdmin, drMax, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(45, aspirin), new MedicineOrderInfo(66, brufen));
         var order4 = createOrder("08.06.2021. 16:50", drMaxAdmin, drMax, OrderStatus.WAITING_FOR_OFFERS, new MedicineOrderInfo(71, itanem), new MedicineOrderInfo(17, paravano));
@@ -471,16 +488,15 @@ public class DataLoader implements ApplicationRunner {
         var offer11 = createOffer(12000.0, "01.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
         var offer12 = createOffer(14000.0, "03.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
         var offer13 = createOffer(8000.0, "05.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
-        var offer14 = createOffer(12500.0, "04.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
+        var offer14 = createOffer(12500.0, DATE_5, s1, order1, OfferStatus.REJECTED);
         var offer15 = createOffer(9600.0, "01.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
         var offer16 = createOffer(8000.0, "12.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
         var offer17 = createOffer(11000.0, "22.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
-        var offer18 = createOffer(12000.0, "04.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
+        var offer18 = createOffer(12000.0, DATE_5, s1, order1, OfferStatus.REJECTED);
         var offer19 = createOffer(11000.0, "09.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
         var offer110 = createOffer(10500.0, "08.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
-        var offer111 = createOffer(12400.0, "04.06.2021. 17:00", s1, order1, OfferStatus.REJECTED);
+        var offer111 = createOffer(12400.0, DATE_5, s1, order1, OfferStatus.REJECTED);
 
-        //Offer offer2 = createOffer(12000.0, "03.06.2021. 19:00", s4, order2, OfferStatus.PENDING);
 
         var offer3 = createOffer(13000.0, "04.06.2021. 16:00", s4, order3, OfferStatus.REJECTED);
 
@@ -519,7 +535,6 @@ public class DataLoader implements ApplicationRunner {
         IntStream.rangeClosed(1, 30).forEach(day ->  medicinePurchaseRepository.save(new MedicinePurchase(ThreadLocalRandom.current().nextInt(0, 20 + 1), 200.0, benu, LocalDate.of(2021, 4, day), brufen)));
         IntStream.rangeClosed(1, 30).forEach(day ->  medicinePurchaseRepository.save(new MedicinePurchase(ThreadLocalRandom.current().nextInt(0, 10 + 1), 200.0, benu, LocalDate.of(2021, 4, day), gabana)));
 
-        // TODO: Add everything else according to your needs here
         // Add promotions
         var promotion = new Promotion(benu, "Hajmo na nog hop, ublazite bol uz ibutop...Samo mu recite stop uz ibutop, I B U T O P :grimmacing:", LocalDate.of(2021, 5, 2), LocalDate.of(2021, 5, 14), PromotionStatus.ACTIVE);
         var item1 = new PromotionItem(promotion, aspirin, 50);
@@ -583,7 +598,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private MedicineReservation createMedicineReservation(Double price, String reservedAt, String reservationDeadline, Pharmacy pharmacy, Patient patient, MedicineReservationItem... medicineReservationItems) {
-        final var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        final var formatter = DateTimeFormatter.ofPattern(FORMAT);
         var medicineReservation = new MedicineReservation(price, LocalDateTime.parse(reservedAt, formatter), LocalDateTime.parse(reservationDeadline, formatter), ReservationStatus.RESERVED, pharmacy, patient);
         Arrays.stream(medicineReservationItems).forEach(medicineReservationItem -> {
             medicineReservationItem.setReservation(medicineReservation);
@@ -595,7 +610,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private MedicineReservation createIssuedMedicineReservation(Double price, String reservedAt, String reservationDeadline, Pharmacy pharmacy, Patient patient, MedicineReservationItem... medicineReservationItems) {
-        final var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        final var formatter = DateTimeFormatter.ofPattern(FORMAT);
         var medicineReservation = new MedicineReservation(price, LocalDateTime.parse(reservedAt, formatter), LocalDateTime.parse(reservationDeadline, formatter), ReservationStatus.PICKED, pharmacy, patient);
         Arrays.stream(medicineReservationItems).forEach(medicineReservationItem -> {
             medicineReservationItem.setReservation(medicineReservation);
@@ -606,7 +621,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private Offer createOffer(Double totalPrice, String deliveryDueDate, Supplier supplier, Order order, OfferStatus status) {
-        final var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        final var formatter = DateTimeFormatter.ofPattern(FORMAT);
         var offer = new Offer(totalPrice, LocalDateTime.parse(deliveryDueDate, formatter), status, supplier, order);
         order.getAvailableOffers().add(offer);
         supplier.getMyOffers().add(offer);
@@ -615,7 +630,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private Order createOrder(String dueDate, PharmacyAdmin admin, Pharmacy pharmacy, OrderStatus status, MedicineOrderInfo... medicineOrderInfos) {
-        final var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        final var formatter = DateTimeFormatter.ofPattern(FORMAT);
         var order = new Order(LocalDateTime.parse(dueDate, formatter), status, admin, pharmacy);
         Arrays.stream(medicineOrderInfos).forEach(medicineOrderInfo -> {
             medicineOrderInfo.setOrder(order);
@@ -629,7 +644,7 @@ public class DataLoader implements ApplicationRunner {
 
     private Supplier createSupplier(String firstName, String lastName, String company, Authority authority) {
         var username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        var supplier = new Supplier(firstName, lastName, username, "test123", generateMail(username), true, true, company);
+        var supplier = new Supplier(firstName, lastName, username, TEST_123, generateMail(username), true, true, company);
         supplier.getAuthorities().add(authority);
         userRepository.save(supplier);
         return supplier;
@@ -659,7 +674,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private Appointment createAppointment(String from, String to, double price, EmploymentContract contract, Patient patient, AppointmentStatus status, Report report) {
-        final var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        final var formatter = DateTimeFormatter.ofPattern(FORMAT);
         var dateFrom = LocalDateTime.parse(from, formatter);
         var dateTo = LocalDateTime.parse(to, formatter);
         var appointment = new Appointment(dateFrom, dateTo, price, status, patient, contract, report);
@@ -714,7 +729,7 @@ public class DataLoader implements ApplicationRunner {
 
     private Patient createPatient(String firstName, String lastName, int numPoints, int numPenalties, PatientCategory category, String phoneNumber, Address address, Authority authority) {
         var username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        var patient = new Patient(firstName, lastName, username, "test123", generateMail(username), true, true, numPoints, numPenalties, phoneNumber, category, address);
+        var patient = new Patient(firstName, lastName, username, TEST_123, generateMail(username), true, true, numPoints, numPenalties, phoneNumber, category, address);
         patient.getAuthorities().add(authority);
         userRepository.save(patient);
         return patient;
@@ -722,19 +737,17 @@ public class DataLoader implements ApplicationRunner {
 
     private PharmacyEmployee createPharmacyEmployee(String firstName, String lastName, EmployeeType employeeType, Authority authority, Double averageGrade, Complaint... complaints) {
         var username = String.format("%s%s", firstName.toLowerCase(), lastName.toLowerCase());
-        var employee = new PharmacyEmployee(firstName, lastName, username, "test123", generateMail(username), true, true, employeeType);
+        var employee = new PharmacyEmployee(firstName, lastName, username, TEST_123, generateMail(username), true, true, employeeType);
         employee.getAuthorities().add(authority);
         employee.setAverageGrade(averageGrade);
-        Arrays.stream(complaints).forEach(complaint -> {
-            employee.getComplaints().add(complaint);
-        });
+        Arrays.stream(complaints).forEach(complaint -> employee.getComplaints().add(complaint));
 
         userRepository.save(employee);
         return employee;
     }
 
     private Address getNoviSadAddress(String street, String streetNumber) {
-        return new Address("Srbija", "Novi Sad", street, streetNumber, "21000");
+        return new Address("Srbija", NOVI_SAD, street, streetNumber, "21000");
     }
 
     private Collection<WorkingDay> getWorkingHours(String fromTime, String toTime) {
