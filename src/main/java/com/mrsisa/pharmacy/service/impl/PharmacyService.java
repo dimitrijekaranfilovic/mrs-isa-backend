@@ -146,7 +146,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
         Map<Long, PharmacyQRSearchDTO> map = new HashMap<>();
         List<MedicineStock> allStocks = new ArrayList<>();
 
-        for (int i = 0; i < ids.size(); i++) {
+        for (var i = 0; i < ids.size(); i++) {
             Set<Long> tempPharmacyIds = new HashSet<>();
             List<MedicineStock> stocks = this.medicineStockRepository.getAllStocksForMedicine(ids.get(i), quantities.get(i));
             allStocks.addAll(stocks);

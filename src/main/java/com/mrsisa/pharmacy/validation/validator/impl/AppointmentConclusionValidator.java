@@ -57,7 +57,7 @@ public class AppointmentConclusionValidator implements IAppointmentConclusionVal
 
     private void checkValidityOfMedicineStocks(AppointmentConclusionDTO appointmentConclusionDTO) {
         for (var medicineStockDTO: appointmentConclusionDTO.getMedicineStocks()) {
-            MedicineStock medicineStock = medicineStockService.get(medicineStockDTO.getMedicineStockId());
+            var medicineStock = medicineStockService.get(medicineStockDTO.getMedicineStockId());
 
             if (!medicineStock.getPharmacy().getId().equals(appointmentConclusionDTO.getPharmacyId())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This medicine does not exist in this pharmacy!");

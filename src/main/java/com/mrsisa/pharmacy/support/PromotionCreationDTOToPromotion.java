@@ -22,7 +22,7 @@ public class PromotionCreationDTOToPromotion extends AbstractConverter<Promotion
     public Promotion convert(@NonNull PromotionCreationDTO dto) {
         var promotion = new Promotion(null, dto.getContent(), dto.getFrom(), dto.getTo(), PromotionStatus.ACTIVE);
         dto.getItems().forEach(item -> {
-            Medicine medicine = medicineService.get(item.getMedicineId());
+            var medicine = medicineService.get(item.getMedicineId());
             promotion.addItem(medicine, item.getDiscount());
         });
         return promotion;

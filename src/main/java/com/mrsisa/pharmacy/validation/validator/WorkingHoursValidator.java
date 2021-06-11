@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public class WorkingHoursValidator implements ConstraintValidator<WorkingHoursConstraint, List<WorkingDayDTO>> {
+    @Override
     public void initialize(WorkingHoursConstraint constraint) {
     }
 

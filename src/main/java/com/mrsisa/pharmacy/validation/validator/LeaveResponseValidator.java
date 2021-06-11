@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class LeaveResponseValidator implements ConstraintValidator<LeaveResponseConstraint, LeaveDaysRequestResponseDTO> {
+    @Override
     public void initialize(LeaveResponseConstraint constraint) {
     }
 

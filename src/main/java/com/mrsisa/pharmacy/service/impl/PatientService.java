@@ -209,7 +209,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + patientId + " does not exist.");
         var pharmacy = optionalPharmacy.get();
         var recipe = new Recipe(LocalDateTime.now(), false, patient, pharmacy);
-        double price = 0.0;
+        var price = 0.0;
         for (var item : medicines) {
             var stock = this.stockRepository.getMedicineInPharmacy(pharmacyId, item.getMedicineId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Medicine with id " + item.getMedicineId() + " does not exist."));
             Optional<Medicine> optionalMedicine = this.medicineRepository.getMedicineAllergyByMedicineIdAndPatientId(item.getMedicineId(), patientId);
@@ -284,7 +284,7 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
                         ReservationStatus.RESERVED, LocalDateTime.now());
         expiredReservations.parallelStream().forEach(r -> {
             // optimistic lock for patient
-            Patient patient = this.patientRepository.findActivePatientUnlocked(r.getPatient().getId(), true);
+            var patient = this.patientRepository.findActivePatientUnlocked(r.getPatient().getId(), true);
             patient.setNumPenalties(patient.getNumPenalties() + 1);
 
             // optimistic lock for reservation

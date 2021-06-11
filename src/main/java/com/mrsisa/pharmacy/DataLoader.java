@@ -39,7 +39,7 @@ public class DataLoader implements ApplicationRunner {
     private static final String DATE_4 = "28.03.2020. 10:20";
     private static final String DATE_5 = "04.06.2021. 17:00";
 
-    
+
     private static final String DIJAGNOSTIKA = "dijagnostika";
     private static final String NOVI_SAD = "Novi Sad";
     private static final String SERBIA = "Serbia";
@@ -136,7 +136,7 @@ public class DataLoader implements ApplicationRunner {
 
         var c1 = createComplaint("losa usluga", ComplaintType.PHARMACY, p1, "Benu Apoteka");
         var c2 = createComplaint("dugo sam cekao", ComplaintType.EMPLOYEE, p1, "Andrea Todorovic");
-        ComplaintReply reply = new ComplaintReply("zao nam je", LocalDateTime.now(), systemAdmin1, c1);
+        var reply = new ComplaintReply("zao nam je", LocalDateTime.now(), systemAdmin1, c1);
         c1.setReply(reply);
 
         // Create pharmacies and their admins
@@ -172,16 +172,16 @@ public class DataLoader implements ApplicationRunner {
         var treccaLocation = new Location(41.890558171850785, 12.506332260870309, new Address("Italy", "Rome", "Via Emanuele Filiberto", "155", "00185"));
         var trecca = new Pharmacy("Trecca Mastrangelli", DESCRIPTION, treccaLocation);
 
-        PharmacyAdmin benuAdmin = new PharmacyAdmin("Vidoje", "Gavrilovic", "vidojegavrilovic", TEST_123, "vidojegavrilovic@gmail.com", true, true, benu);
+        var benuAdmin = new PharmacyAdmin("Vidoje", "Gavrilovic", "vidojegavrilovic", TEST_123, "vidojegavrilovic@gmail.com", true, true, benu);
         benuAdmin.getAuthorities().add(pharmacyAdminAuthority);
         benu.getPharmacyAdmins().add(benuAdmin);
-        PharmacyAdmin drMaxAdmin = new PharmacyAdmin("Mladen", "Gojkovic", "mladengojkovic", TEST_123, "mladengojkovic@gmail.com", true, true, drMax);
+        var drMaxAdmin = new PharmacyAdmin("Mladen", "Gojkovic", "mladengojkovic", TEST_123, "mladengojkovic@gmail.com", true, true, drMax);
         drMaxAdmin.getAuthorities().add(pharmacyAdminAuthority);
         drMax.getPharmacyAdmins().add(drMaxAdmin);
-        PharmacyAdmin jankovicAdmin = new PharmacyAdmin("Milovan", "Todorovic", "milovantodorovic", TEST_123, "milovantodorovic@gmail.com", true, true, jankovic);
+        var jankovicAdmin = new PharmacyAdmin("Milovan", "Todorovic", "milovantodorovic", TEST_123, "milovantodorovic@gmail.com", true, true, jankovic);
         jankovicAdmin.getAuthorities().add(pharmacyAdminAuthority);
         jankovic.getPharmacyAdmins().add(jankovicAdmin);
-        PharmacyAdmin lillyAdmin = new PharmacyAdmin("root", "root", "root", "root", "root@gmail.com", true, true, lilly);
+        var lillyAdmin = new PharmacyAdmin("root", "root", "root", "root", "root@gmail.com", true, true, lilly);
         lillyAdmin.getAuthorities().add(pharmacyAdminAuthority);
         lilly.getPharmacyAdmins().add(lillyAdmin);
         pharmacyRepository.save(benu);

@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class OrderItemValidator implements ConstraintValidator<OrderItemConstraint, AddOrderItemDTO> {
+    @Override
     public void initialize(OrderItemConstraint constraint) {
     }
 
