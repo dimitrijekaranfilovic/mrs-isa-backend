@@ -1,6 +1,5 @@
 package com.mrsisa.pharmacy.support;
 
-import com.mrsisa.pharmacy.domain.entities.Medicine;
 import com.mrsisa.pharmacy.domain.entities.Promotion;
 import com.mrsisa.pharmacy.domain.enums.PromotionStatus;
 import com.mrsisa.pharmacy.dto.promotion.PromotionCreationDTO;

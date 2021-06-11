@@ -38,7 +38,9 @@ public class DataLoader implements ApplicationRunner {
     private static final String DATE_3 = "23.06.2021. 09:40";
     private static final String DATE_4 = "28.03.2020. 10:20";
     private static final String DATE_5 = "04.06.2021. 17:00";
-
+    private static final String DATE_6 = "23.06.2021. 15:30";
+    private static final String DATE_7 = "21.06.2021. 09:40";
+    private static final String DATE_8 = "21.06.2021. 12:30";
 
     private static final String DIJAGNOSTIKA = "dijagnostika";
     private static final String NOVI_SAD = "Novi Sad";
@@ -411,16 +413,16 @@ public class DataLoader implements ApplicationRunner {
         var a13 = createBookedAppointment("01.02.2021. 12:00", "01.02.2021. 12:30", 3000, ec2, p1);
 
         // Create pharmacist appointments 21.06.2021 5 per day overlapping 3 pharmacies
-        var a25 = createAvailableAppointment("21.06.2021. 09:40", "21.06.2021. 12:30",3000,ec1);
-        var a26 = createAvailableAppointment("21.06.2021. 12:30", "21.06.2021. 15:30",3000,ec1);
-        var a27 = createAvailableAppointment("21.06.2021. 09:40", "21.06.2021. 12:30",3000,ec3);
-        var a28 = createAvailableAppointment("21.06.2021. 12:30", "21.06.2021. 15:30",3000,ec3);
-        var a29 = createAvailableAppointment("21.06.2021. 09:40", "21.06.2021. 12:30",2800,ec6);
-        var a30 = createAvailableAppointment("21.06.2021. 12:30", "21.06.2021. 15:30",2800,ec6);
+        var a25 = createAvailableAppointment(DATE_7, DATE_8,3000,ec1);
+        var a26 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",3000,ec1);
+        var a27 = createAvailableAppointment(DATE_7, DATE_8,3000,ec3);
+        var a28 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",3000,ec3);
+        var a29 = createAvailableAppointment(DATE_7, DATE_8,2800,ec6);
+        var a30 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",2800,ec6);
         var a31 = createAvailableAppointment("08.05.2021. 09:40", "08.05.2021. 12:30",2800,ec2aa);
-        var a32 = createAvailableAppointment("21.06.2021. 12:30", "21.06.2021. 15:30",2800,ec7);
-        var a33 = createAvailableAppointment("21.06.2021. 09:40", "21.06.2021. 12:30",3500,ec10);
-        var a34 = createAvailableAppointment("21.06.2021. 12:30", "21.06.2021. 15:30",3500,ec10);
+        var a32 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",2800,ec7);
+        var a33 = createAvailableAppointment(DATE_7, DATE_8,3500,ec10);
+        var a34 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",3500,ec10);
 
         // Create pharmacist appointments 22.06.2021 2 per day overlapping 1 pharmacy
         var a35 = createAvailableAppointment("22.06.2021. 09:40", "22.06.2021. 12:30",3000,ec1);
@@ -429,19 +431,19 @@ public class DataLoader implements ApplicationRunner {
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies
         var a39 = createAvailableAppointment(DATE_3, DATE_2,2800,ec2aa);
-        var a40 = createAvailableAppointment(DATE_2, "23.06.2021. 15:30",2800,ec6);
+        var a40 = createAvailableAppointment(DATE_2, DATE_6,2800,ec6);
         var a41 = createAvailableAppointment(DATE_3, DATE_2,2800,ec7);
-        var a42 = createAvailableAppointment(DATE_2, "23.06.2021. 15:30",2800,ec7);
+        var a42 = createAvailableAppointment(DATE_2, DATE_6,2800,ec7);
         var a43 = createAvailableAppointment(DATE_3, DATE_2,3500,ec10);
-        var a44 = createAvailableAppointment(DATE_2, "23.06.2021. 15:30",3500,ec10);
+        var a44 = createAvailableAppointment(DATE_2, DATE_6,3500,ec10);
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies that are already booked
         var a49 = createBookedAppointment(DATE_3, DATE_2,2800,ec2a, p1);
         var a50 = createBookedAppointment("08.05.2021. 02:30", "08.05.2021. 22:30",2800,ec2aa, p1);
         var a51 = createBookedAppointment(DATE_3, DATE_2,2800,ec2c, p3);
-        var a52 = createBookedAppointment(DATE_2, "23.06.2021. 15:30",2800,ec2d, p4);
+        var a52 = createBookedAppointment(DATE_2, DATE_6,2800,ec2d, p4);
         var a53 = createBookedAppointment(DATE_3, DATE_2,3500,ec2e, p5);
-        var a54 = createBookedAppointment("23.06.2021. 13:30", "23.06.2021. 15:30",3500,ec2f, p1);
+        var a54 = createBookedAppointment("23.06.2021. 13:30", DATE_6,3500,ec2f, p1);
 
         // Test data for charts
         var a71 = createAppointmentWhichTookPlace("01.04.2021. 12:00", "01.04.2021. 12:30", 3000.0, tempC, p1, new Report(DIJAGNOSTIKA));
