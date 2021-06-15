@@ -201,7 +201,7 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
             throw new NotFoundException("Order does not belong to pharmacy with id: " + pharmacyId);
         }
         order.getOrderItems().forEach(item -> {
-            if (item.getIsNew()) {
+            if (Boolean.TRUE.equals(item.getIsNew())) {
                 registerMedicineInPharmacy(pharmacyId, item.getMedicine(), item.getMedicinePrice(), item.getQuantity());
             } else {
                 MedicineStock stock = medicineStockRepository.getMedicineInPharmacy(pharmacyId, item.getMedicine().getId()).orElseThrow(() -> new BusinessException("Medicine " + item.getMedicine().getName() + " is not registered in this pharmacy."));
@@ -218,7 +218,7 @@ public class MedicineStockService extends JPAService<MedicineStock> implements I
 
     private Patient getIfPatientExists(Long patientId) {
         var patient = patientRepository.findById(patientId).orElseThrow(() -> new NotFoundException("Cannot find patient with id: " + patientId));
-        if (!patient.getActive()) {
+        if (Boolean.FALSE.equals(patient.getActive())) {
             throw new NotFoundException("Cannot find patient with id: " + patientId);
         }
 

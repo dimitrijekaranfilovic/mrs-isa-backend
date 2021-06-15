@@ -45,15 +45,15 @@ class LeaveDaysRequestServiceTest {
         pharmacyEmployee.setId(EMPLOYEE_ID);
 
         // Mock repositories
-        when(pharmacyEmployeeRepositoryMock.findById(eq(EMPLOYEE_ID))).thenReturn(Optional.of(pharmacyEmployee));
+        when(pharmacyEmployeeRepositoryMock.findById(EMPLOYEE_ID)).thenReturn(Optional.of(pharmacyEmployee));
 
         // Verification
         LeaveDaysRequest leaveDaysRequest = leaveDaysRequestService.createLeaveDaysRequest(EMPLOYEE_ID, FROM_DATE, TO_DATE);
-        assertEquals(leaveDaysRequest.getLeaveDaysRequestStatus(), LeaveDaysRequestStatus.PENDING);
+        assertEquals(LeaveDaysRequestStatus.PENDING, leaveDaysRequest.getLeaveDaysRequestStatus());
         assertEquals(leaveDaysRequest.getEmployee(), pharmacyEmployee);
         assertTrue(leaveDaysRequest.getFrom().isEqual(FROM_DATE));
         assertTrue(leaveDaysRequest.getTo().isEqual(TO_DATE));
-        verify(pharmacyEmployeeRepositoryMock, times(1)).findById(eq(EMPLOYEE_ID));
+        verify(pharmacyEmployeeRepositoryMock, times(1)).findById(EMPLOYEE_ID);
         verify(leaveDaysRequestRepositoryMock, times(1)).save(leaveDaysRequest);
     }
 }

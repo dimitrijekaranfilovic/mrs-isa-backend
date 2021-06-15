@@ -50,6 +50,9 @@ public class DataLoader implements ApplicationRunner {
     private static final String VESNA = "Vesna";
     private static final String ANDREA = "Andrea";
     private static final String FORMAT = "dd.MM.yyyy. HH:mm";
+    public static final String DATE_9 = "21.06.2021. 15:30";
+    public static final String DATE_10 = "22.06.2021. 09:40";
+    public static final String DATE_11 = "22.06.2021. 12:30";
     private final IAuthorityRepository authorityRepository;
     private final IUserRepository userRepository;
     private final IPharmacyRepository pharmacyRepository;
@@ -296,28 +299,28 @@ public class DataLoader implements ApplicationRunner {
 
 
         // Create medicines
-        var aspirin = createMedicine("MED_1", "Aspirin", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "acetilsalicilna kiselina", "BAYER BITTERFELD GMBH", false, 1);
-        var brufen = createMedicine("MED_2", "Brufen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ibuprofen", "ABBVIE S.R.L.", false, 2);
-        var hepalpan = createMedicine("MED_3", "Hepalpan", MedicineShape.GEL, MedicineType.ANESTHETIC, "heparin-natrijum", GALENIKA_AD, false, 2);
-        var galitifen = createMedicine("MED_4", "Galitifen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ketotifen", GALENIKA_AD, true, 2);
-        var itanem = createMedicine("MED_5", "Itanem", MedicineShape.SOLUTION, MedicineType.ANESTHETIC, "meropenem", GALENIKA_AD, false, 2);
-        var paravano = createMedicine("MED_6", "Paravano", MedicineShape.TABLET, MedicineType.ANESTHETIC, "rosuvastatin", "HEMOFARM AD", true, 2);
-        var soliphar = createMedicine("MED_7", "SoliPhar", MedicineShape.TABLET, MedicineType.ANESTHETIC, "solifenacin", "PHARMAS D.O.O.", true, 2);
-        var gabana = createMedicine("MED_8", "Gabana", MedicineShape.CAPSULE, MedicineType.ANTIBIOTIC, "pregabalin", "PHARMACEUTICALBALKANS DOO", true, 2);
-        var nebispes = createMedicine("MED_9", "Nebispes", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "nebivolol", "PHARMANOVA D.O.O.", true, 2);
-        var tragal = createMedicine("MED_10", "Tragal", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, "sertralin", GALENIKA_AD, true, 2);
+        var aspirin = createMedicine(new Medicine("MED_1", "Aspirin", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "acetilsalicilna kiselina", "BAYER BITTERFELD GMBH", false,"No additional notes.", 1));
+        var brufen = createMedicine(new Medicine("MED_2", "Brufen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ibuprofen", "ABBVIE S.R.L.", false,"No additional notes.", 2));
+        var hepalpan = createMedicine(new Medicine("MED_3", "Hepalpan", MedicineShape.GEL, MedicineType.ANESTHETIC, "heparin-natrijum", GALENIKA_AD, false,"No additional notes.", 2));
+        var galitifen = createMedicine(new Medicine("MED_4", "Galitifen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ketotifen", GALENIKA_AD, true,"No additional notes.", 2));
+        var itanem = createMedicine(new Medicine("MED_5", "Itanem", MedicineShape.SOLUTION, MedicineType.ANESTHETIC, "meropenem", GALENIKA_AD, false,"No additional notes.", 2));
+        var paravano = createMedicine(new Medicine("MED_6", "Paravano", MedicineShape.TABLET, MedicineType.ANESTHETIC, "rosuvastatin", "HEMOFARM AD", true,"No additional notes.", 2));
+        var soliphar = createMedicine(new Medicine("MED_7", "SoliPhar", MedicineShape.TABLET, MedicineType.ANESTHETIC, "solifenacin", "PHARMAS D.O.O.", true,"No additional notes.", 2));
+        var gabana = createMedicine(new Medicine("MED_8", "Gabana", MedicineShape.CAPSULE, MedicineType.ANTIBIOTIC, "pregabalin", "PHARMACEUTICALBALKANS DOO", true,"No additional notes.", 2));
+        var nebispes = createMedicine(new Medicine("MED_9", "Nebispes", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "nebivolol", "PHARMANOVA D.O.O.", true,"No additional notes.", 2));
+        var tragal = createMedicine(new Medicine("MED_10", "Tragal", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, "sertralin", GALENIKA_AD, true,"No additional notes.", 2));
 
-        var m1 = createMedicine("MED_11", "Lijek1", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false, 2);
-        var m2 = createMedicine("MED_12", "Lijek2", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false, 2);
-        var m3 = createMedicine("MED_13", "Lijek3", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m4 = createMedicine("MED_14", "Lijek4", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m5 = createMedicine("MED_15", "Lijek5", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m6 = createMedicine("MED_16", "Lijek6", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m7 = createMedicine("MED_17", "Lijek7", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m8 = createMedicine("MED_18", "Lijek8", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m9 = createMedicine("MED_19", "Lijek9", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m10 = createMedicine("MED_20", "Lijek10", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
-        var m11 = createMedicine("MED_21", "Lijek11", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, 2);
+        var m2 = createMedicine(new Medicine("MED_12", "Lijek2", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false,"No additional notes.", 2));
+        var m3 = createMedicine(new Medicine("MED_13", "Lijek3", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m1 = createMedicine(new Medicine("MED_11", "Lijek1", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false,"No additional notes.", 2));
+        var m4 = createMedicine(new Medicine("MED_14", "Lijek4", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m5 = createMedicine(new Medicine("MED_15", "Lijek5", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m6 = createMedicine(new Medicine("MED_16", "Lijek6", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m7 = createMedicine(new Medicine("MED_17", "Lijek7", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m8 = createMedicine(new Medicine("MED_18", "Lijek8", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m9 = createMedicine(new Medicine("MED_19", "Lijek9", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m10 = createMedicine(new Medicine("MED_20", "Lijek10", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m11 = createMedicine(new Medicine("MED_21", "Lijek11", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
 
         // Create medicine replacements
         configureMedicineReplacements(hepalpan, nebispes, tragal);
@@ -414,20 +417,20 @@ public class DataLoader implements ApplicationRunner {
 
         // Create pharmacist appointments 21.06.2021 5 per day overlapping 3 pharmacies
         var a25 = createAvailableAppointment(DATE_7, DATE_8,3000,ec1);
-        var a26 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",3000,ec1);
+        var a26 = createAvailableAppointment(DATE_8, DATE_9,3000,ec1);
         var a27 = createAvailableAppointment(DATE_7, DATE_8,3000,ec3);
-        var a28 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",3000,ec3);
+        var a28 = createAvailableAppointment(DATE_8, DATE_9,3000,ec3);
         var a29 = createAvailableAppointment(DATE_7, DATE_8,2800,ec6);
-        var a30 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",2800,ec6);
+        var a30 = createAvailableAppointment(DATE_8, DATE_9,2800,ec6);
         var a31 = createAvailableAppointment("08.05.2021. 09:40", "08.05.2021. 12:30",2800,ec2aa);
-        var a32 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",2800,ec7);
+        var a32 = createAvailableAppointment(DATE_8, DATE_9,2800,ec7);
         var a33 = createAvailableAppointment(DATE_7, DATE_8,3500,ec10);
-        var a34 = createAvailableAppointment(DATE_8, "21.06.2021. 15:30",3500,ec10);
+        var a34 = createAvailableAppointment(DATE_8, DATE_9,3500,ec10);
 
         // Create pharmacist appointments 22.06.2021 2 per day overlapping 1 pharmacy
-        var a35 = createAvailableAppointment("22.06.2021. 09:40", "22.06.2021. 12:30",3000,ec1);
-        var a37 = createAvailableAppointment("22.06.2021. 09:40", "22.06.2021. 12:30",3000,ec3);
-        var a38 = createAvailableAppointment("22.06.2021. 12:30", "22.06.2021. 15:30",3000,ec3);
+        var a35 = createAvailableAppointment(DATE_10, DATE_11,3000,ec1);
+        var a37 = createAvailableAppointment(DATE_10, DATE_11,3000,ec3);
+        var a38 = createAvailableAppointment(DATE_11, "22.06.2021. 15:30",3000,ec3);
 
         // Create pharmacist appointments 22.06.2021 3 per day overlapping 2 pharmacies
         var a39 = createAvailableAppointment(DATE_3, DATE_2,2800,ec2aa);
@@ -698,8 +701,7 @@ public class DataLoader implements ApplicationRunner {
         userRepository.save(patient);
     }
 
-    private Medicine createMedicine(String code, String name, MedicineShape shape, MedicineType type, String composition, String manufacturer, boolean issueOnRecipe, Integer points) {
-        var medicine = new Medicine(code, name, shape, type, composition, manufacturer, issueOnRecipe, "No additional notes.", points);
+    private Medicine createMedicine(Medicine medicine) {
         medicineRepository.save(medicine);
         return medicine;
     }

@@ -62,7 +62,7 @@ class MedicineStockServiceTest {
         // Verification
         MedicineStock updatedStock = medicineStockServiceSpy.updateStock(PHARMACY_ID, STOCK_ID, NEW_PRICE);
         assertEquals(updatedStock.getCurrentPrice(), NEW_PRICE);
-        assertEquals(updatedStock.getPriceTags().size(), 2);
+        assertEquals(2, updatedStock.getPriceTags().size());
         assertNotNull(oldPrice.getTo());
         assertTrue(oldPrice.getTo().isEqual(LocalDate.now()));
         verify(promotionItemRepositoryMock, times(1)).getItemsWithMedicineInPharmacyStream(eq(PHARMACY_ID), eq(MEDICINE_ID), eq(PromotionStatus.ACTIVE), any(LocalDate.class));

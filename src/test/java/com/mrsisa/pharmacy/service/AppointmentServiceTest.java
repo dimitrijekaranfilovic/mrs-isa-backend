@@ -53,17 +53,17 @@ class AppointmentServiceTest {
         patient.setId(PATIENT_ID);
 
         // Mock repositories
-        when(patientRepositoryMock.findById(eq(PATIENT_ID))).thenReturn(Optional.of(patient));
+        when(patientRepositoryMock.findById(PATIENT_ID)).thenReturn(Optional.of(patient));
 
         // Create a spy object
         AppointmentService appointmentServiceSpy = spy(appointmentService);
-        doReturn(appointment).when(appointmentServiceSpy).get(eq(APPOINTMENT_ID));
+        doReturn(appointment).when(appointmentServiceSpy).get(APPOINTMENT_ID);
 
         // Verification
         appointmentServiceSpy.scheduleAvailableDermatologistAppointment(APPOINTMENT_ID, PATIENT_ID);
-        assertEquals(appointment.getAppointmentStatus(), AppointmentStatus.BOOKED);
+        assertEquals(AppointmentStatus.BOOKED,appointment.getAppointmentStatus());
         assertEquals(appointment.getPatient(), patient);
-        verify(patientRepositoryMock, times(1)).findById(eq(PATIENT_ID));
+        verify(patientRepositoryMock, times(1)).findById(PATIENT_ID);
     }
 
     @Test
@@ -89,8 +89,8 @@ class AppointmentServiceTest {
         employmentContract.setPharmacyEmployee(pharmacyEmployee);
 
         // Mock repositories
-        when(pharmacyRepositoryMock.findById(eq(PHARMACY_ID))).thenReturn(Optional.of(pharmacy));
-        when(patientRepositoryMock.findById(eq(PATIENT_ID))).thenReturn(Optional.of(patient));
+        when(pharmacyRepositoryMock.findById(PHARMACY_ID)).thenReturn(Optional.of(pharmacy));
+        when(patientRepositoryMock.findById(PATIENT_ID)).thenReturn(Optional.of(patient));
 
         // Mock email service to do nothing when it should send email to patient
         doNothing().when(emailServiceMock).sendDermatologistAppointmentScheduledMessage(any(Appointment.class));
@@ -98,14 +98,14 @@ class AppointmentServiceTest {
         // Verification
         Appointment createdAppointment = appointmentService.scheduleAppointmentForEmployee(FROM_DATE, TO_DATE,
                 PATIENT_ID, employmentContract, PHARMACY_ID);
-        assertEquals(createdAppointment.getAppointmentStatus(), AppointmentStatus.BOOKED);
+        assertEquals(AppointmentStatus.BOOKED,createdAppointment.getAppointmentStatus());
         assertEquals(createdAppointment.getPrice(), CURR_DERMATOLOGIST_PRICE);
         assertEquals(createdAppointment.getEmployee().getPharmacyEmployee(), pharmacyEmployee);
         assertEquals(createdAppointment.getPatient(), patient);
         assertTrue(createdAppointment.getFrom().isEqual(FROM_DATE));
         assertTrue(createdAppointment.getTo().isEqual(TO_DATE));
-        verify(pharmacyRepositoryMock, times(1)).findById(eq(PHARMACY_ID));
-        verify(patientRepositoryMock, times(1)).findById(eq(PATIENT_ID));
+        verify(pharmacyRepositoryMock, times(1)).findById(PHARMACY_ID);
+        verify(patientRepositoryMock, times(1)).findById(PATIENT_ID);
         verify(appointmentRepositoryMock, times(1)).save(createdAppointment);
     }
 }

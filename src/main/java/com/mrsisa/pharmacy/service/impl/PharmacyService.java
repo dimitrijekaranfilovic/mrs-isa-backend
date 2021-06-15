@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PharmacyService extends JPAService<Pharmacy> implements IPharmacyService {
+    public static final String CANNOT_FIND_PHARMACY_WITH_ID_MSG = "Cannot find pharmacy with id: ";
     private final IPharmacyRepository pharmacyRepository;
     private final IAppointmentPriceRepository appointmentPriceRepository;
     private final IMedicineStockRepository medicineStockRepository;
@@ -107,13 +108,13 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
     @Override
     public Pharmacy getByIdWithEmployees(Long pharmacyId) {
         return pharmacyRepository.findByIdWithEmployees(pharmacyId)
-                .orElseThrow(() -> new BusinessException("Cannot find pharmacy with id: " + pharmacyId));
+                .orElseThrow(() -> new BusinessException(CANNOT_FIND_PHARMACY_WITH_ID_MSG + pharmacyId));
     }
 
     @Override
     public Pharmacy getByIdWithStocks(Long pharmacyId) {
         return pharmacyRepository.findByIdWithStocks(pharmacyId)
-                .orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
+                .orElseThrow(() -> new NotFoundException(CANNOT_FIND_PHARMACY_WITH_ID_MSG + pharmacyId));
     }
 
     @Override
@@ -313,7 +314,7 @@ public class PharmacyService extends JPAService<Pharmacy> implements IPharmacySe
 
     @Override
     public Pharmacy getPharmacyWithSubscribers(Long pharmacyId) {
-        return pharmacyRepository.findOneWithSubscribers(pharmacyId).orElseThrow(() -> new NotFoundException("Cannot find pharmacy with id: " + pharmacyId));
+        return pharmacyRepository.findOneWithSubscribers(pharmacyId).orElseThrow(() -> new NotFoundException(CANNOT_FIND_PHARMACY_WITH_ID_MSG + pharmacyId));
     }
 
     public Complaint fileComplaint(Long pharmacyId, Patient patient, String content) {

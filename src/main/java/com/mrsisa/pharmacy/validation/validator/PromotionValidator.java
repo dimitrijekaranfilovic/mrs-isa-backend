@@ -13,7 +13,7 @@ import java.util.Set;
 public class PromotionValidator implements ConstraintValidator<PromotionConstraint, PromotionCreationDTO> {
     @Override
     public void initialize(PromotionConstraint constraintAnnotation) {
-
+        // Empty
     }
 
     @Override

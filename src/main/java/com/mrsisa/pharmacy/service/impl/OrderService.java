@@ -143,7 +143,7 @@ public class OrderService extends JPAService<Order> implements IOrderService {
         }
         Optional<MedicineStock> stock = medicineStockRepository.getMedicineInPharmacy(order.getPharmacy().getId(), medicineId);
         // Check if the medicine is registered in this pharmacy
-        if (isNew) {
+        if (Boolean.TRUE.equals(isNew)) {
             if (stock.isPresent()) {
                 throw new BusinessException("Medicine is already registered in this pharmacy.");
             }

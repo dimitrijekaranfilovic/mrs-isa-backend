@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class AppointmentTimeConstraintValidator implements ConstraintValidator<AppointmentTimeConstraint, AvailableAppointmentCreationDTO> {
     @Override
     public void initialize(AppointmentTimeConstraint constraintAnnotation) {
+        // Empty
     }
 
     @Override

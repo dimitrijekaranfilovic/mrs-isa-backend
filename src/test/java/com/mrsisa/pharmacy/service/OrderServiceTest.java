@@ -58,7 +58,7 @@ class OrderServiceTest {
         // Mock order item repository to return that the order has added items
         when(orderItemRepositoryMock.getItemsForOrderStream(order.getId())).thenReturn(order.getOrderItems().stream());
         Order publishedOrder = orderServiceSpy.publish(order.getId());
-        assertEquals(publishedOrder.getOrderStatus(), OrderStatus.WAITING_FOR_OFFERS);
+        assertEquals(OrderStatus.WAITING_FOR_OFFERS, publishedOrder.getOrderStatus());
         verify(orderItemRepositoryMock, times(1)).getItemsForOrderStream(order.getId());
     }
 
@@ -103,9 +103,9 @@ class OrderServiceTest {
 
         // Pass if everything is ok
         orderServiceSpy.acceptOffer(ORDER_ID, ACCEPTED_OFFER_ID);
-        assertEquals(order.getOrderStatus(), OrderStatus.PROCESSED);
-        assertEquals(offerToAccept.getOfferStatus(), OfferStatus.ACCEPTED);
-        assertEquals(offerToReject.getOfferStatus(), OfferStatus.REJECTED);
+        assertEquals(OrderStatus.PROCESSED, order.getOrderStatus());
+        assertEquals(OfferStatus.ACCEPTED, offerToAccept.getOfferStatus());
+        assertEquals(OfferStatus.REJECTED, offerToReject.getOfferStatus());
         verify(offerRepositoryMock, times(1)).findOfferForOrder(ACCEPTED_OFFER_ID, ORDER_ID);
         verify(emailServiceMock, times(NUM_OFFERS)).notifySupplier(any(Offer.class));
         verify(emailServiceMock, times(1)).notifySupplier(offerToAccept);

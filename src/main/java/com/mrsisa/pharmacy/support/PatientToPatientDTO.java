@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 public class PatientToPatientDTO extends AbstractConverter<Patient, PatientDTO> implements IConverter<Patient, PatientDTO> {
     @Override
     public PatientDTO convert(@NonNull Patient patient) {
-
-        //        patient.getAllergicTo().stream()
-//                .filter(BaseEntity::getActive)
-//                .forEach(medicine -> dto.getAllergyNames().add(medicine.getName()));
         return getModelMapper().map(patient, PatientDTO.class);
     }
 }

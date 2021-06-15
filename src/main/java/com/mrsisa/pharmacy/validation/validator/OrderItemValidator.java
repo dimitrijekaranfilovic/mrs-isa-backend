@@ -9,14 +9,15 @@ import javax.validation.ConstraintValidatorContext;
 public class OrderItemValidator implements ConstraintValidator<OrderItemConstraint, AddOrderItemDTO> {
     @Override
     public void initialize(OrderItemConstraint constraint) {
+        // Empty
     }
 
     public boolean isValid(AddOrderItemDTO item, ConstraintValidatorContext context) {
         if (item.getIsNew() == null) {
             return false;
         }
-        if (item.getIsNew()) {
-            return item.getNewPrice() != null && !(item.getNewPrice() <= 0.0);
+        if (Boolean.TRUE.equals(item.getIsNew())) {
+            return item.getNewPrice() != null && (item.getNewPrice() > 0.0);
         }
         return true;
     }

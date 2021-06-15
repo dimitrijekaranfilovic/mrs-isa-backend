@@ -26,6 +26,7 @@ import java.util.*;
 
 @Service
 public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implements IPharmacyEmployeeService {
+    public static final String DOES_NOT_EXIST_ENDING = " does not exist.";
     private final IPharmacyEmployeeRepository pharmacyEmployeeRepository;
     private final IAuthorityRepository authorityRepository;
     private final IEmploymentContractRepository employmentContractRepository;
@@ -197,7 +198,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
         var pharmacyEmployee = get(employeeId);
         List<Pharmacy> pharmacies = new ArrayList<>();
         pharmacyEmployee.getContracts().forEach(employmentContract -> {
-            if (employmentContract.getActive()) {
+            if (Boolean.TRUE.equals(employmentContract.getActive())) {
                 pharmacies.add(employmentContract.getPharmacy());
             }
         });
@@ -230,13 +231,13 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
         var patient = this.patientRepository.findActivePatientUnlocked(patientId, Boolean.TRUE);
         if (patient == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with id " + patientId + " does not exist.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with id " + patientId + DOES_NOT_EXIST_ENDING);
         }
 
         // pessimistic lock
         var employee = this.pharmacyEmployeeRepository.findEmployeeByIdOfTypeUnlocked(employeeId, employeeType)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        employeeType.toString() + " does not exist."));
+                        employeeType.toString() + DOES_NOT_EXIST_ENDING));
 
         if (this.appointmentRepository
                 .checkIfPatientHasAppointmentWithEmployee(patientId, employeeId, AppointmentStatus.TOOK_PLACE) <= 0) {
@@ -266,7 +267,7 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
     public Complaint fileComplaint(Long employeeId, Patient patient, String content) {
         Optional<PharmacyEmployee> optionalPharmacyEmployee = this.pharmacyEmployeeRepository.getByIdWithComplaints(employeeId);
         if (optionalPharmacyEmployee.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee with id " + employeeId + " does not exist.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee with id " + employeeId + DOES_NOT_EXIST_ENDING);
         var employee = optionalPharmacyEmployee.get();
         Long appointments = this.appointmentRepository.checkIfPatientHasAppointmentWithEmployee(patient.getId(),employeeId,  AppointmentStatus.TOOK_PLACE);
         if (appointments == 0)
@@ -309,14 +310,14 @@ public class PharmacyEmployeeService extends JPAService<PharmacyEmployee> implem
 
     private void throwIfAlreadyWorksInPharmacy(PharmacyEmployee dermatologist, Pharmacy pharmacy) {
         dermatologist.getContracts().forEach(contract -> {
-            if (contract.getActive() && contract.getPharmacy().getId().equals(pharmacy.getId())) {
+            if (Boolean.TRUE.equals(contract.getActive()) && contract.getPharmacy().getId().equals(pharmacy.getId())) {
                 throw new BusinessException("Dermatologist already works in this pharmacy.");
             }
         });
     }
 
     private void throwIfContractsOverlap(EmploymentContract first, EmploymentContract second) {
-        Map<DayOfWeek, WorkingDay> workingSchedule = new HashMap<>();
+        Map<DayOfWeek, WorkingDay> workingSchedule = new EnumMap<>(DayOfWeek.class);
         first.getWorkingHours().forEach(workingDay -> workingSchedule.put(workingDay.getDay(), workingDay));
         second.getWorkingHours().forEach(workingDay -> {
             if (workingSchedule.containsKey(workingDay.getDay())) {

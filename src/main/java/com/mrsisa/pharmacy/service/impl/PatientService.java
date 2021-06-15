@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PatientService extends JPAService<Patient> implements IPatientService {
+    public static final String DOES_NOT_EXIST_ENDING = " does not exist.";
     private final IPatientRepository patientRepository;
     private final IPatientCategoryRepository patientCategoryRepository;
     private final IMedicineRepository medicineRepository;
@@ -203,15 +204,15 @@ public class PatientService extends JPAService<Patient> implements IPatientServi
     public Recipe createRecipe(Long patientId, Long pharmacyId, List<MedicineQRCodeReservationItemDTO> medicines) {
         Optional<Pharmacy> optionalPharmacy = this.pharmacyRepository.findByIdAndActiveTrue(pharmacyId);
         if (optionalPharmacy.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pharmacy with id " + pharmacyId + " does not exist.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pharmacy with id " + pharmacyId + DOES_NOT_EXIST_ENDING);
         var patient = this.patientRepository.findActivePatient(patientId, true);
         if (patient == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + patientId + " does not exist.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Patient with id " + patientId + DOES_NOT_EXIST_ENDING);
         var pharmacy = optionalPharmacy.get();
         var recipe = new Recipe(LocalDateTime.now(), false, patient, pharmacy);
         var price = 0.0;
         for (var item : medicines) {
-            var stock = this.stockRepository.getMedicineInPharmacy(pharmacyId, item.getMedicineId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Medicine with id " + item.getMedicineId() + " does not exist."));
+            var stock = this.stockRepository.getMedicineInPharmacy(pharmacyId, item.getMedicineId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Medicine with id " + item.getMedicineId() + DOES_NOT_EXIST_ENDING));
             Optional<Medicine> optionalMedicine = this.medicineRepository.getMedicineAllergyByMedicineIdAndPatientId(item.getMedicineId(), patientId);
             if (optionalMedicine.isPresent())
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are allergic to medicine with id " + item.getMedicineId() + " and it cannot be issued via eRecipe.");
