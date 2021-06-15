@@ -53,6 +53,7 @@ public class DataLoader implements ApplicationRunner {
     public static final String DATE_9 = "21.06.2021. 15:30";
     public static final String DATE_10 = "22.06.2021. 09:40";
     public static final String DATE_11 = "22.06.2021. 12:30";
+    public static final String NO_ADDITIONAL_NOTES_MSG = "No additional notes.";
     private final IAuthorityRepository authorityRepository;
     private final IUserRepository userRepository;
     private final IPharmacyRepository pharmacyRepository;
@@ -299,28 +300,28 @@ public class DataLoader implements ApplicationRunner {
 
 
         // Create medicines
-        var aspirin = createMedicine(new Medicine("MED_1", "Aspirin", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "acetilsalicilna kiselina", "BAYER BITTERFELD GMBH", false,"No additional notes.", 1));
-        var brufen = createMedicine(new Medicine("MED_2", "Brufen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ibuprofen", "ABBVIE S.R.L.", false,"No additional notes.", 2));
-        var hepalpan = createMedicine(new Medicine("MED_3", "Hepalpan", MedicineShape.GEL, MedicineType.ANESTHETIC, "heparin-natrijum", GALENIKA_AD, false,"No additional notes.", 2));
-        var galitifen = createMedicine(new Medicine("MED_4", "Galitifen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ketotifen", GALENIKA_AD, true,"No additional notes.", 2));
-        var itanem = createMedicine(new Medicine("MED_5", "Itanem", MedicineShape.SOLUTION, MedicineType.ANESTHETIC, "meropenem", GALENIKA_AD, false,"No additional notes.", 2));
-        var paravano = createMedicine(new Medicine("MED_6", "Paravano", MedicineShape.TABLET, MedicineType.ANESTHETIC, "rosuvastatin", "HEMOFARM AD", true,"No additional notes.", 2));
-        var soliphar = createMedicine(new Medicine("MED_7", "SoliPhar", MedicineShape.TABLET, MedicineType.ANESTHETIC, "solifenacin", "PHARMAS D.O.O.", true,"No additional notes.", 2));
-        var gabana = createMedicine(new Medicine("MED_8", "Gabana", MedicineShape.CAPSULE, MedicineType.ANTIBIOTIC, "pregabalin", "PHARMACEUTICALBALKANS DOO", true,"No additional notes.", 2));
-        var nebispes = createMedicine(new Medicine("MED_9", "Nebispes", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "nebivolol", "PHARMANOVA D.O.O.", true,"No additional notes.", 2));
-        var tragal = createMedicine(new Medicine("MED_10", "Tragal", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, "sertralin", GALENIKA_AD, true,"No additional notes.", 2));
+        var aspirin = createMedicine(new Medicine("MED_1", "Aspirin", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "acetilsalicilna kiselina", "BAYER BITTERFELD GMBH", false, NO_ADDITIONAL_NOTES_MSG, 1));
+        var brufen = createMedicine(new Medicine("MED_2", "Brufen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ibuprofen", "ABBVIE S.R.L.", false, NO_ADDITIONAL_NOTES_MSG, 2));
+        var hepalpan = createMedicine(new Medicine("MED_3", "Hepalpan", MedicineShape.GEL, MedicineType.ANESTHETIC, "heparin-natrijum", GALENIKA_AD, false, NO_ADDITIONAL_NOTES_MSG, 2));
+        var galitifen = createMedicine(new Medicine("MED_4", "Galitifen", MedicineShape.SYRUP, MedicineType.ANESTHETIC, "ketotifen", GALENIKA_AD, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var itanem = createMedicine(new Medicine("MED_5", "Itanem", MedicineShape.SOLUTION, MedicineType.ANESTHETIC, "meropenem", GALENIKA_AD, false, NO_ADDITIONAL_NOTES_MSG, 2));
+        var paravano = createMedicine(new Medicine("MED_6", "Paravano", MedicineShape.TABLET, MedicineType.ANESTHETIC, "rosuvastatin", "HEMOFARM AD", true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var soliphar = createMedicine(new Medicine("MED_7", "SoliPhar", MedicineShape.TABLET, MedicineType.ANESTHETIC, "solifenacin", "PHARMAS D.O.O.", true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var gabana = createMedicine(new Medicine("MED_8", "Gabana", MedicineShape.CAPSULE, MedicineType.ANTIBIOTIC, "pregabalin", "PHARMACEUTICALBALKANS DOO", true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var nebispes = createMedicine(new Medicine("MED_9", "Nebispes", MedicineShape.TABLET, MedicineType.ANTIHISTAMINE, "nebivolol", "PHARMANOVA D.O.O.", true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var tragal = createMedicine(new Medicine("MED_10", "Tragal", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, "sertralin", GALENIKA_AD, true, NO_ADDITIONAL_NOTES_MSG, 2));
 
-        var m2 = createMedicine(new Medicine("MED_12", "Lijek2", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false,"No additional notes.", 2));
-        var m3 = createMedicine(new Medicine("MED_13", "Lijek3", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m1 = createMedicine(new Medicine("MED_11", "Lijek1", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false,"No additional notes.", 2));
-        var m4 = createMedicine(new Medicine("MED_14", "Lijek4", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m5 = createMedicine(new Medicine("MED_15", "Lijek5", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m6 = createMedicine(new Medicine("MED_16", "Lijek6", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m7 = createMedicine(new Medicine("MED_17", "Lijek7", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m8 = createMedicine(new Medicine("MED_18", "Lijek8", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m9 = createMedicine(new Medicine("MED_19", "Lijek9", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m10 = createMedicine(new Medicine("MED_20", "Lijek10", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
-        var m11 = createMedicine(new Medicine("MED_21", "Lijek11", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true,"No additional notes.", 2));
+        var m2 = createMedicine(new Medicine("MED_12", "Lijek2", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m3 = createMedicine(new Medicine("MED_13", "Lijek3", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m1 = createMedicine(new Medicine("MED_11", "Lijek1", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, false, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m4 = createMedicine(new Medicine("MED_14", "Lijek4", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m5 = createMedicine(new Medicine("MED_15", "Lijek5", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m6 = createMedicine(new Medicine("MED_16", "Lijek6", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m7 = createMedicine(new Medicine("MED_17", "Lijek7", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m8 = createMedicine(new Medicine("MED_18", "Lijek8", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m9 = createMedicine(new Medicine("MED_19", "Lijek9", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m10 = createMedicine(new Medicine("MED_20", "Lijek10", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
+        var m11 = createMedicine(new Medicine("MED_21", "Lijek11", MedicineShape.TABLET, MedicineType.ANTIBIOTIC, SASTAV, PROIZVODJAC, true, NO_ADDITIONAL_NOTES_MSG, 2));
 
         // Create medicine replacements
         configureMedicineReplacements(hepalpan, nebispes, tragal);
